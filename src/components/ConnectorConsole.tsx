@@ -2,24 +2,9 @@
 
 import { useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { siAsana, siGoogle, siStripe, siXero } from "simple-icons";
+import { BrandMark, hasBrandMark } from "./BrandMark";
 import { SensorSurface } from "./Sensor";
 import { connectorConsole } from "@/content/site";
-
-/* Official brand marks, from simple-icons (CC0-1.0 on the icon files; the
-   trademarks remain the property of their owners). Imported one by one rather
-   than as a namespace so the other 3,449 icons are tree-shaken out.
-
-   Slack, Outlook, Monday, GoCardless and Dext are not in the set, in some
-   cases because the brand asked to be removed, so they keep the letter mark.
-   Marks are drawn in the current text colour rather than brand colours, which
-   keeps ember as the only accent on the page. */
-const BRAND_PATHS: Record<string, string> = {
-  xero: siXero.path,
-  asana: siAsana.path,
-  stripe: siStripe.path,
-  google: siGoogle.path,
-};
 
 /* Step one, made operable rather than described. A row of connector chips sits
    under a console panel; selecting one shows what Noema takes from that system.
@@ -152,15 +137,8 @@ export function ConnectorConsole() {
                   : "border-ash/50 opacity-65 hover:border-bone hover:opacity-100"
               }`}
             >
-              {connector.icon && BRAND_PATHS[connector.icon] ? (
-                <svg
-                  viewBox="0 0 24 24"
-                  className="size-5 fill-current"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d={BRAND_PATHS[connector.icon]} />
-                </svg>
+              {hasBrandMark(connector.icon) ? (
+                <BrandMark slug={connector.icon as string} />
               ) : (
                 <span aria-hidden="true">{connector.mark}</span>
               )}

@@ -302,24 +302,45 @@ export const connectorConsole = {
   ] satisfies Connector[],
 } as const;
 
+/** A tool shown in the connections marquee. */
+export type Tool = {
+  name: string;
+  /** simple-icons slug, where the brand has a mark in the set. */
+  icon?: string;
+  /** The brand's own colour. Omitted where no verified value was available,
+   *  in which case the tile stays in the page palette. */
+  brandColor?: string;
+};
+
 export const connections = {
   eyebrow: "CONNECTIONS",
   h2: "It reads the stack you already run.",
   sub: "Noema is built to connect to the tools UK businesses actually use. If yours is not here and it has an API, tell us and we will build it.",
-  /* Names are set in the utility font inside bordered tiles rather than using
-     official brand logo files. That avoids trademark use and holds the
-     palette, which brand colours would break. */
-  rowA: ["Xero", "Sage", "QuickBooks", "Dext", "Stripe", "GoCardless"],
+  /* Each tile pairs the official brand mark with the wordmark. Marks come from
+     simple-icons; brandColor is each brand's own published value.
+
+     Dext, GoCardless, Outlook, Slack and Monday have no mark in the set, in
+     some cases because the brand asked to be removed from it, so they show the
+     wordmark alone. Outlook and Slack still carry a verified colour from their
+     own palettes; the other three are left neutral rather than guessed at. */
+  rowA: [
+    { name: "Xero", icon: "xero", brandColor: "#13B5EA" },
+    { name: "Sage", icon: "sage", brandColor: "#00D639" },
+    { name: "QuickBooks", icon: "quickbooks", brandColor: "#2CA01C" },
+    { name: "Dext" },
+    { name: "Stripe", icon: "stripe", brandColor: "#635BFF" },
+    { name: "GoCardless" },
+  ] satisfies Tool[],
   rowB: [
-    "Outlook",
-    "Google Workspace",
-    "Slack",
-    "WhatsApp Business",
-    "HubSpot",
-    "Asana",
-    "Monday",
-    "Shopify",
-  ],
+    { name: "Outlook", brandColor: "#28A8EA" },
+    { name: "Google Workspace", icon: "google", brandColor: "#4285F4" },
+    { name: "Slack", brandColor: "#36C5F0" },
+    { name: "WhatsApp Business", icon: "whatsapp", brandColor: "#25D366" },
+    { name: "HubSpot", icon: "hubspot", brandColor: "#FF7A59" },
+    { name: "Asana", icon: "asana", brandColor: "#F06A6A" },
+    { name: "Monday" },
+    { name: "Shopify", icon: "shopify", brandColor: "#7AB55C" },
+  ] satisfies Tool[],
   /* Required pre-launch honesty line. Do not remove or soften. */
   honesty: "Connections are in build. Nothing above is live yet.",
 } as const;

@@ -1,22 +1,31 @@
+import { BrandMark, hasBrandMark } from "./BrandMark";
 import { ConnectorConsole } from "./ConnectorConsole";
 import { Reveal } from "./Reveal";
 import { RailSection } from "./TimeRail";
-import { connections, connectorConsole } from "@/content/site";
+import { connections, connectorConsole, type Tool } from "@/content/site";
 
-function Tile({ name }: { name: string }) {
+/* Mark in the brand's colour, wordmark in the page palette. Keeping the text
+   neutral stops fourteen coloured wordmarks from turning the row into a
+   ransom note, while the marks still read as the real logos. */
+function Tile({ tool }: { tool: Tool }) {
   return (
-    <span className="type-mono mx-1.5 flex shrink-0 items-center rounded-default border border-ash/45 px-5 py-3.5 text-ash transition-colors duration-200 hover:border-bone hover:text-bone">
-      {name}
+    <span className="mx-1.5 flex shrink-0 items-center gap-2.5 rounded-default border border-ash/45 px-5 py-3.5 text-ash transition-colors duration-200 hover:border-bone hover:text-bone">
+      {hasBrandMark(tool.icon) ? (
+        <span style={{ color: tool.brandColor }} className="flex">
+          <BrandMark slug={tool.icon as string} className="size-4" />
+        </span>
+      ) : null}
+      <span className="type-mono">{tool.name}</span>
     </span>
   );
 }
 
 function Row({
-  names,
+  tools,
   direction,
   duration,
 }: {
-  names: readonly string[];
+  tools: readonly Tool[];
   direction: "left" | "right";
   duration: string;
 }) {
@@ -39,13 +48,13 @@ function Row({
         {/* The list is rendered twice so the translation can loop at -50%.
             The duplicate is hidden from assistive technology. */}
         <div className="flex">
-          {names.map((name) => (
-            <Tile key={name} name={name} />
+          {tools.map((tool) => (
+            <Tile key={tool.name} tool={tool} />
           ))}
         </div>
         <div className="flex" aria-hidden="true">
-          {names.map((name) => (
-            <Tile key={name} name={name} />
+          {tools.map((tool) => (
+            <Tile key={tool.name} tool={tool} />
           ))}
         </div>
       </div>
@@ -104,8 +113,8 @@ export function Connections() {
           using official brand logo files. That sidesteps trademark use and
           holds the palette, which a wall of brand colours would break. */}
       <div className="mt-10 flex flex-col gap-3">
-        <Row names={connections.rowA} direction="left" duration="52s" />
-        <Row names={connections.rowB} direction="right" duration="64s" />
+        <Row tools={connections.rowA} direction="left" duration="52s" />
+        <Row tools={connections.rowB} direction="right" duration="64s" />
       </div>
 
       <Reveal index={7}>
