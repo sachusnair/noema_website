@@ -1,26 +1,380 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   Noema design tokens.
+   Every colour, size, radius and easing used in the build derives from here.
+   Components must not carry arbitrary hex values or one-off pixel sizes.
+   ========================================================================== */
+
+@theme {
+  /* --- Colour ----------------------------------------------------------- */
+  /* Black and orange, on the client's direction. This replaces both the
+     brown palette the original brief specified and its light-site rule: the
+     page is now dark throughout, with one hot orange as the only colour that
+     ever signals action or priority. Ash is structure and is never a button.
+
+     Ash was lifted from the first pass to #82858C so it clears WCAG AA on
+     both surfaces: 5.35:1 on void, 4.98:1 on carbon. */
+  --color-void: #0a0a0b;
+  --color-carbon: #131417;
+  --color-bone: #ededea;
+  --color-ash: #82858c;
+  --color-ember: #ff5a1f;
+
+  /* --- Type ------------------------------------------------------------- */
+  /* Each family is wired through one variable so the face can be swapped in
+     layout.tsx without touching a single component. */
+  --font-display: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
+
+  /* Fluid scale, 12 / 14 / 16 / 18 / 22 / 30 / 44 / 68 / 104.
+     Each clamp interpolates across a 375px to 1440px viewport. */
+  --text-step-0: clamp(0.6875rem, 0.6655rem + 0.094vw, 0.75rem);
+  --text-step-1: clamp(0.78125rem, 0.7483rem + 0.1408vw, 0.875rem);
+  --text-step-2: clamp(0.9375rem, 0.9155rem + 0.094vw, 1rem);
+  --text-step-3: clamp(1.03125rem, 0.9983rem + 0.1408vw, 1.125rem);
+  --text-step-4: clamp(1.1875rem, 1.1215rem + 0.2817vw, 1.375rem);
+  --text-step-5: clamp(1.5rem, 1.368rem + 0.5634vw, 1.875rem);
+  --text-step-6: clamp(2rem, 1.7359rem + 1.1268vw, 2.75rem);
+  --text-step-7: clamp(2.5rem, 1.8838rem + 2.6291vw, 4.25rem);
+  --text-step-8: clamp(3.25rem, 2.1056rem + 4.8826vw, 6.5rem);
+
+  /* --- Layout ----------------------------------------------------------- */
+  --spacing-gutter: 24px;
+  --spacing-page: 20px;
+  --spacing-rail: 88px;
+  --container-shell: 1280px;
+
+  /* --- Radius ----------------------------------------------------------- */
+  /* 4px everywhere; the brief card alone sits at 2px so it reads as a
+     printed document rather than a UI panel. No pill shapes exist. */
+  --radius-default: 4px;
+  --radius-brief: 2px;
+
+  /* Pressed state for the one filled control. Never used as a surface. */
+  --color-ember-hover: #ff7a45;
+
+  /* --- Elevation -------------------------------------------------------- */
+  /* On a black page a drop shadow does almost nothing, so elevation is
+     carried by the 1px ash frame instead. This stays only to keep raised
+     surfaces from sitting perfectly flat against the background. */
+  --shadow-fine: 0 1px 2px rgba(0, 0, 0, 0.5);
+
+  /* --- Motion ----------------------------------------------------------- */
+  --ease-noema: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  /* The sticky nav is 72px; anchored sections must clear it. */
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-void);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+  font-size: var(--text-step-2);
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-ember);
+  color: var(--color-void);
+}
+
+/* Focus: ember, 2px, offset 2px, on every interactive element. Ember clears
+   6.3:1 on void and 5.9:1 on carbon, so one ring colour works page-wide. */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 2px;
+  border-radius: var(--radius-default);
+}
+
+/* ==========================================================================
+   Type helpers
+   Poppins is geometric and turns soft at display sizes. Anything above 40px
+   is pulled to -0.03em tracking and 0.95 leading so headlines read
+   compressed and engineered rather than friendly.
+   ========================================================================== */
+
+.type-display-xl,
+.type-display-l,
+.type-display-m {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.type-display-xl {
+  font-size: var(--text-step-8);
+}
+.type-display-l {
+  font-size: var(--text-step-7);
+}
+.type-display-m {
+  font-size: var(--text-step-6);
+}
+
+/* Below 40px Poppins does not need the correction, and over-tightening small
+   headings costs legibility. */
+.type-display-s {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-step-5);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.type-mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--text-step-0);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Shell / grid
+   12 columns, 1280px max, 24px gutters, 20px page padding on mobile.
+   ========================================================================== */
+
+.shell {
+  width: 100%;
+  max-width: var(--container-shell);
+  margin-inline: auto;
+  padding-inline: var(--spacing-page);
+}
+
+@media (min-width: 1024px) {
+  .shell {
+    padding-inline: var(--spacing-gutter);
+  }
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--spacing-gutter);
+}
+
+/* ==========================================================================
+   Time rail
+   A 1px ash line at the left edge of the content column, running the length
+   of the page, with a mono timestamp at each section boundary. Sections are
+   contiguous, so their individual segments read as one continuous line.
+   Below 1024px it collapses to a top-border marker per section.
+   ========================================================================== */
+
+.rail {
+  --rail-line: color-mix(in srgb, var(--color-ash) 55%, transparent);
+  --rail-ink: var(--color-ash);
+  position: relative;
+}
+
+.rail-mark {
+  display: block;
+  padding-top: 12px;
+  color: var(--rail-ink);
+}
+
+.rail-body {
+  border-top: 1px solid var(--rail-line);
+  padding-top: 4px;
+}
+
+@media (min-width: 1024px) {
+  .rail-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--spacing-rail) - 24px);
+    text-align: right;
+    padding-top: 0;
+  }
+
+  .rail-body {
+    border-top: 0;
+    border-left: 1px solid var(--rail-line);
+    margin-left: var(--spacing-rail);
+    padding-left: 40px;
+    padding-top: 0;
+  }
+}
+
+/* ==========================================================================
+   Sensor surfaces
+   A bordered panel lights the edge nearest the cursor. The highlight is a
+   gradient painted into the 1px frame and masked out of the fill, so the edge
+   sharpens rather than glowing, and the panel interior stays clean.
+   ========================================================================== */
+
+.sensor {
+  position: relative;
+  isolation: isolate;
+}
+
+.sensor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms var(--ease-noema);
+  background: radial-gradient(
+      var(--sensor-radius, 220px) circle at var(--sx, 50%) var(--sy, 50%),
+      var(--color-ember),
+      transparent 65%
+    )
+    border-box;
+  /* Longhands, not the mask shorthand: the shorthand resets mask-composite,
+     which would let both layers add and flood the panel instead of leaving
+     only the 1px ring. */
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-clip: padding-box, border-box;
+  mask-composite: exclude;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: xor;
+}
+
+.sensor[data-sensing]::after {
+  opacity: 1;
+}
+
+.magnetic {
+  transition: transform 400ms var(--ease-noema);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Rail read head
+   A short ember segment that rides down each section's rail line as the page
+   scrolls, then parks at the boundary. Driven by sticky positioning, so it
+   tracks the scroll exactly and runs no code per frame.
+   ========================================================================== */
+
+.rail-head-track {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .rail-head-track {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--spacing-rail);
+    width: 1px;
+    pointer-events: none;
+  }
+
+  .rail-head {
+    position: sticky;
+    top: 42vh;
+    display: block;
+    width: 1px;
+    height: 88px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--color-ember) 22%,
+      var(--color-ember) 78%,
+      transparent
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-head-track {
+    display: none;
+  }
+  .sensor::after {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Motion
+   Every animation on the page is disabled here in one place, including the
+   marquee, which is CSS-driven rather than JS-driven.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation-duration: var(--marquee-duration, 60s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee-track[data-direction="left"] {
+  animation-name: marquee-left;
+}
+.marquee-track[data-direction="right"] {
+  animation-name: marquee-right;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .marquee {
+    overflow-x: auto;
+  }
 }
