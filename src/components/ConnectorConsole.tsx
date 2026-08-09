@@ -1,0 +1,143 @@
+"use client";
+
+import { useId, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { SensorSurface } from "./Sensor";
+import { connectorConsole } from "@/content/site";
+
+/* Step one, made operable rather than described. A row of connector chips sits
+   under a console panel; selecting one shows what Noema takes from that system.
+   It is a tablist, not a set of buttons, so arrow keys move between systems and
+   the panel is announced as their content.
+
+   Chips carry a two-letter mark set in the utility font. Official brand logo
+   files are deliberately not used: it avoids trademark use, and a row of brand
+   colours would break the one-accent rule the rest of the page holds to. */
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+export function ConnectorConsole() {
+  const [active, setActive] = useState(0);
+  const reduced = useReducedMotion();
+  const baseId = useId();
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  const items = connectorConsole.connectors;
+  const current = items[active];
+
+  const focusTab = (index: number) => {
+    setActive(index);
+    tabsRef.current
+      ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+      [index]?.focus();
+  };
+
+  const onKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      event.preventDefault();
+      focusTab((active + 1) % items.length);
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      event.preventDefault();
+      focusTab((active - 1 + items.length) % items.length);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      focusTab(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      focusTab(items.length - 1);
+    }
+  };
+
+  return (
+    <SensorSurface
+      className="rounded-default border border-ash/45 bg-carbon"
+      radius={320}
+    >
+      {/* Console header, in the same mono register as the brief card, so the
+          two read as parts of one instrument. */}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ash/40 px-5 py-3">
+        <span className="type-mono text-ember">
+          {connectorConsole.panelLabel} {current.name.toUpperCase()}
+        </span>
+        <span className="type-mono text-ash">{connectorConsole.hint}</span>
+      </div>
+
+      <div
+        id={`${baseId}-panel-${active}`}
+        role="tabpanel"
+        aria-labelledby={`${baseId}-tab-${active}`}
+        className="min-h-[172px] px-5 py-6 sm:min-h-[150px]"
+      >
+        <ul className="space-y-3">
+          {current.reads.map((line, index) => {
+            const row = (
+              <span className="flex gap-3">
+                <span className="type-mono shrink-0 pt-1 text-ember" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="text-step-2 text-bone">{line}</span>
+              </span>
+            );
+
+            // Keyed on the connector so switching systems replays the stagger
+            // rather than swapping text in place.
+            return (
+              <li key={line}>
+                {reduced ? (
+                  row
+                ) : (
+                  <motion.span
+                    key={`${current.name}-${index}`}
+                    className="block"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.32,
+                      delay: index * 0.06,
+                      ease: EASE,
+                    }}
+                  >
+                    {row}
+                  </motion.span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <div
+        ref={tabsRef}
+        role="tablist"
+        aria-label={connectorConsole.hint}
+        onKeyDown={onKeyDown}
+        className="flex flex-wrap items-center gap-2 border-t border-ash/40 px-5 py-4"
+      >
+        {items.map((connector, index) => {
+          const selected = index === active;
+          return (
+            <button
+              key={connector.name}
+              id={`${baseId}-tab-${index}`}
+              role="tab"
+              type="button"
+              aria-selected={selected}
+              aria-controls={`${baseId}-panel-${index}`}
+              tabIndex={selected ? 0 : -1}
+              onClick={() => setActive(index)}
+              title={connector.name}
+              className={`type-mono flex size-11 cursor-pointer items-center justify-center rounded-full border transition-colors duration-200 ${
+                selected
+                  ? "border-ember bg-ember text-void"
+                  : "border-ash/50 text-ash hover:border-bone hover:text-bone"
+              }`}
+            >
+              <span aria-hidden="true">{connector.mark}</span>
+              <span className="sr-only">{connector.name}</span>
+            </button>
+          );
+        })}
+      </div>
+    </SensorSurface>
+  );
+}

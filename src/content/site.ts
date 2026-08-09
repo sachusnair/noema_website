@@ -202,6 +202,87 @@ export const howItWorks = {
   ],
 } as const;
 
+/* -------------------------------------------------------------------------
+   Step 01: the connector console
+   ------------------------------------------------------------------------- */
+
+export type Connector = {
+  name: string;
+  /** Two-character mark shown in the chip. Set in the utility font rather
+   *  than using an official brand logo file, which would be trademark use. */
+  mark: string;
+  /** What Noema would read from this source. Written as capability, never as
+   *  a finding, because there is no live connection to have found it in. */
+  reads: string[];
+};
+
+export const connectorConsole = {
+  step: "01",
+  eyebrow: "STEP ONE",
+  h2: "Noema learns your business from the systems you already run.",
+  sub: "Connect once and it reads across all of them every night. Pick a system to see what it takes from each.",
+  panelLabel: "WHAT NOEMA READS FROM",
+  hint: "Select a system",
+  /* Required pre-launch honesty line. Do not remove or soften. */
+  honesty: "Illustrative. Connections are in build and nothing here is live yet.",
+  connectors: [
+    {
+      name: "Xero",
+      mark: "XR",
+      reads: [
+        "Invoices raised, paid, part paid and overdue",
+        "Agreed payment terms against the date money actually arrived",
+        "Accounts that used to pay on time and no longer do",
+      ],
+    },
+    {
+      name: "Outlook",
+      mark: "OL",
+      reads: [
+        "Promises made to clients and suppliers in email threads",
+        "Chases you sent that nobody answered",
+        "Updates you owe someone and have not sent",
+      ],
+    },
+    {
+      name: "Slack",
+      mark: "SL",
+      reads: [
+        "Decisions that were made in a channel and never written down",
+        "Where a job quietly got stuck and who was waiting",
+        "What somebody said they would do and by when",
+      ],
+    },
+    {
+      name: "Asana",
+      mark: "AS",
+      reads: [
+        "Due dates that moved, how often, and in which direction",
+        "Jobs sitting with no owner",
+        "Work promised for this week that has not started",
+      ],
+    },
+    {
+      name: "Stripe",
+      mark: "ST",
+      reads: [
+        "Payments that failed and were never retried",
+        "Customers whose billing stopped without anyone noticing",
+        "Revenue that was expected this month and has not landed",
+      ],
+    },
+    {
+      name: "Google Workspace",
+      mark: "GW",
+      reads: [
+        "People and vehicles booked against the same slot",
+        "Meetings that moved and the work that moved with them",
+        "Calendars that disagree with the job sheet",
+      ],
+    },
+  ] satisfies Connector[],
+} as const;
+
 export const connections = {
   eyebrow: "CONNECTIONS",
   h2: "It reads the stack you already run.",
@@ -224,8 +305,28 @@ export const connections = {
   honesty: "Connections are in build. Nothing above is live yet.",
 } as const;
 
+/** Portrait and profile link are optional. While they are null the founder
+ *  note renders exactly as it did without them: no broken image, no dead
+ *  button. Fill them in and the layout picks them up. */
+export type FounderPortrait = {
+  /** Path under /public, e.g. "/founder.jpg" */
+  src: string;
+  alt: string;
+  /** Intrinsic size, set explicitly so the image reserves its space and the
+   *  page does not shift while it loads. */
+  width: number;
+  height: number;
+};
+
 export const founder = {
   eyebrow: "WHY THIS EXISTS",
+  name: "Sachu S Nair",
+  /* Nothing here is claimed beyond what the note itself says. Education,
+     employers and dates are deliberately absent until they are supplied. */
+  role: "Founder",
+  portrait: null as FounderPortrait | null,
+  linkedIn: null as string | null,
+  linkedInLabel: "More about Sachu",
   body: [
     "I have run operations from the ramp at Heathrow to the boardroom. Same problem every time. Operations do not fail because the people are bad. They fail because nobody owns the system that joins the information together, so it gets done by hand, badly, by whoever has the least time.",
     "Noema is that owner. It does the gathering overnight so the morning starts with a decision instead of a search.",
