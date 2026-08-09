@@ -213,6 +213,11 @@ export type Connector = {
    *  simple-icons, in some cases at the brand owner's own request, so those
    *  fall back to the letter mark below. */
   icon?: string;
+  /** The brand's own colour, used for the mark. Values come from each
+   *  brand's published palette (the icon-backed ones via simple-icons). The
+   *  two fallbacks use a lighter tone from the same palette so they stay
+   *  legible on carbon. */
+  brandColor: string;
   /** Two-character fallback, set in the utility font. */
   mark: string;
   /** What Noema would read from this source. Written as capability, never as
@@ -233,6 +238,7 @@ export const connectorConsole = {
     {
       name: "Xero",
       icon: "xero",
+      brandColor: "#13B5EA",
       mark: "XR",
       reads: [
         "Invoices raised, paid, part paid and overdue",
@@ -242,6 +248,7 @@ export const connectorConsole = {
     },
     {
       name: "Outlook",
+      brandColor: "#28A8EA",
       mark: "OL",
       reads: [
         "Promises made to clients and suppliers in email threads",
@@ -251,6 +258,7 @@ export const connectorConsole = {
     },
     {
       name: "Slack",
+      brandColor: "#36C5F0",
       mark: "SL",
       reads: [
         "Decisions that were made in a channel and never written down",
@@ -261,6 +269,7 @@ export const connectorConsole = {
     {
       name: "Asana",
       icon: "asana",
+      brandColor: "#F06A6A",
       mark: "AS",
       reads: [
         "Due dates that moved, how often, and in which direction",
@@ -271,6 +280,7 @@ export const connectorConsole = {
     {
       name: "Stripe",
       icon: "stripe",
+      brandColor: "#635BFF",
       mark: "ST",
       reads: [
         "Payments that failed and were never retried",
@@ -281,6 +291,7 @@ export const connectorConsole = {
     {
       name: "Google Workspace",
       icon: "google",
+      brandColor: "#4285F4",
       mark: "GW",
       reads: [
         "People and vehicles booked against the same slot",
@@ -332,9 +343,14 @@ export const founder = {
   /* Nothing here is claimed beyond what the note itself says. Education,
      employers and dates are deliberately absent until they are supplied. */
   role: "Founder",
-  /* Set src once the file is in /public. Width and height must match the
-     file's real pixel size so the circle reserves its space. */
-  portrait: null as FounderPortrait | null,
+  /* Width and height are the file's real pixel size, so the circle reserves
+     its space and the block cannot shift as the image loads. */
+  portrait: {
+    src: "/founderimage.jpeg",
+    alt: "Sachu S Nair",
+    width: 400,
+    height: 400,
+  } as FounderPortrait | null,
   linkedIn: "https://www.linkedin.com/in/sachu-s-nair",
   linkedInLabel: "More about Sachu",
   /** Opening line, set larger. Everything below it runs at reading size. */

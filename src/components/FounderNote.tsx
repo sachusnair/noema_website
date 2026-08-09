@@ -33,14 +33,20 @@ export function FounderNote() {
                   so this emits a plain tag with no runtime optimiser. Width and
                   height are explicit, so the circle reserves its space and the
                   page does not shift when the file loads. */}
-              <Image
-                src={portrait.src}
-                alt={portrait.alt}
-                width={portrait.width}
-                height={portrait.height}
-                priority
-                className="size-[220px] rounded-full border border-ash/40 object-cover lg:size-[260px]"
-              />
+              {/* The circle is the container so the zoom happens inside it.
+                  The face sits high and left of centre in the source, so the
+                  image is scaled up and nudged down and right to bring it to
+                  the middle of the frame. */}
+              <div className="size-[220px] overflow-hidden rounded-full border border-ash/40 lg:size-[260px]">
+                <Image
+                  src={portrait.src}
+                  alt={portrait.alt}
+                  width={portrait.width}
+                  height={portrait.height}
+                  priority
+                  className="size-full origin-center scale-[1.22] translate-x-[4%] translate-y-[9%] object-cover"
+                />
+              </div>
             </Reveal>
           ) : null}
 

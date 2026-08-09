@@ -142,10 +142,14 @@ export function ConnectorConsole() {
               tabIndex={selected ? 0 : -1}
               onClick={() => setActive(index)}
               title={connector.name}
-              className={`type-mono flex size-11 cursor-pointer items-center justify-center rounded-full border transition-colors duration-200 ${
+              /* Marks carry each brand's own colour. Selection is therefore
+                 signalled by the ring and fill rather than by the mark, so
+                 ember stays the thing that means "active" on this page. */
+              style={{ color: connector.brandColor }}
+              className={`type-mono flex size-11 cursor-pointer items-center justify-center rounded-full border transition-all duration-200 ${
                 selected
-                  ? "border-ember bg-ember text-void"
-                  : "border-ash/50 text-ash hover:border-bone hover:text-bone"
+                  ? "border-ember bg-ember/12 opacity-100"
+                  : "border-ash/50 opacity-65 hover:border-bone hover:opacity-100"
               }`}
             >
               {connector.icon && BRAND_PATHS[connector.icon] ? (
