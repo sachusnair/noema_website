@@ -208,8 +208,12 @@ export const howItWorks = {
 
 export type Connector = {
   name: string;
-  /** Two-character mark shown in the chip. Set in the utility font rather
-   *  than using an official brand logo file, which would be trademark use. */
+  /** simple-icons slug for the official brand mark, where one exists.
+   *  Slack, Outlook, Monday, GoCardless and Dext are deliberately absent from
+   *  simple-icons, in some cases at the brand owner's own request, so those
+   *  fall back to the letter mark below. */
+  icon?: string;
+  /** Two-character fallback, set in the utility font. */
   mark: string;
   /** What Noema would read from this source. Written as capability, never as
    *  a finding, because there is no live connection to have found it in. */
@@ -228,6 +232,7 @@ export const connectorConsole = {
   connectors: [
     {
       name: "Xero",
+      icon: "xero",
       mark: "XR",
       reads: [
         "Invoices raised, paid, part paid and overdue",
@@ -255,6 +260,7 @@ export const connectorConsole = {
     },
     {
       name: "Asana",
+      icon: "asana",
       mark: "AS",
       reads: [
         "Due dates that moved, how often, and in which direction",
@@ -264,6 +270,7 @@ export const connectorConsole = {
     },
     {
       name: "Stripe",
+      icon: "stripe",
       mark: "ST",
       reads: [
         "Payments that failed and were never retried",
@@ -273,6 +280,7 @@ export const connectorConsole = {
     },
     {
       name: "Google Workspace",
+      icon: "google",
       mark: "GW",
       reads: [
         "People and vehicles booked against the same slot",
@@ -324,12 +332,22 @@ export const founder = {
   /* Nothing here is claimed beyond what the note itself says. Education,
      employers and dates are deliberately absent until they are supplied. */
   role: "Founder",
+  /* Set src once the file is in /public. Width and height must match the
+     file's real pixel size so the circle reserves its space. */
   portrait: null as FounderPortrait | null,
-  linkedIn: null as string | null,
+  linkedIn: "https://www.linkedin.com/in/sachu-s-nair",
   linkedInLabel: "More about Sachu",
+  /** Opening line, set larger. Everything below it runs at reading size. */
+  lead: "I'm Sachu, founder of Noema.",
   body: [
-    "I have run operations from the ramp at Heathrow to the boardroom. Same problem every time. Operations do not fail because the people are bad. They fail because nobody owns the system that joins the information together, so it gets done by hand, badly, by whoever has the least time.",
-    "Noema is that owner. It does the gathering overnight so the morning starts with a decision instead of a search.",
+    "I spent ten years running operations, from airport ground handling to leading ops for a growing consultancy. Same problem everywhere: good people doing work that software should be doing.",
+    "So I started building the software.",
+    "I build AI automations that take the repetitive work off your team. Voice agents that book appointments. Support tickets that route and escalate themselves. Meeting notes that turn into tasks and client documents without anyone touching them.",
+    "I build these inside a live business every day. Not demos. Systems that run.",
+    /* Kept from the original note. Without it the section reads as a profile
+       of someone who builds automations, with no line tying it back to what
+       this page is actually selling. */
+    "Noema is that thinking applied to the whole operation. It does the gathering overnight so the morning starts with a decision instead of a search.",
   ],
   signature: "SACHU S NAIR · OPERATIONS · LONDON",
 } as const;

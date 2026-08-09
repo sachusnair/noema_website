@@ -50,22 +50,30 @@ export function FounderNote() {
               <p className="type-mono mt-2 text-ash">{founder.role}</p>
             </Reveal>
 
+            {/* The opening line carries the weight; the rest drops to reading
+                size, because six paragraphs at display scale is a wall. */}
+            <Reveal index={3}>
+              <p className="mt-8 max-w-[52ch] text-step-4 leading-[1.4]">
+                {founder.lead}
+              </p>
+            </Reveal>
+
             {founder.body.map((paragraph, index) => (
-              <Reveal key={paragraph.slice(0, 24)} index={index + 3}>
-                <p className="mt-7 max-w-[62ch] text-step-4 leading-[1.5]">
+              <Reveal key={paragraph.slice(0, 24)} index={index + 4}>
+                <p className="mt-5 max-w-[62ch] text-step-3 leading-[1.6] text-bone/85">
                   {paragraph}
                 </p>
               </Reveal>
             ))}
 
-            <Reveal index={5}>
+            <Reveal index={9}>
               <p className="type-mono mt-12 max-w-[62ch] border-t border-ash/30 pt-6 text-ash">
                 {founder.signature}
               </p>
             </Reveal>
 
             {linkedIn ? (
-              <Reveal index={6}>
+              <Reveal index={10}>
                 <a
                   href={linkedIn}
                   target="_blank"
