@@ -574,6 +574,34 @@ export const contact = {
   },
 } as const;
 
+/** A social account in the footer.
+ *
+ *  `href` is null until the real profile URL is known. Entries without one are
+ *  not rendered, so the footer never carries a link that goes nowhere. */
+export type Social = {
+  name: string;
+  /** simple-icons slug. LinkedIn has no mark in the set, having been removed
+   *  at the brand's request, so it falls back to a typographic badge. */
+  icon?: string;
+  badge?: string;
+  href: string | null;
+};
+
+export const socials = {
+  title: "Follow",
+  items: [
+    {
+      name: "LinkedIn",
+      badge: "in",
+      /* Sachu's personal profile, standing in until the company page exists. */
+      href: "https://www.linkedin.com/in/sachu-s-nair",
+    },
+    { name: "X", icon: "x", href: null },
+    { name: "YouTube", icon: "youtube", href: null },
+    { name: "Instagram", icon: "instagram", href: null },
+  ] satisfies Social[],
+} as const;
+
 export const footer = {
   tagline: "The superbrain of the company.",
   email: "sachu@noemabrain.com",
@@ -598,16 +626,6 @@ export const footer = {
       links: [
         { label: "Privacy", href: "/privacy" },
         { label: "Terms", href: "/terms" },
-      ],
-    },
-    {
-      title: "Elsewhere",
-      links: [
-        {
-          label: "LinkedIn",
-          href: "https://www.linkedin.com/in/sachu-s-nair",
-          external: true,
-        },
       ],
     },
   ],

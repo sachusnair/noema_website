@@ -2,12 +2,15 @@ import {
   siAsana,
   siGoogle,
   siHubspot,
+  siInstagram,
   siQuickbooks,
   siSage,
   siShopify,
   siStripe,
   siWhatsapp,
+  siX,
   siXero,
+  siYoutube,
 } from "simple-icons";
 
 /* Official brand marks from simple-icons, which is CC0-1.0 on the icon files.
@@ -29,6 +32,9 @@ const PATHS: Record<string, string> = {
   hubspot: siHubspot.path,
   asana: siAsana.path,
   shopify: siShopify.path,
+  x: siX.path,
+  youtube: siYoutube.path,
+  instagram: siInstagram.path,
 };
 
 export function hasBrandMark(slug?: string) {

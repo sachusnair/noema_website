@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BookDemoButton } from "./BookDemoButton";
+import { Socials } from "./Socials";
 import { footer, site } from "@/content/site";
 
 export function Footer() {
@@ -33,6 +34,7 @@ export function Footer() {
           {/* Columns rather than a single row: the link list is long enough now
               that a row would wrap into an unreadable line. */}
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:gap-16">
+            <Socials />
             {footer.columns.map((column) => (
               <nav key={column.title} aria-label={column.title}>
                 <h2 className="type-mono text-ash">{column.title}</h2>
