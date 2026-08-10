@@ -25,15 +25,19 @@ export const site = {
     "Noema reads your whole UK business overnight and hands you the decisions that matter at 08:00, ranked, with the reason attached.",
 } as const;
 
+/* The nav points at pages now rather than at anchors on a single page. The
+   wordmark is the route home, so Home is not repeated as a link beside it. */
 export const nav = {
   links: [
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Connections", href: "#connections" },
-    { label: "FAQ", href: "#faq" },
+    { label: "About", href: "/about" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Blog", href: "/blog" },
+    { label: "Contact", href: "/contact" },
   ],
   cta: "Book a demo",
   menuOpen: "Open menu",
   menuClose: "Close menu",
+  home: "Home",
 } as const;
 
 export const hero = {
@@ -446,14 +450,166 @@ export const closing = {
   cta: "Book a demo",
 } as const;
 
+/* -------------------------------------------------------------------------
+   Standalone pages
+   ------------------------------------------------------------------------- */
+
+/* About is assembled from copy already approved elsewhere on the site: the
+   problem, what Noema is not, and the founder note. Nothing here is a new
+   claim about the company, because there is no team, no office and no trading
+   history to describe yet. Replace the prose freely; the shape will hold. */
+export const about = {
+  eyebrow: "ABOUT US",
+  h1: "We are building the thing we kept needing.",
+  intro:
+    "Noema is a London company building an operations platform for UK businesses. It reads across the systems a business already runs and hands the person in charge a ranked set of decisions each morning.",
+  sections: [
+    {
+      title: "What we do",
+      body: [
+        "Noema connects to the systems a business already runs, reads across all of them overnight, and produces one ranked brief for 08:00. Every item carries the reason it is there and the sources it came from.",
+        "It is not a chat tool waiting for a question. It decides what is worth someone's attention before they ask, and it remembers what it told them last week.",
+      ],
+    },
+    {
+      title: "Why we are building it",
+      body: [
+        "Operations do not fail because the people are bad. They fail because nobody owns the system that joins the information together, so it gets done by hand, badly, by whoever has the least time.",
+        "That job should belong to software. Noema is that owner. It does the gathering overnight so the morning starts with a decision instead of a search.",
+      ],
+    },
+    {
+      title: "Where we are",
+      body: [
+        "Noema is pre-launch. We are taking a small number of design partners and building the connections with them rather than guessing at what they need.",
+        "That means there is no customer list to show you and no compliance badge we have earned yet. What there is, is a working walkthrough and a straight conversation about your operation.",
+      ],
+    },
+  ],
+  /* Required pre-launch honesty line. Do not remove or soften. */
+  honesty:
+    "We are pre-launch. No customers, no case studies, no certifications yet.",
+} as const;
+
+export const pricing = {
+  eyebrow: "PRICING",
+  h1: "Design partner pricing.",
+  sub: "Noema is pre-launch. Rather than publish a price list we have not tested, we agree terms case by case with a small number of design partners.",
+  tiers: [
+    {
+      name: "Design partner",
+      price: "Agreed case by case",
+      note: "Taking a small number now",
+      featured: true,
+      points: [
+        "A working walkthrough of your own morning",
+        "The connections you need, built with you",
+        "Direct line to the person building it",
+        "Terms agreed against your numbers, not a list price",
+      ],
+    },
+    {
+      name: "At launch",
+      price: "Not set yet",
+      note: "Priced when the product is live",
+      featured: false,
+      points: [
+        "Per business, not per seat",
+        "Scaled to the size of the operation",
+        "Published here when we have set it",
+        "Design partners keep their agreed terms",
+      ],
+    },
+  ],
+  /* Required pre-launch honesty line. Do not remove or soften. */
+  honesty:
+    "There are no numbers on this page because we have not set them yet. We are not going to invent a price list to look established.",
+  ctaLabel: "Book a demo",
+  faqTitle: "Questions about pricing",
+  faq: [
+    {
+      q: "Why is there no price list?",
+      a: "Because we would be guessing. We are pre-launch and agreeing terms with each design partner against what the work is actually worth to them.",
+    },
+    {
+      q: "What does a design partner commit to?",
+      a: "Time, mostly. You tell us how your morning runs, we build against it, and you tell us where we got it wrong.",
+    },
+    {
+      q: "Will the price go up later?",
+      a: "Design partners keep the terms they agreed. That is the point of coming in early.",
+    },
+  ],
+} as const;
+
+export const blog = {
+  eyebrow: "BLOG",
+  h1: "Notes from the build.",
+  sub: "Occasional writing about operations, the overnight run, and what we are learning from design partners.",
+  /* Shown when no posts have been published. It says the true thing rather
+     than pretending the section is merely loading. */
+  empty: "Nothing published yet. The first post is being written.",
+  readMore: "Read",
+  backLabel: "All posts",
+} as const;
+
+export const contact = {
+  eyebrow: "CONTACT",
+  h1: "Tell us about your morning.",
+  sub: "Send a note and we will come back to you. If you would rather just book the walkthrough, the demo button does that directly.",
+  emailLabel: "Email",
+  locationLabel: "Where we are",
+  form: {
+    name: { label: "Your name", placeholder: "" },
+    email: { label: "Email", placeholder: "" },
+    company: { label: "Company", placeholder: "" },
+    message: { label: "What would you like to tell us?", placeholder: "" },
+    submit: "Send",
+    sending: "Sending",
+    success: "Thank you. We have your message and will come back to you.",
+    error:
+      "That did not send. Email sachu@noemabrain.com directly and we will pick it up.",
+    required: "Required",
+    invalidEmail: "Enter an email address we can reply to",
+  },
+} as const;
+
 export const footer = {
   tagline: "The superbrain of the company.",
   email: "sachu@noemabrain.com",
   location: "London, United Kingdom",
   copyright: "© 2026 Noema",
-  links: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
+  ctaLabel: "Book a demo",
+  /* Grouped columns. Legal keeps its own heading rather than sitting loose in
+     the bottom bar, which is where Privacy and Terms used to live. */
+  columns: [
+    {
+      title: "Pages",
+      links: [
+        { label: "Home", href: "/" },
+        { label: "About", href: "/about" },
+        { label: "Pricing", href: "/pricing" },
+        { label: "Blog", href: "/blog" },
+        { label: "Contact", href: "/contact" },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { label: "Privacy", href: "/privacy" },
+        { label: "Terms", href: "/terms" },
+      ],
+    },
+    {
+      title: "Elsewhere",
+      links: [
+        {
+          label: "LinkedIn",
+          href: "https://www.linkedin.com/in/sachu-s-nair",
+          external: true,
+        },
+      ],
+    },
   ],
 } as const;
 

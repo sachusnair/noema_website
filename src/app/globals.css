@@ -378,3 +378,104 @@ body {
     overflow-x: auto;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Blog post bodies
+   Markdown compiles to bare tags, so the styling lives here rather than in a
+   plugin. Scoped to .prose-noema so it cannot leak into the rest of the page.
+   ------------------------------------------------------------------------- */
+.prose-noema > * + * {
+  margin-top: 1.5rem;
+}
+
+.prose-noema p,
+.prose-noema li {
+  font-size: var(--text-step-3);
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--color-bone) 85%, transparent);
+}
+
+.prose-noema h2,
+.prose-noema h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-bone);
+  margin-top: 3rem;
+}
+
+.prose-noema h2 {
+  font-size: var(--text-step-5);
+}
+
+.prose-noema h3 {
+  font-size: var(--text-step-4);
+}
+
+.prose-noema ul,
+.prose-noema ol {
+  padding-left: 1.25rem;
+}
+
+.prose-noema ul {
+  list-style: disc;
+}
+
+.prose-noema ol {
+  list-style: decimal;
+}
+
+.prose-noema li + li {
+  margin-top: 0.5rem;
+}
+
+.prose-noema a {
+  color: var(--color-ember);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.prose-noema strong {
+  font-weight: 500;
+  color: var(--color-bone);
+}
+
+.prose-noema blockquote {
+  border-left: 1px solid var(--color-ash);
+  padding-left: 1.5rem;
+  color: var(--color-ash);
+}
+
+.prose-noema code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--color-carbon);
+  border: 1px solid color-mix(in srgb, var(--color-ash) 40%, transparent);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+.prose-noema pre {
+  background-color: var(--color-carbon);
+  border: 1px solid color-mix(in srgb, var(--color-ash) 40%, transparent);
+  border-radius: 4px;
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+
+.prose-noema pre code {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.prose-noema img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.prose-noema hr {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-ash) 40%, transparent);
+}
