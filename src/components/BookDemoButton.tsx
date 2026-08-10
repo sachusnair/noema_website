@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useMagnetic } from "./Sensor";
-import { site } from "@/content/site";
+import { integrations, site } from "@/content/site";
 
 declare global {
   interface Window {
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
+const CALENDLY_URL = integrations.calendlyUrl;
 const CALENDLY_SCRIPT = "https://assets.calendly.com/assets/external/widget.js";
 const CALENDLY_STYLES = "https://assets.calendly.com/assets/external/widget.css";
 

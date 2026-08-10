@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { contact, site } from "@/content/site";
+import { contact, integrations, site } from "@/content/site";
 
 /* Posts to a form service over fetch, so the page stays a static export with
    no backend of our own. The endpoint is public by design: it only accepts
@@ -10,7 +10,7 @@ import { contact, site } from "@/content/site";
    With the variable unset the form is not rendered at all and the page falls
    back to the email address, rather than showing inputs that quietly discard
    what a visitor types. */
-const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT;
+const ENDPOINT = integrations.formEndpoint;
 
 type Status = "idle" | "sending" | "sent" | "error";
 type Errors = Partial<Record<"name" | "email" | "message", string>>;

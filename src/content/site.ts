@@ -27,6 +27,25 @@ export const site = {
 
 /* The nav points at pages now rather than at anchors on a single page. The
    wordmark is the route home, so Home is not repeated as a link beside it. */
+/* Third-party endpoints.
+ *
+ * Both are baked into the client bundle at build time and are visible to
+ * anyone who views source, so neither is a secret and both are safe to keep
+ * here. They are checked in as defaults rather than left to environment
+ * variables alone: a host that has not had its variables configured would
+ * otherwise silently ship a site with no contact form and demo buttons that
+ * fall back to email, which is exactly what happened on the first deploy.
+ *
+ * Setting the environment variable still overrides the default, which is what
+ * a staging build or a different Calendly link would use. */
+export const integrations = {
+  calendlyUrl:
+    process.env.NEXT_PUBLIC_CALENDLY_URL ??
+    "https://calendly.com/sachusnair-ai/30min",
+  formEndpoint:
+    process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "https://formspree.io/f/mgawagep",
+} as const;
+
 export const nav = {
   links: [
     { label: "About", href: "/about" },
