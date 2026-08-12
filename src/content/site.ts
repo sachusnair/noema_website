@@ -5,9 +5,9 @@
  */
 
 /** Timestamps on the left time rail. They mark where in the overnight cycle
- *  each section sits, so they are content, not decoration. */
+ *  each section sits, so they are content, not decoration.
+ *  The hero has no mark: the rail runs past it unlabelled. */
 export const railTimes = {
-  hero: "22:00",
   problem: "01:00",
   notAChatbot: "04:00",
   theBrief: "06:30",
@@ -25,8 +25,6 @@ export const site = {
     "Noema reads your whole UK business overnight and hands you the decisions that matter at 08:00, ranked, with the reason attached.",
 } as const;
 
-/* The nav points at pages now rather than at anchors on a single page. The
-   wordmark is the route home, so Home is not repeated as a link beside it. */
 /* Third-party endpoints.
  *
  * Both are baked into the client bundle at build time and are visible to
@@ -46,6 +44,8 @@ export const integrations = {
     process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "https://formspree.io/f/mgawagep",
 } as const;
 
+/* The nav points at pages rather than at anchors on a single page. The
+   wordmark is the route home, so Home is not repeated as a link beside it. */
 export const nav = {
   links: [
     { label: "About", href: "/about" },
@@ -62,10 +62,8 @@ export const nav = {
 export const hero = {
   eyebrow: "INTRODUCING",
   h1: "The superbrain of the company.",
-  sub: "Noema reads your whole business overnight. At 08:00 you get the decisions that matter, ranked, with the reason attached.",
+  sub: "Noema is an AI-powered super employee that knows your business, uses your tools, and proactively gets things done.",
   primaryCta: "Book a demo",
-  secondaryCta: "See what 08:00 looks like",
-  secondaryHref: "#the-brief",
 } as const;
 
 /* Email capture in the hero. Posts to the same form endpoint as the contact
@@ -80,8 +78,14 @@ export const waitlist = {
   error:
     "That did not send. Email sachu@noemabrain.com and we will add you by hand.",
   invalidEmail: "Enter an email address we can reach you on",
-  /* Sits between the waiting list and the demo button. */
-  or: "or",
+} as const;
+
+/* The hero graphic: sources feeding one core overnight. */
+export const overnightGraphic = {
+  coreTime: "08:00",
+  coreLabel: "NOEMA",
+  caption: "Every system, every night, into one brief",
+  alt: "The systems a business runs, wired into a single core that produces one brief at 08:00",
 } as const;
 
 /* -------------------------------------------------------------------------
