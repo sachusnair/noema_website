@@ -44,12 +44,13 @@ const INNER: Node[] = [
   { icon: "hubspot", label: "HubSpot", color: "#FF7A59" },
 ];
 
-/* Model and tooling layer. Codex has no mark in simple-icons, so it is set as
-   a wordmark rather than approximated. */
+/* Model and tooling layer. ChatGPT is a wordmark because OpenAI has no mark in
+   simple-icons, having asked to be removed from the set, so there is no
+   licensed version to draw and guessing at one would be worse than the name. */
 const OUTER: (Node | { label: string; text: true })[] = [
   { icon: "mcp", label: "Model Context Protocol", color: "var(--color-bone)" },
   { icon: "claude", label: "Claude", color: "#D97757" },
-  { label: "CODEX", text: true },
+  { label: "CHATGPT", text: true },
   { icon: "cursor", label: "Cursor", color: "var(--color-bone)" },
   { icon: "n8n", label: "n8n", color: "#EA4B71" },
   { icon: "gemini", label: "Google Gemini", color: "#8E75B2" },
@@ -123,6 +124,21 @@ export function OvernightGraphic() {
                 key={node.label}
                 transform={`rotate(${angle} ${CX} ${CY}) translate(${CX} ${CY - R_OUTER})`}
               >
+                {/* Signal line in to the core. Dashed and fainter than the
+                    inner ring's, so the systems Noema reads stay the primary
+                    reading and this layer sits behind them. Inner tiles are
+                    painted after, so they occlude these where they cross,
+                    which is what gives the two rings depth. */}
+                <line
+                  x1="0"
+                  y1={TILE_OUTER / 2}
+                  x2="0"
+                  y2={R_OUTER - CORE_R}
+                  stroke="var(--color-ash)"
+                  strokeOpacity="0.38"
+                  strokeWidth="1"
+                  strokeDasharray="2 5"
+                />
                 <g transform={`rotate(${-angle})`}>
                   <g className={reduced ? undefined : "orbit-counter-outer"}>
                     <rect
