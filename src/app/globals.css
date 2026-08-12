@@ -489,42 +489,64 @@ body {
   letter-spacing: 0.12em;
 }
 
-.graphic-core-time {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.08em;
+.graphic-wordmark {
+  font-family: var(--font-display);
+  font-size: 19px;
+  letter-spacing: -0.02em;
 }
 
-/* The pulse is one dash travelling the wire. Drawing it as a dash offset
-   rather than a moving element keeps it on the path however the path bends. */
-.graphic-pulse {
-  stroke-dasharray: 26 400;
-  animation: graphic-pulse 1.1s linear infinite;
+/* The ring turns clockwise; each tile turns anticlockwise by exactly as much,
+   so the logos stay upright instead of tumbling. Both run at the same duration
+   and start together, so they cancel exactly. */
+.orbit-spin {
+  animation: orbit-spin 48s linear infinite;
 }
 
-@keyframes graphic-pulse {
-  from {
-    stroke-dashoffset: 426;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+.orbit-counter {
+  /* fill-box so the origin is the tile's own centre, wherever it sits. */
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbit-counter 48s linear infinite;
 }
 
-.graphic-ring {
-  transform-origin: 200px 150px;
-  animation: graphic-ring 24s linear infinite;
-}
-
-@keyframes graphic-ring {
+@keyframes orbit-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
+@keyframes orbit-counter {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* The pulse: one dash travelling the spoke inward to the core. */
+.orbit-pulse {
+  /* The spoke is 57 units long. The dash starts just before the tile end and
+     runs past the core end, so it reads as one travelling pulse. */
+  stroke-dasharray: 14 200;
+  animation: orbit-pulse 1.2s linear infinite;
+}
+
+@keyframes orbit-pulse {
+  from {
+    stroke-dashoffset: 14;
+  }
+  to {
+    stroke-dashoffset: -57;
+  }
+}
+
+.orbit-ring {
+  animation: orbit-spin 24s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .graphic-pulse,
-  .graphic-ring {
+  .orbit-spin,
+  .orbit-counter,
+  .orbit-pulse,
+  .orbit-ring {
     animation: none !important;
   }
 }

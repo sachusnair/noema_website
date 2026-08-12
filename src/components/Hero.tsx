@@ -9,8 +9,10 @@ import { hero } from "@/content/site";
    overnight cycle is picked up from the next section down. */
 export function Hero() {
   return (
-    <RailSection id="top" className="pt-14 pb-24 lg:pt-24 lg:pb-32">
-      <div className="grid-12 items-start gap-y-14">
+    <RailSection id="top" fill className="pt-14 pb-24 lg:py-16">
+      {/* items-center rather than items-start: the graphic is taller than the
+          text column, and aligning to the top left the copy stranded high. */}
+      <div className="grid-12 items-center gap-y-14">
         <div className="col-span-12 lg:col-span-6">
           <Reveal>
             <p className="type-mono text-ash">{hero.eyebrow}</p>
@@ -40,8 +42,12 @@ export function Hero() {
         {/* The graphic replaces the brief card here. The card itself still
             carries the product in section 4, where it has room for five rows
             and the evidence trail. */}
+        {/* Capped so the graphic sits level with the text column rather than
+            running past it and unbalancing the row. */}
         <div className="col-span-12 lg:col-span-6 lg:pl-6">
-          <OvernightGraphic />
+          <div className="mx-auto w-full max-w-[30rem]">
+            <OvernightGraphic />
+          </div>
         </div>
       </div>
     </RailSection>

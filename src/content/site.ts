@@ -82,10 +82,8 @@ export const waitlist = {
 
 /* The hero graphic: sources feeding one core overnight. */
 export const overnightGraphic = {
-  coreTime: "08:00",
-  coreLabel: "NOEMA",
   caption: "Every system, every signal, into one brief.",
-  alt: "The systems a business runs, wired into a single core that produces one brief at 08:00",
+  alt: "Xero, QuickBooks, Google Workspace, Stripe, Asana and HubSpot orbiting a single core that produces one brief at 08:00",
 } as const;
 
 /* -------------------------------------------------------------------------

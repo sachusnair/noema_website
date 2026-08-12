@@ -41,6 +41,13 @@ export function hasBrandMark(slug?: string) {
   return Boolean(slug && PATHS[slug]);
 }
 
+/** The raw 24x24 path, for callers drawing inside an existing SVG. Nesting an
+ *  <svg> inside another one does not size reliably, so those callers place the
+ *  path themselves with a transform. */
+export function brandPath(slug: string) {
+  return PATHS[slug];
+}
+
 /** Draws in the current text colour, so the caller decides whether the mark
  *  carries the brand colour or the surrounding palette. */
 export function BrandMark({
