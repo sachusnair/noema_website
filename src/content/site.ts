@@ -84,7 +84,7 @@ export const waitlist = {
 export const overnightGraphic = {
   coreTime: "08:00",
   coreLabel: "NOEMA",
-  caption: "Every system, every night, into one brief",
+  caption: "Every system, every signal, into one brief.",
   alt: "The systems a business runs, wired into a single core that produces one brief at 08:00",
 } as const;
 
