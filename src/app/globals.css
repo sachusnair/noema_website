@@ -542,9 +542,24 @@ body {
   animation: orbit-spin 24s linear infinite;
 }
 
+/* Outer ring turns the other way and slower, so the two layers read as
+   separate things rather than one locked assembly. Its tiles counter-rotate
+   clockwise by the same amount, keeping the logos upright. */
+.orbit-spin-outer {
+  animation: orbit-counter 72s linear infinite;
+}
+
+.orbit-counter-outer {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbit-spin 72s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .orbit-spin,
   .orbit-counter,
+  .orbit-spin-outer,
+  .orbit-counter-outer,
   .orbit-pulse,
   .orbit-ring {
     animation: none !important;

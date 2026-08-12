@@ -5,36 +5,54 @@ import { useReducedMotion } from "framer-motion";
 import { brandPath } from "./BrandMark";
 import { overnightGraphic, site } from "@/content/site";
 
-/* The hero visual: the systems a business runs, orbiting a single core that
-   produces one brief.
+/* The hero visual: two rings turning around the Noema wordmark.
 
-   Built as flat vector rather than the glossy isometric render it is modelled
-   on. A saturated blue 3D object would fight the one-accent rule the rest of
-   the page holds to, so this is drawn in the site's palette with each brand
-   mark in its own colour.
+   Inner ring, clockwise: the business systems Noema reads.
+   Outer ring, anticlockwise: the model and tooling layer it runs on. The two
+   turn opposite ways so the layers stay legible as separate things rather
+   than looking locked together.
 
-   The ring turns clockwise. Each tile counter-rotates by exactly the same
-   amount, so the logos stay upright rather than tumbling as they go round. */
+   Every tile counter-rotates by exactly its own ring's amount, so the logos
+   stay upright the whole way round. Flat vector in the site's palette, each
+   mark in its own brand colour. */
 
-const CX = 200;
-const CY = 170;
-/** Orbit radius. */
-const R = 126;
-const TILE_W = 54;
-const TILE_H = 54;
-const CORE_R = 42;
+const CX = 240;
+const CY = 240;
+const R_INNER = 122;
+const R_OUTER = 198;
+const TILE_INNER = 52;
+const TILE_OUTER = 44;
+const CORE_R = 44;
 
-/* Every system here has a real mark available under a licence we can use.
-   Outlook and Slack are deliberately absent: neither has a mark in
-   simple-icons, both having been removed at the brand's request, and a text
-   tile among five logos would read as a mistake. */
-const NODES = [
+type Node = {
+  icon: string;
+  label: string;
+  /** Brand colour. Marks whose own colour is black are drawn in bone instead:
+   *  pure black is invisible on this background, and both of those brands
+   *  publish a light version for dark surfaces. */
+  color: string;
+};
+
+/* Business systems. Every one has a mark available under a licence we can
+   use. Outlook and Slack are absent because neither does. */
+const INNER: Node[] = [
   { icon: "xero", label: "Xero", color: "#13B5EA" },
   { icon: "quickbooks", label: "QuickBooks", color: "#2CA01C" },
   { icon: "google", label: "Google Workspace", color: "#4285F4" },
   { icon: "stripe", label: "Stripe", color: "#635BFF" },
   { icon: "asana", label: "Asana", color: "#F06A6A" },
   { icon: "hubspot", label: "HubSpot", color: "#FF7A59" },
+];
+
+/* Model and tooling layer. Codex has no mark in simple-icons, so it is set as
+   a wordmark rather than approximated. */
+const OUTER: (Node | { label: string; text: true })[] = [
+  { icon: "mcp", label: "Model Context Protocol", color: "var(--color-bone)" },
+  { icon: "claude", label: "Claude", color: "#D97757" },
+  { label: "CODEX", text: true },
+  { icon: "cursor", label: "Cursor", color: "var(--color-bone)" },
+  { icon: "n8n", label: "n8n", color: "#EA4B71" },
+  { icon: "gemini", label: "Google Gemini", color: "#8E75B2" },
 ];
 
 export function OvernightGraphic() {
@@ -48,7 +66,7 @@ export function OvernightGraphic() {
     // six things pulsing at once.
     const id = window.setInterval(() => {
       tick.current += 1;
-      setActive(tick.current % NODES.length);
+      setActive(tick.current % INNER.length);
     }, 1200);
     return () => window.clearInterval(id);
   }, [reduced]);
@@ -56,7 +74,7 @@ export function OvernightGraphic() {
   return (
     <figure className="m-0">
       <svg
-        viewBox="0 0 400 340"
+        viewBox="0 0 480 480"
         className="w-full"
         role="img"
         aria-label={overnightGraphic.alt}
@@ -70,39 +88,96 @@ export function OvernightGraphic() {
           </radialGradient>
         </defs>
 
-        {/* Orbit guide, so the ring reads as a path rather than six loose
-            tiles that happen to be moving. */}
+        {/* Orbit guides, so each ring reads as a path rather than loose tiles
+            that happen to be moving. */}
         <circle
           cx={CX}
           cy={CY}
-          r={R}
+          r={R_INNER}
           fill="none"
           stroke="var(--color-ash)"
           strokeOpacity="0.16"
           strokeWidth="1"
         />
+        <circle
+          cx={CX}
+          cy={CY}
+          r={R_OUTER}
+          fill="none"
+          stroke="var(--color-ash)"
+          strokeOpacity="0.1"
+          strokeWidth="1"
+          strokeDasharray="2 6"
+        />
 
+        {/* Outer ring, anticlockwise. Offset half a step so its tiles sit in
+            the gaps of the inner ring rather than shadowing them. */}
+        <g
+          className={reduced ? undefined : "orbit-spin-outer"}
+          style={{ transformOrigin: `${CX}px ${CY}px` }}
+        >
+          {OUTER.map((node, index) => {
+            const angle = (360 / OUTER.length) * index + 360 / (OUTER.length * 2);
+            return (
+              <g
+                key={node.label}
+                transform={`rotate(${angle} ${CX} ${CY}) translate(${CX} ${CY - R_OUTER})`}
+              >
+                <g transform={`rotate(${-angle})`}>
+                  <g className={reduced ? undefined : "orbit-counter-outer"}>
+                    <rect
+                      x={-TILE_OUTER / 2}
+                      y={-TILE_OUTER / 2}
+                      width={TILE_OUTER}
+                      height={TILE_OUTER}
+                      rx="4"
+                      fill="var(--color-void)"
+                      stroke="var(--color-ash)"
+                      strokeOpacity="0.35"
+                    />
+                    {"text" in node ? (
+                      <text
+                        y="3"
+                        textAnchor="middle"
+                        fill="var(--color-ash)"
+                        className="graphic-label"
+                      >
+                        {node.label}
+                      </text>
+                    ) : (
+                      <g
+                        transform={`translate(-9 -9) scale(${18 / 24})`}
+                        opacity="0.85"
+                      >
+                        <path d={brandPath(node.icon)} fill={node.color} />
+                      </g>
+                    )}
+                  </g>
+                </g>
+              </g>
+            );
+          })}
+        </g>
+
+        {/* Inner ring, clockwise. */}
         <g
           className={reduced ? undefined : "orbit-spin"}
           style={{ transformOrigin: `${CX}px ${CY}px` }}
         >
-          {NODES.map((node, index) => {
-            const angle = (360 / NODES.length) * index;
+          {INNER.map((node, index) => {
+            const angle = (360 / INNER.length) * index;
             const isActive = !reduced && index === active;
             /* Local origin is the tile; after the translate the core lies at
                +R on this axis, so the spoke runs down from the tile's inner
                edge to the core's rim. */
-            const wireStart = TILE_H / 2;
-            const wireEnd = R - CORE_R;
+            const wireStart = TILE_INNER / 2;
+            const wireEnd = R_INNER - CORE_R;
 
             return (
-              // Placed on the ring: rotate about the core, then step outward.
               <g
                 key={node.label}
-                transform={`rotate(${angle} ${CX} ${CY}) translate(${CX} ${CY - R})`}
+                transform={`rotate(${angle} ${CX} ${CY}) translate(${CX} ${CY - R_INNER})`}
               >
-                {/* Spoke, drawn before the counter-rotation so it stays
-                    radial as the ring turns. */}
                 <line
                   x1="0"
                   y1={wireStart}
@@ -131,10 +206,10 @@ export function OvernightGraphic() {
                 <g transform={`rotate(${-angle})`}>
                   <g className={reduced ? undefined : "orbit-counter"}>
                     <rect
-                      x={-TILE_W / 2}
-                      y={-TILE_H / 2}
-                      width={TILE_W}
-                      height={TILE_H}
+                      x={-TILE_INNER / 2}
+                      y={-TILE_INNER / 2}
+                      width={TILE_INNER}
+                      height={TILE_INNER}
                       rx="4"
                       fill="var(--color-carbon)"
                       stroke={
@@ -143,9 +218,8 @@ export function OvernightGraphic() {
                       strokeOpacity={isActive ? 1 : 0.4}
                       className="transition-all duration-500"
                     />
-                    {/* The 24-unit path, scaled to 22 and centred by hand.
-                        A nested <svg> was tried and did not size reliably
-                        inside the parent's coordinate system. */}
+                    {/* The 24-unit path, scaled and centred by hand. A nested
+                        <svg> was tried and rendered at the parent's scale. */}
                     <g
                       transform={`translate(-11 -11) scale(${22 / 24})`}
                       opacity={isActive ? 1 : 0.75}
@@ -159,7 +233,7 @@ export function OvernightGraphic() {
           })}
         </g>
 
-        <circle cx={CX} cy={CY} r="64" fill="url(#core-fill)" />
+        <circle cx={CX} cy={CY} r="66" fill="url(#core-fill)" />
         <circle
           cx={CX}
           cy={CY}

@@ -1,8 +1,13 @@
 import {
   siAsana,
+  siClaude,
+  siCursor,
   siGoogle,
+  siGooglegemini,
   siHubspot,
   siInstagram,
+  siModelcontextprotocol,
+  siN8n,
   siQuickbooks,
   siSage,
   siShopify,
@@ -35,6 +40,11 @@ const PATHS: Record<string, string> = {
   x: siX.path,
   youtube: siYoutube.path,
   instagram: siInstagram.path,
+  claude: siClaude.path,
+  cursor: siCursor.path,
+  n8n: siN8n.path,
+  gemini: siGooglegemini.path,
+  mcp: siModelcontextprotocol.path,
 };
 
 export function hasBrandMark(slug?: string) {
