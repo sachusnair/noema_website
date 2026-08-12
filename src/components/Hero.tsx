@@ -2,7 +2,8 @@ import { BookDemoButton } from "./BookDemoButton";
 import { BriefCard } from "./BriefCard";
 import { Reveal } from "./Reveal";
 import { RailSection } from "./TimeRail";
-import { hero, railTimes } from "@/content/site";
+import { WaitlistForm } from "./WaitlistForm";
+import { hero, railTimes, waitlist } from "@/content/site";
 
 export function Hero() {
   return (
@@ -23,8 +24,18 @@ export function Hero() {
             <p className="mt-7 max-w-[46ch] text-step-3 text-bone/80">{hero.sub}</p>
           </Reveal>
 
+          {/* Email first, demo second. Joining the list costs one field, so it
+              is the lower-commitment ask and leads; the demo stays available
+              for anyone ready to talk now. */}
           <Reveal index={3}>
-            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <div className="mt-9">
+              <WaitlistForm />
+            </div>
+          </Reveal>
+
+          <Reveal index={4}>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <span className="type-mono text-ash">{waitlist.or}</span>
               <BookDemoButton label={hero.primaryCta} />
               <a
                 href={hero.secondaryHref}

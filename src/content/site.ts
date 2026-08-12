@@ -60,12 +60,28 @@ export const nav = {
 } as const;
 
 export const hero = {
-  eyebrow: "NOEMA · LONDON · PRE-LAUNCH",
+  eyebrow: "INTRODUCING",
   h1: "The superbrain of the company.",
   sub: "Noema reads your whole business overnight. At 08:00 you get the decisions that matter, ranked, with the reason attached.",
   primaryCta: "Book a demo",
   secondaryCta: "See what 08:00 looks like",
   secondaryHref: "#the-brief",
+} as const;
+
+/* Email capture in the hero. Posts to the same form endpoint as the contact
+   page, tagged so the two are distinguishable in one inbox rather than needing
+   a second form to administer. */
+export const waitlist = {
+  label: "Your email",
+  placeholder: "you@company.co.uk",
+  submit: "Join waiting list",
+  sending: "Joining",
+  success: "You are on the list. We will be in touch before we open up.",
+  error:
+    "That did not send. Email sachu@noemabrain.com and we will add you by hand.",
+  invalidEmail: "Enter an email address we can reach you on",
+  /* Sits between the waiting list and the demo button. */
+  or: "or",
 } as const;
 
 /* -------------------------------------------------------------------------
