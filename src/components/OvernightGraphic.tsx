@@ -33,6 +33,11 @@ type Node = {
   color: string;
 };
 
+/** A brand with no licensed mark in simple-icons. `file` points at an official
+ *  asset placed in /public by hand; until one is there the name is set in type
+ *  rather than approximated. */
+type FileNode = { label: string; text: true; file?: string };
+
 /* Business systems. Every one has a mark available under a licence we can
    use. Outlook and Slack are absent because neither does. */
 const INNER: Node[] = [
@@ -47,28 +52,81 @@ const INNER: Node[] = [
 /* Model and tooling layer. ChatGPT is a wordmark because OpenAI has no mark in
    simple-icons, having asked to be removed from the set, so there is no
    licensed version to draw and guessing at one would be worse than the name. */
-const OUTER: (Node | { label: string; text: true })[] = [
+const OUTER: (Node | FileNode)[] = [
   { icon: "mcp", label: "Model Context Protocol", color: "var(--color-bone)" },
   { icon: "claude", label: "Claude", color: "#D97757" },
+  /* Drop the official SVG into /public and set file to its path, for example
+     file: "/chatgpt.svg", and the tile switches from type to the mark. */
   { label: "CHATGPT", text: true },
   { icon: "cursor", label: "Cursor", color: "var(--color-bone)" },
   { icon: "n8n", label: "n8n", color: "#EA4B71" },
   { icon: "gemini", label: "Google Gemini", color: "#8E75B2" },
 ];
 
+/* One pulse per spoke, alternating direction around the ring: neighbours run
+   opposite ways, so both readings are visible at once. Inbound is Noema
+   reading a system, outbound is Noema acting on it.
+
+   The phase flips each cycle, so every line breathes in and then out rather
+   than being permanently one way. */
+function Spoke({
+  from,
+  to,
+  inbound,
+  reduced,
+  dashed,
+}: {
+  from: number;
+  to: number;
+  inbound: boolean;
+  reduced: boolean;
+  dashed?: boolean;
+}) {
+  const length = to - from;
+  return (
+    <>
+      <line
+        x1="0"
+        y1={from}
+        x2="0"
+        y2={to}
+        stroke="var(--color-ash)"
+        strokeOpacity={dashed ? 0.38 : 0.28}
+        strokeWidth="1"
+        strokeDasharray={dashed ? "2 5" : undefined}
+      />
+      {reduced ? null : (
+        <line
+          x1="0"
+          y1={from}
+          x2="0"
+          y2={to}
+          // Ember reads in, bone reads out. Bone is already the body colour,
+          // so the second direction costs no new accent.
+          stroke={inbound ? "var(--color-ember)" : "var(--color-bone)"}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          className={inbound ? "orbit-pulse-in" : "orbit-pulse-out"}
+          style={{ ["--len" as string]: `${length}px` }}
+        />
+      )}
+    </>
+  );
+}
+
 export function OvernightGraphic() {
   const reduced = useReducedMotion();
-  const [active, setActive] = useState(0);
+  const [phase, setPhase] = useState(0);
   const tick = useRef(0);
 
   useEffect(() => {
     if (reduced) return;
-    // One system sends at a time, so the sequence can be followed rather than
-    // six things pulsing at once.
+    // Matches the pulse duration, so a line reverses only once its current
+    // pulse has finished travelling.
     const id = window.setInterval(() => {
       tick.current += 1;
-      setActive(tick.current % INNER.length);
-    }, 1200);
+      setPhase(tick.current % 2);
+    }, 1800);
     return () => window.clearInterval(id);
   }, [reduced]);
 
@@ -124,20 +182,15 @@ export function OvernightGraphic() {
                 key={node.label}
                 transform={`rotate(${angle} ${CX} ${CY}) translate(${CX} ${CY - R_OUTER})`}
               >
-                {/* Signal line in to the core. Dashed and fainter than the
-                    inner ring's, so the systems Noema reads stay the primary
-                    reading and this layer sits behind them. Inner tiles are
-                    painted after, so they occlude these where they cross,
-                    which is what gives the two rings depth. */}
-                <line
-                  x1="0"
-                  y1={TILE_OUTER / 2}
-                  x2="0"
-                  y2={R_OUTER - CORE_R}
-                  stroke="var(--color-ash)"
-                  strokeOpacity="0.38"
-                  strokeWidth="1"
-                  strokeDasharray="2 5"
+                {/* Dashed, so this layer sits behind the inner ring's solid
+                    lines. Inner tiles are painted after, so they occlude
+                    these where they cross, which gives the rings depth. */}
+                <Spoke
+                  from={TILE_OUTER / 2}
+                  to={R_OUTER - CORE_R}
+                  inbound={(index + phase) % 2 === 0}
+                  reduced={Boolean(reduced)}
+                  dashed
                 />
                 <g transform={`rotate(${-angle})`}>
                   <g className={reduced ? undefined : "orbit-counter-outer"}>
@@ -151,7 +204,18 @@ export function OvernightGraphic() {
                       stroke="var(--color-ash)"
                       strokeOpacity="0.35"
                     />
-                    {"text" in node ? (
+                    {"text" in node && node.file ? (
+                      /* An official asset from /public. <image> takes explicit
+                         width and height, so unlike a nested <svg> it sizes
+                         predictably inside the parent's coordinate system. */
+                      <image
+                        href={node.file}
+                        x="-9"
+                        y="-9"
+                        width="18"
+                        height="18"
+                      />
+                    ) : "text" in node ? (
                       <text
                         y="3"
                         textAnchor="middle"
@@ -182,40 +246,22 @@ export function OvernightGraphic() {
         >
           {INNER.map((node, index) => {
             const angle = (360 / INNER.length) * index;
-            const isActive = !reduced && index === active;
             /* Local origin is the tile; after the translate the core lies at
                +R on this axis, so the spoke runs down from the tile's inner
                edge to the core's rim. */
-            const wireStart = TILE_INNER / 2;
-            const wireEnd = R_INNER - CORE_R;
+            const inbound = (index + phase) % 2 === 0;
 
             return (
               <g
                 key={node.label}
                 transform={`rotate(${angle} ${CX} ${CY}) translate(${CX} ${CY - R_INNER})`}
               >
-                <line
-                  x1="0"
-                  y1={wireStart}
-                  x2="0"
-                  y2={wireEnd}
-                  stroke="var(--color-ash)"
-                  strokeOpacity={isActive ? 0.8 : 0.28}
-                  strokeWidth="1"
-                  className="transition-[stroke-opacity] duration-500"
+                <Spoke
+                  from={TILE_INNER / 2}
+                  to={R_INNER - CORE_R}
+                  inbound={inbound}
+                  reduced={Boolean(reduced)}
                 />
-                {isActive ? (
-                  <line
-                    x1="0"
-                    y1={wireStart}
-                    x2="0"
-                    y2={wireEnd}
-                    stroke="var(--color-ember)"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    className="orbit-pulse"
-                  />
-                ) : null}
 
                 {/* Undo the placement rotation, then cancel the ring's turn,
                     so the tile is upright at every moment. */}
@@ -228,18 +274,17 @@ export function OvernightGraphic() {
                       height={TILE_INNER}
                       rx="4"
                       fill="var(--color-carbon)"
+                      /* Border follows the direction currently on this spoke,
+                         so a tile reads as sending or receiving. */
                       stroke={
-                        isActive ? "var(--color-ember)" : "var(--color-ash)"
+                        inbound ? "var(--color-ember)" : "var(--color-ash)"
                       }
-                      strokeOpacity={isActive ? 1 : 0.4}
-                      className="transition-all duration-500"
+                      strokeOpacity={inbound ? 0.9 : 0.45}
+                      className="transition-all duration-700"
                     />
                     {/* The 24-unit path, scaled and centred by hand. A nested
                         <svg> was tried and rendered at the parent's scale. */}
-                    <g
-                      transform={`translate(-11 -11) scale(${22 / 24})`}
-                      opacity={isActive ? 1 : 0.75}
-                    >
+                    <g transform={`translate(-11 -11) scale(${22 / 24})`}>
                       <path d={brandPath(node.icon)} fill={node.color} />
                     </g>
                   </g>

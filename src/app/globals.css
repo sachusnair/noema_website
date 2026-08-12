@@ -521,12 +521,17 @@ body {
   }
 }
 
-/* The pulse: one dash travelling the spoke inward to the core. */
-.orbit-pulse {
-  /* The spoke is 57 units long. The dash starts just before the tile end and
-     runs past the core end, so it reads as one travelling pulse. */
-  stroke-dasharray: 14 200;
-  animation: orbit-pulse 1.2s linear infinite;
+/* One dash travelling a spoke. Spoke lengths differ between the two rings, so
+   each line passes its own length in --len and the keyframes read it. */
+.orbit-pulse-in,
+.orbit-pulse-out {
+  stroke-dasharray: 14 400;
+  animation: orbit-pulse 1.8s linear infinite;
+}
+
+/* Outbound is the same travel played backwards: core to tile. */
+.orbit-pulse-out {
+  animation-direction: reverse;
 }
 
 @keyframes orbit-pulse {
@@ -534,7 +539,7 @@ body {
     stroke-dashoffset: 14;
   }
   to {
-    stroke-dashoffset: -57;
+    stroke-dashoffset: calc(-1 * var(--len));
   }
 }
 
@@ -560,7 +565,8 @@ body {
   .orbit-counter,
   .orbit-spin-outer,
   .orbit-counter-outer,
-  .orbit-pulse,
+  .orbit-pulse-in,
+  .orbit-pulse-out,
   .orbit-ring {
     animation: none !important;
   }
