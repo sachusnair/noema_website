@@ -8,7 +8,6 @@
  *  each section sits, so they are content, not decoration.
  *  The hero has no mark: the rail runs past it unlabelled. */
 export const railTimes = {
-  problem: "01:00",
   notAChatbot: "04:00",
   theBrief: "06:30",
   howItWorks: "08:00",
@@ -171,20 +170,8 @@ export const briefRows: BriefRow[] = [
    ------------------------------------------------------------------------- */
 
 export const problem = {
-  eyebrow: "THE 08:00 PROBLEM",
-  h2: "Your morning starts with a search.",
-  columns: [
-    "You open the accounting system, the inbox, the job sheet, two spreadsheets and a group chat. You message three people to find out what actually happened yesterday. By eleven you have a picture of the business. It is already out of date.",
-    "Nothing here is broken. The information exists. It is just spread across nine places and nobody owns the job of putting it together. So the most expensive person in the building spends the sharpest part of their day assembling it by hand.",
-  ],
-  /* Framed as the questions the operator is actually asking. There is no
-     customer data to draw on, so nothing here is presented as a statistic. */
-  questions: [
-    "Who is overdue?",
-    "What slipped?",
-    "What did we promise?",
-    "What needs me today?",
-  ],
+  h2: "Noema runs your business while you focus on growing it.",
+  body: "From emails and content to finances and business intelligence, Noema handles the work, connects the dots, and keeps everything moving 24/7. Not automation. Your business\u2019s AI brain.",
 } as const;
 
 export const notAChatbot = {
