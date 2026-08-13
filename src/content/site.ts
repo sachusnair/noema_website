@@ -8,7 +8,6 @@
  *  each section sits, so they are content, not decoration.
  *  The hero has no mark: the rail runs past it unlabelled. */
 export const railTimes = {
-  notAChatbot: "04:00",
   theBrief: "06:30",
   howItWorks: "08:00",
 } as const;
@@ -219,27 +218,60 @@ export const adapts = {
   ctaHref: "/about",
 } as const;
 
-export const notAChatbot = {
-  eyebrow: "WHAT NOEMA IS NOT",
-  h2: "A chatbot waits to be asked. Noema has already looked.",
-  left: {
-    title: "A tool you query",
-    points: [
-      "You have to know the question",
-      "You have to know where to look",
-      "You get an answer",
-      "It forgets by tomorrow",
+/* Replaces the chatbot comparison. Same job, a side by side, but told as one
+   morning lived twice rather than as a feature list. */
+export const difference = {
+  eyebrow: "HERE\u2019S THE DIFFERENCE",
+  h2: "Without Noema, your everyday starts with catching up.",
+  before: {
+    label: "Before",
+    meta: "2 hours gone",
+    items: [
+      "You open your laptop. 47 unread emails. You start figuring out what needs your attention.",
+      "You jump between inboxes, spreadsheets, dashboards and Slack trying to piece together what happened overnight.",
+      "You check your payments. Then your bank. Then your sales numbers. Something doesn\u2019t add up. You start reconciling it yourself.",
+      "You remember the LinkedIn post you meant to publish Friday. It\u2019s Monday already.",
+      "A customer issue came in over the weekend. You flag it for later. Then another one arrives.",
+      "By 11am, you\u2019re still catching up instead of moving the business forward.",
     ],
   },
-  right: {
-    title: "A brief you receive",
-    points: [
-      "It reads everything on a schedule",
-      "It decides what is worth your attention",
-      "It explains why",
-      "It remembers what it told you last week",
+  after: {
+    label: "After",
+    meta: "Running \u00b7 15 min",
+    items: [
+      {
+        time: "7:30am",
+        body: "Your morning brief is waiting. Overnight activity, priorities, risks and anything requiring your attention, already pulled together.",
+      },
+      {
+        time: "8:00am",
+        body: "Your emails are sorted. Routine replies are drafted in your voice. You approve the ones that need you.",
+      },
+      {
+        time: "8:30am",
+        body: "Your numbers are already reconciled. Revenue, payments, marketing spend and key business metrics, one view, no spreadsheet hunt.",
+      },
+      {
+        time: "9:00am",
+        body: "Your content is ready. Today\u2019s post is drafted, your latest campaign is prepared, and anything waiting for approval is clearly flagged.",
+      },
+      {
+        time: "9:15am",
+        body: "An operational issue appears. Noema has already identified the problem, prepared the fix and is waiting for your approval to execute.",
+      },
+      {
+        time: "9:30am",
+        body: "You start building. Noema keeps the business moving.",
+      },
     ],
   },
+  closingLabel: "The difference",
+  closing: [
+    "You stop running after the business.",
+    "Your business starts running with you.",
+  ],
+  ctaQuestion: "Want your everyday to look like this?",
+  ctaLabel: "Get Noema",
 } as const;
 
 export const theBrief = {
