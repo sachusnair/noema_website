@@ -55,9 +55,10 @@ const INNER: Node[] = [
 const OUTER: (Node | FileNode)[] = [
   { icon: "mcp", label: "Model Context Protocol", color: "var(--color-bone)" },
   { icon: "claude", label: "Claude", color: "#D97757" },
-  /* Drop the official SVG into /public and set file to its path, for example
-     file: "/chatgpt.svg", and the tile switches from type to the mark. */
-  { label: "CHATGPT", text: true },
+  /* OpenAI's official mark, supplied by the client. Recoloured to bone on
+     transparency, since the published asset is black on white and both of
+     those are wrong on this background. */
+  { label: "ChatGPT", text: true, file: "/chatgpt.png" },
   { icon: "cursor", label: "Cursor", color: "var(--color-bone)" },
   { icon: "n8n", label: "n8n", color: "#EA4B71" },
   { icon: "gemini", label: "Google Gemini", color: "#8E75B2" },
