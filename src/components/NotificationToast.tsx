@@ -29,6 +29,7 @@ export function NotificationToast() {
   const closeTimer = useRef<number | undefined>(undefined);
   const rootRef = useRef<HTMLDivElement>(null);
   const headingId = useId();
+  const [maxHeight, setMaxHeight] = useState<number>();
 
   // Held until the section is actually on screen, so the arrival is not spent
   // above the fold before anyone has scrolled down to it.
@@ -54,6 +55,21 @@ export function NotificationToast() {
   }, []);
 
   useEffect(() => () => window.clearTimeout(closeTimer.current), []);
+
+  /* The card is anchored to the pill, so how much room it has depends on where
+     the pill currently sits. A CSS cap cannot know that: on a 720px-high
+     laptop the card ran 96px past the fold even with one set. Measured on open
+     and on resize instead, so it can never extend below the viewport. */
+  useEffect(() => {
+    if (!open) return;
+    const measure = () => {
+      const top = rootRef.current?.getBoundingClientRect().top ?? 0;
+      setMaxHeight(Math.max(240, window.innerHeight - top - 24));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [open]);
 
   // Escape closes whether it was opened by pointer, focus or tap.
   useEffect(() => {
@@ -108,7 +124,8 @@ export function NotificationToast() {
           aria-labelledby={headingId}
           /* Overlaid rather than inline: expanding in flow would shove the
              heading down the page every time a pointer crossed it. */
-          className="notification-card absolute top-0 left-0 w-[min(88vw,26rem)] overflow-hidden rounded-default border border-ember/60 bg-carbon shadow-[0_1px_2px_rgba(8,23,46,0.06)]"
+          style={{ maxHeight }}
+          className="notification-card absolute top-0 left-0 w-[min(88vw,30rem)] overflow-y-auto rounded-default border border-ember/60 bg-carbon shadow-[0_1px_2px_rgba(8,23,46,0.06)]"
         >
           <AlertCard onDismiss={dismiss} headingId={headingId} />
         </div>
