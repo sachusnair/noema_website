@@ -47,9 +47,11 @@ export const integrations = {
 /* The nav points at pages rather than at anchors on a single page. The
    wordmark is the route home, so Home is not repeated as a link beside it. */
 export const nav = {
+  /* Pricing is parked while pre-launch. Its page lives at src/app/_pricing and
+     its copy is still below under `pricing`; put the link back here to
+     restore it. */
   links: [
     { label: "About", href: "/about" },
-    { label: "Pricing", href: "/pricing" },
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
   ],
@@ -653,7 +655,6 @@ export const footer = {
       links: [
         { label: "Home", href: "/" },
         { label: "About", href: "/about" },
-        { label: "Pricing", href: "/pricing" },
         { label: "Blog", href: "/blog" },
         { label: "Contact", href: "/contact" },
       ],

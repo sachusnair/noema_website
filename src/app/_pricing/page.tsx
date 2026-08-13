@@ -1,3 +1,16 @@
+/* PARKED PAGE — rename this folder from _pricing to pricing to switch it on.
+ *
+ * Next ignores folders beginning with an underscore, so the page is complete
+ * but not routed. Taken off the site on request while pre-launch.
+ *
+ * To restore:
+ *
+ *     git mv src/app/_pricing src/app/pricing
+ *
+ * then put Pricing back into nav.links and the footer Pages column in
+ * src/content/site.ts, and back into src/app/sitemap.ts. The copy itself is
+ * still in site.ts under `pricing`, untouched.
+ */
 import type { Metadata } from "next";
 import { BookDemoButton } from "@/components/BookDemoButton";
 import { PageShell } from "@/components/PageShell";

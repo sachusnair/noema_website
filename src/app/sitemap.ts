@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: site.url, priority: 1, changeFrequency: "monthly" },
     { url: `${site.url}/about`, priority: 0.8, changeFrequency: "monthly" },
-    { url: `${site.url}/pricing`, priority: 0.8, changeFrequency: "monthly" },
+    /* Pricing is parked; add it back here when src/app/_pricing is renamed. */
     { url: `${site.url}/contact`, priority: 0.8, changeFrequency: "monthly" },
     { url: `${site.url}/blog`, priority: 0.6, changeFrequency: "weekly" },
     ...posts,
