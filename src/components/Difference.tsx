@@ -3,12 +3,11 @@ import { Reveal } from "./Reveal";
 import { RailSection } from "./TimeRail";
 import { difference } from "@/content/site";
 
-/* One morning lived twice, side by side.
+/* One morning lived twice.
 
-   The conclusion sits beside the heading rather than under the columns: the
-   claim and its payoff read together at the top, and the two mornings below
-   are the evidence. Stacked, the section ran to 1374px, so the payoff was two
-   screens from the promise.
+   The two statements run the full width as single lines, top and bottom, with
+   the mornings between them: the problem, the evidence, then the payoff. Set
+   side by side they competed, and neither had the room to land.
 
    The columns are deliberately unequal in weight. Before is ash, crossed, and
    carries no times, so it reads as undifferentiated slog. After is bordered in
@@ -16,42 +15,21 @@ import { difference } from "@/content/site";
    else doing the work. */
 export function Difference() {
   return (
-    <RailSection id="difference" className="py-16 lg:py-20">
-      <div className="grid-12 items-start gap-y-10">
-        <div className="col-span-12 lg:col-span-6">
-          <Reveal>
-            <p className="type-mono text-ash">{difference.eyebrow}</p>
-          </Reveal>
+    <RailSection id="difference" className="py-14 lg:py-16">
+      <Reveal>
+        <p className="type-mono text-ash">{difference.eyebrow}</p>
+      </Reveal>
 
-          <Reveal index={1}>
-            <h2 className="type-display-s mt-4 max-w-[20ch]">{difference.h2}</h2>
-          </Reveal>
-        </div>
+      {/* max-w-none and a smaller step than the other section headings, so it
+          holds one line across the full column rather than wrapping to three. */}
+      <Reveal index={1}>
+        <h2 className="type-display-s mt-4 max-w-none text-balance">
+          {difference.h2}
+        </h2>
+      </Reveal>
 
-        <div className="col-span-12 lg:col-span-6 lg:border-l lg:border-ash/30 lg:pl-10">
-          {/* No eyebrow on this column: the heading opposite already labels
-              the section, and a second one beside it read as a subheading for
-              something that is really the answer to the first. */}
-          <Reveal index={3}>
-            <p className="type-display-s max-w-[24ch]">
-              {difference.closing[0]}{" "}
-              <span className="text-ember">{difference.closing[1]}</span>
-            </p>
-          </Reveal>
-
-          <Reveal index={4}>
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <p className="text-step-2 text-bone/80">
-                {difference.ctaQuestion}
-              </p>
-              <BookDemoButton label={difference.ctaLabel} />
-            </div>
-          </Reveal>
-        </div>
-      </div>
-
-      <div className="mt-10 grid gap-4 lg:grid-cols-2">
-        <Reveal index={5}>
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+        <Reveal index={2}>
           <div className="flex h-full flex-col rounded-default border border-ash/40 p-5 lg:p-6">
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-ash/30 pb-3">
               <h3 className="type-mono text-ash">{difference.before.label}</h3>
@@ -79,7 +57,7 @@ export function Difference() {
           </div>
         </Reveal>
 
-        <Reveal index={6}>
+        <Reveal index={3}>
           <div className="flex h-full flex-col rounded-default border border-ember/50 bg-carbon p-5 lg:p-6">
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-ash/30 pb-3">
               <h3 className="type-mono text-ember">{difference.after.label}</h3>
@@ -109,6 +87,23 @@ export function Difference() {
                 </li>
               ))}
             </ul>
+          </div>
+        </Reveal>
+      </div>
+
+      {/* The payoff, back below the evidence and across the full width. */}
+      <div className="mt-8 border-t border-ash/30 pt-6">
+        <Reveal index={4}>
+          <p className="type-payoff max-w-none">
+            {difference.closing[0]}{" "}
+            <span className="text-ember">{difference.closing[1]}</span>
+          </p>
+        </Reveal>
+
+        <Reveal index={5}>
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <p className="text-step-2 text-bone/80">{difference.ctaQuestion}</p>
+            <BookDemoButton label={difference.ctaLabel} />
           </div>
         </Reveal>
       </div>
