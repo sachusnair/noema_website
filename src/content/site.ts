@@ -363,12 +363,13 @@ export const connections = {
   h2: "It reads the stack you already run.",
   sub: "Noema is built to connect to the tools UK businesses actually use. If yours is not here and it has an API, tell us and we will build it.",
   /* Each tile pairs the official brand mark with the wordmark. Marks come from
-     simple-icons; brandColor is each brand's own published value.
+     simple-icons, except Outlook and Slack, whose official icons are held in
+     /public/logos because both brands had theirs removed from that set at
+     their own request. See public/logos/SOURCES.md for provenance.
 
-     Dext, GoCardless, Outlook, Slack and Monday have no mark in the set, in
-     some cases because the brand asked to be removed from it, so they show the
-     wordmark alone. Outlook and Slack still carry a verified colour from their
-     own palettes; the other three are left neutral rather than guessed at. */
+     Dext, GoCardless and Monday still show the wordmark alone: Dext has no
+     public asset, and the other two exist only as wide wordmarks that cannot
+     read at 16px beside a text label. */
   rowA: [
     { name: "Xero", icon: "xero", brandColor: "#13B5EA" },
     { name: "Sage", icon: "sage", brandColor: "#00D639" },
@@ -378,9 +379,9 @@ export const connections = {
     { name: "GoCardless" },
   ] satisfies Tool[],
   rowB: [
-    { name: "Outlook", brandColor: "#28A8EA" },
+    { name: "Outlook", file: "/logos/outlook.svg" },
     { name: "Google Workspace", icon: "google", brandColor: "#4285F4" },
-    { name: "Slack", brandColor: "#36C5F0" },
+    { name: "Slack", file: "/logos/slack.svg" },
     { name: "WhatsApp Business", icon: "whatsapp", brandColor: "#25D366" },
     { name: "HubSpot", icon: "hubspot", brandColor: "#FF7A59" },
     { name: "Asana", icon: "asana", brandColor: "#F06A6A" },
