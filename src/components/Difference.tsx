@@ -1,4 +1,5 @@
 import { BookDemoButton } from "./BookDemoButton";
+import { LiveDot } from "./LiveDot";
 import { Reveal } from "./Reveal";
 import { RailSection } from "./TimeRail";
 import { difference } from "@/content/site";
@@ -62,7 +63,7 @@ export function Difference() {
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-ash/30 pb-3">
               <h3 className="type-mono text-ember">{difference.after.label}</h3>
               <span className="type-mono flex items-center gap-2 text-ember">
-                <span className="alert-dot" aria-hidden="true" />
+                <LiveDot />
                 {difference.after.meta}
               </span>
             </div>
