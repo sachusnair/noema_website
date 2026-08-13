@@ -174,6 +174,16 @@ export const problem = {
   body: "From emails and content to finances and business intelligence, Noema handles the work, connects the dots, and keeps everything moving 24/7. Not automation. Your business\u2019s AI brain.",
 } as const;
 
+/* Answers the objection a sceptical operator arrives with, before the page
+   asks them for anything. */
+export const adapts = {
+  question: "Will it work for your business?",
+  answer: "Absolutely.",
+  body: "Noema adapts to your business—not the other way around. It learns how you work and builds around your workflows, whether you're solo, scaling a team, technical, or not.",
+  ctaLabel: "See what Noema can handle",
+  ctaHref: "/about",
+} as const;
+
 export const notAChatbot = {
   eyebrow: "WHAT NOEMA IS NOT",
   h2: "A chatbot waits to be asked. Noema has already looked.",
