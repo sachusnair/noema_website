@@ -184,6 +184,11 @@ export const problem = {
 export const alert = {
   trigger: "Open the alert Noema raised",
   live: "1 alert",
+  /* Shown under the heading once the signal lands. The badge alone was too
+     quiet: it needs saying in words that something is waiting and that the
+     name is the thing to press. */
+  hint: "Noema raised an alert while you were reading it.",
+  hintCta: "Open it",
   badge: "Fulfilment Risk Detected",
   headline:
     "312 orders are now at risk of missing tomorrow\u2019s dispatch cutoff.",

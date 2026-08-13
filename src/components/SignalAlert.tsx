@@ -20,7 +20,13 @@ import { alert as alertCopy } from "@/content/site";
 
 type Phase = "idle" | "arriving" | "live";
 
-export function SignalAlert({ label }: { label: string }) {
+export function SignalAlert({
+  lead,
+  rest,
+}: {
+  lead: string;
+  rest: string;
+}) {
   const reduced = useReducedMotion();
   const [phase, setPhase] = useState<Phase>("idle");
   const [open, setOpen] = useState(false);
@@ -94,21 +100,49 @@ export function SignalAlert({ label }: { label: string }) {
 
   return (
     <>
-      <button
-        ref={wordRef}
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-haspopup="dialog"
-        aria-expanded={open}
+      <h2 className="type-display-m max-w-[16ch]">
+        <button
+          ref={wordRef}
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          data-phase={phase}
+          className="signal-word cursor-pointer"
+        >
+          <span className="signal-label">{lead}</span>
+        {/* A counter badge, the one notification convention everybody already
+            reads. The ping ripple runs a few times to catch the eye, then
+            stops rather than pulsing forever. */}
+          <span className="signal-badge" aria-hidden="true">
+            <span className="signal-ping" />
+            <span className="signal-count">1</span>
+          </span>
+          <span className="sr-only">
+            {", "}
+            {alertCopy.live}
+            {". "}
+            {alertCopy.trigger}
+          </span>
+        </button>
+        {rest}
+      </h2>
+
+      {/* Says in words what the badge only hints at. The badge alone was too
+          quiet for someone who has never seen this page before. */}
+      <p
         data-phase={phase}
-        className="signal-word cursor-pointer"
+        className="signal-hint type-mono mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-ash"
       >
-        {label}
-        <span className="sr-only">
-          {". "}
-          {alertCopy.trigger}
-        </span>
-      </button>
+        <span>{alertCopy.hint}</span>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="type-mono cursor-pointer text-ember underline decoration-ember/40 underline-offset-4 transition-colors duration-200 hover:decoration-ember"
+        >
+          {alertCopy.hintCta} &rarr;
+        </button>
+      </p>
 
       {open ? (
         <div className="fixed inset-0 z-[60] flex items-end justify-center p-0 sm:items-center sm:p-6">

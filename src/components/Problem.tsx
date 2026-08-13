@@ -16,10 +16,7 @@ export function Problem() {
       <div className="grid-12 gap-y-16">
         <div className="col-span-12 lg:col-span-6">
           <Reveal>
-            <h2 className="type-display-m max-w-[16ch]">
-              <SignalAlert label={problem.h2Lead} />
-              {problem.h2Rest}
-            </h2>
+            <SignalAlert lead={problem.h2Lead} rest={problem.h2Rest} />
           </Reveal>
 
           <Reveal index={1}>
