@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
+import { AlertCard } from "./AlertCard";
 import { alert as alertCopy } from "@/content/site";
 
 /* The product name in the heading is a live control. A signal travels in from
@@ -128,21 +129,6 @@ export function SignalAlert({
         {rest}
       </h2>
 
-      {/* Says in words what the badge only hints at. The badge alone was too
-          quiet for someone who has never seen this page before. */}
-      <p
-        data-phase={phase}
-        className="signal-hint type-mono mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-ash"
-      >
-        <span>{alertCopy.hint}</span>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="type-mono cursor-pointer text-ember underline decoration-ember/40 underline-offset-4 transition-colors duration-200 hover:decoration-ember"
-        >
-          {alertCopy.hintCta} &rarr;
-        </button>
-      </p>
 
       {open ? (
         <div className="fixed inset-0 z-[60] flex items-end justify-center p-0 sm:items-center sm:p-6">
@@ -162,78 +148,7 @@ export function SignalAlert({
             aria-labelledby="alert-headline"
             className="relative max-h-[90svh] w-full max-w-[38rem] overflow-y-auto rounded-default border border-ember/60 bg-carbon"
           >
-            <div className="flex items-center justify-between gap-4 border-b border-ash/30 px-6 py-4">
-              <span className="type-mono flex items-center gap-2.5 text-ember">
-                {/* A drawn marker rather than an emoji, which the palette and
-                    the rest of the page hold to. */}
-                <span className="alert-dot" aria-hidden="true" />
-                {alertCopy.badge}
-              </span>
-              <button
-                type="button"
-                onClick={close}
-                className="type-mono cursor-pointer text-ash transition-colors duration-200 hover:text-bone"
-              >
-                {alertCopy.close}
-              </button>
-            </div>
-
-            <div className="px-6 py-6">
-              <h2
-                id="alert-headline"
-                className="type-display-s max-w-[24ch] leading-[1.15]"
-              >
-                {alertCopy.headline}
-              </h2>
-
-              <p className="mt-5 max-w-[54ch] text-step-2 leading-[1.6] text-bone/80">
-                {alertCopy.detail}
-              </p>
-
-              <div className="mt-7 border-t border-ash/30 pt-5">
-                <p className="type-mono text-ash">{alertCopy.waitLabel}</p>
-                <ul className="mt-3 flex flex-col gap-2">
-                  {alertCopy.impact.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <span className="type-mono shrink-0 pt-1 text-ember" aria-hidden="true">
-                        /
-                      </span>
-                      <span className="text-step-2 text-bone">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* The part that makes the point: it has already acted. */}
-              <div className="mt-7 rounded-default border border-ember/40 px-5 py-4">
-                <p className="type-mono text-ember">{alertCopy.actionLabel}</p>
-                <p className="mt-2 text-step-2 leading-[1.6] text-bone">
-                  {alertCopy.action}
-                </p>
-                <p className="type-mono mt-3 text-ash">{alertCopy.ready}</p>
-              </div>
-
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <button
-                  type="button"
-                  onClick={close}
-                  className="magnetic cursor-pointer rounded-default bg-ember px-6 py-3.5 text-step-2 font-medium text-void transition-colors duration-200 hover:bg-ember-hover"
-                >
-                  {alertCopy.primary}
-                </button>
-                <button
-                  type="button"
-                  onClick={close}
-                  className="cursor-pointer rounded-default border border-ash px-6 py-3.5 text-step-2 transition-colors duration-200 hover:border-bone"
-                >
-                  {alertCopy.secondary}
-                </button>
-              </div>
-
-              <p className="mt-6 max-w-[54ch] text-step-1 text-ash">
-                {alertCopy.footnote}
-              </p>
-            </div>
+            <AlertCard onDismiss={close} headingId="alert-headline" />
           </div>
         </div>
       ) : null}

@@ -6,6 +6,7 @@ import { FounderNote } from "@/components/FounderNote";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Nav } from "@/components/Nav";
+import { NotificationToast } from "@/components/NotificationToast";
 import { NotAChatbot } from "@/components/NotAChatbot";
 import { Problem } from "@/components/Problem";
 import { TheBrief } from "@/components/TheBrief";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <>
       <Nav />
+      <NotificationToast />
       <main>
         <Hero />
         <Problem />
