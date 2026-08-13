@@ -112,13 +112,6 @@ export function SignalAlert({
           className="signal-word cursor-pointer"
         >
           <span className="signal-label">{lead}</span>
-        {/* A counter badge, the one notification convention everybody already
-            reads. The ping ripple runs a few times to catch the eye, then
-            stops rather than pulsing forever. */}
-          <span className="signal-badge" aria-hidden="true">
-            <span className="signal-ping" />
-            <span className="signal-count">1</span>
-          </span>
           <span className="sr-only">
             {", "}
             {alertCopy.live}

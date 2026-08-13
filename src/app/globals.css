@@ -682,82 +682,8 @@ body {
   .signal-word::before {
     display: none;
   }
-  .signal-word,
-  .signal-ping,
-  .signal-count {
+  .signal-word {
     animation: none !important;
-  }
-}
-
-/* The word reads as pressable, not just coloured: a dotted rule under it is
-   the cheapest signal that something is interactive. */
-.signal-word[data-phase="live"] .signal-label {
-  border-bottom: 2px dotted color-mix(in srgb, var(--color-ember) 55%, transparent);
-}
-
-.signal-word:hover[data-phase="live"] .signal-label {
-  border-bottom-color: var(--color-ember);
-}
-
-/* A counter badge on the word, the way an unread count sits on an app icon.
-   Sized in em so it tracks the fluid heading rather than fighting it. */
-.signal-badge {
-  position: relative;
-  display: none;
-  vertical-align: super;
-  margin-left: 0.12em;
-  width: 0.42em;
-  height: 0.42em;
-  line-height: 1;
-}
-
-.signal-word[data-phase="live"] .signal-badge {
-  display: inline-block;
-}
-
-.signal-count {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: var(--color-ember);
-  color: var(--color-void);
-  font-family: var(--font-mono);
-  font-size: 0.5em;
-  animation: signal-badge-in 400ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
-}
-
-/* The ripple. Runs six times, about fifteen seconds, then stops: long enough
-   to be noticed, short enough not to nag for the whole visit. */
-.signal-ping {
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  background-color: var(--color-ember);
-  opacity: 0.7;
-  animation: signal-ping 2.5s cubic-bezier(0, 0, 0.2, 1) 6;
-}
-
-@keyframes signal-ping {
-  0% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  70%,
-  100% {
-    transform: scale(2.6);
-    opacity: 0;
-  }
-}
-
-@keyframes signal-badge-in {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
   }
 }
 
