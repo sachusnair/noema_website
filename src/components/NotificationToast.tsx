@@ -125,7 +125,7 @@ export function NotificationToast() {
           /* Overlaid rather than inline: expanding in flow would shove the
              heading down the page every time a pointer crossed it. */
           style={{ maxHeight }}
-          className="notification-card absolute top-0 left-0 w-[min(88vw,30rem)] overflow-y-auto rounded-default border border-ember/60 bg-carbon shadow-[0_1px_2px_rgba(8,23,46,0.06)]"
+          className="notification-card absolute top-0 left-0 w-[min(92vw,46rem)] overflow-y-auto rounded-default border border-ember/60 bg-carbon shadow-[0_1px_2px_rgba(8,23,46,0.06)]"
         >
           <AlertCard onDismiss={dismiss} headingId={headingId} />
         </div>
