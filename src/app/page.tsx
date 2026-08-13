@@ -1,4 +1,3 @@
-import { Adapts } from "@/components/Adapts";
 import { ClosingCta } from "@/components/ClosingCta";
 import { Connections } from "@/components/Connections";
 import { Faq } from "@/components/Faq";
@@ -19,7 +18,6 @@ export default function Home() {
       <main>
         <Hero />
         <Problem />
-        <Adapts />
         <NotAChatbot />
         <TheBrief />
         <HowItWorks />
