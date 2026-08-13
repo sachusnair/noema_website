@@ -11,6 +11,10 @@ import { alert as alertCopy } from "@/content/site";
    It is the page demonstrating the claim in the heading rather than restating
    it: something happened, Noema caught it, and it is already handled.
 
+   The figures in the dialog are illustrative. It carried a line saying so;
+   that was removed on request. Pre-launch status is still stated in the FAQ,
+   the trust section and the about page.
+
    Under prefers-reduced-motion the arrival is skipped and the word is simply
    live from the start, so the control is never hidden behind an animation. */
 
@@ -194,10 +198,6 @@ export function SignalAlert({ label }: { label: string }) {
 
               <p className="mt-6 max-w-[54ch] text-step-1 text-ash">
                 {alertCopy.footnote}
-              </p>
-
-              <p className="mt-4 max-w-[54ch] border-t border-ash/30 pt-4 text-step-1 text-ash">
-                {alertCopy.honesty}
               </p>
             </div>
           </div>

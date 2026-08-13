@@ -204,9 +204,6 @@ export const alert = {
   footnote:
     "Waiting could push these orders beyond today\u2019s recovery window.",
   close: "Close",
-  /* Required pre-launch honesty line. Do not remove or soften. */
-  honesty:
-    "Illustrative. Noema is pre-launch, so this is an example of the alert you would receive, not a real one.",
 } as const;
 
 /* Answers the objection a sceptical operator arrives with, before the page
