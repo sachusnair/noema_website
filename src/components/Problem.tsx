@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "./Reveal";
+import { NotificationToast } from "./NotificationToast";
 import { SignalAlert } from "./SignalAlert";
 import { RailSection } from "./TimeRail";
 import { adapts, problem } from "@/content/site";
@@ -15,6 +16,10 @@ export function Problem() {
     <RailSection id="problem" className="py-24 lg:py-32">
       <div className="grid-12 gap-y-16">
         <div className="col-span-12 lg:col-span-6">
+          {/* The notification sits directly above the heading it belongs to,
+              rather than pinned to the corner of the viewport. */}
+          <NotificationToast />
+
           <Reveal>
             <SignalAlert lead={problem.h2Lead} rest={problem.h2Rest} />
           </Reveal>

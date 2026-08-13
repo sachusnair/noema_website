@@ -184,10 +184,9 @@ export const problem = {
 export const alert = {
   trigger: "Open the alert Noema raised",
   live: "1 alert",
-  /* The notification that drops in at the top of the page. Hovering it, or
-     focusing it, opens the card: no click required. */
+  /* The notification that appears above the heading. Hovering it, or focusing
+     it, opens the card: no click required. */
   toastTitle: "You have a notification",
-  toastHint: "Hover to open",
   badge: "Fulfilment Risk Detected",
   headline:
     "312 orders are now at risk of missing tomorrow\u2019s dispatch cutoff.",

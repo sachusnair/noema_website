@@ -5,8 +5,8 @@ import { useReducedMotion } from "framer-motion";
 import { AlertCard } from "./AlertCard";
 import { alert as alertCopy } from "@/content/site";
 
-/* The notification Noema raised, dropping in under the nav a couple of seconds
-   after the page settles.
+/* The notification Noema raised, appearing just above the heading a couple of
+   seconds after the section comes into view.
 
    It opens on hover rather than on click: moving the pointer near it is enough.
    Pointer, keyboard and touch are all covered, because hover alone would leave
@@ -17,7 +17,7 @@ import { alert as alertCopy } from "@/content/site";
    - Keyboard: focus opens it, blur outside closes it, Escape closes it
    - Touch: there is no hover, so a tap opens it and pins it until dismissed */
 
-const APPEAR_AFTER = 2600;
+const APPEAR_AFTER = 1800;
 const CLOSE_GRACE = 260;
 
 export function NotificationToast() {
@@ -30,9 +30,27 @@ export function NotificationToast() {
   const rootRef = useRef<HTMLDivElement>(null);
   const headingId = useId();
 
+  // Held until the section is actually on screen, so the arrival is not spent
+  // above the fold before anyone has scrolled down to it.
   useEffect(() => {
-    const id = window.setTimeout(() => setVisible(true), APPEAR_AFTER);
-    return () => window.clearTimeout(id);
+    const node = rootRef.current;
+    if (!node) return;
+    let timer: number | undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        timer = window.setTimeout(() => setVisible(true), APPEAR_AFTER);
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => () => window.clearTimeout(closeTimer.current), []);
@@ -74,7 +92,7 @@ export function NotificationToast() {
       ref={rootRef}
       data-visible={visible}
       data-reduced={reduced ? "true" : undefined}
-      className="notification-root fixed top-[5.25rem] right-4 z-40 flex justify-end sm:right-6"
+      className="notification-root relative z-30 mb-5 inline-block"
       onMouseEnter={openNow}
       onMouseLeave={closeSoon}
       onFocus={openNow}
@@ -88,7 +106,9 @@ export function NotificationToast() {
         <div
           role="dialog"
           aria-labelledby={headingId}
-          className="notification-card w-[min(92vw,26rem)] overflow-hidden rounded-default border border-ember/60 bg-carbon shadow-[0_1px_2px_rgba(8,23,46,0.06)]"
+          /* Overlaid rather than inline: expanding in flow would shove the
+             heading down the page every time a pointer crossed it. */
+          className="notification-card absolute top-0 left-0 w-[min(88vw,26rem)] overflow-hidden rounded-default border border-ember/60 bg-carbon shadow-[0_1px_2px_rgba(8,23,46,0.06)]"
         >
           <AlertCard onDismiss={dismiss} headingId={headingId} />
         </div>
@@ -106,10 +126,7 @@ export function NotificationToast() {
             <span className="notification-ping" />
             <span className="notification-number">1</span>
           </span>
-          <span className="flex flex-col">
-            <span className="text-step-2 text-bone">{alertCopy.toastTitle}</span>
-            <span className="type-mono text-ash">{alertCopy.toastHint}</span>
-          </span>
+          <span className="text-step-2 text-bone">{alertCopy.toastTitle}</span>
         </button>
       )}
     </div>
