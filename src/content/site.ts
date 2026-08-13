@@ -265,7 +265,6 @@ export const difference = {
       },
     ],
   },
-  closingLabel: "The difference",
   closing: [
     "You stop running after the business.",
     "Your business starts running with you.",

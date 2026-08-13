@@ -29,12 +29,11 @@ export function Difference() {
         </div>
 
         <div className="col-span-12 lg:col-span-6 lg:border-l lg:border-ash/30 lg:pl-10">
-          <Reveal index={2}>
-            <p className="type-mono text-ash">{difference.closingLabel}</p>
-          </Reveal>
-
+          {/* No eyebrow on this column: the heading opposite already labels
+              the section, and a second one beside it read as a subheading for
+              something that is really the answer to the first. */}
           <Reveal index={3}>
-            <p className="type-display-s mt-4 max-w-[24ch]">
+            <p className="type-display-s max-w-[24ch]">
               {difference.closing[0]}{" "}
               <span className="text-ember">{difference.closing[1]}</span>
             </p>
