@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { BrandMark, hasBrandMark } from "./BrandMark";
 import { ConnectorConsole } from "./ConnectorConsole";
 import { Reveal } from "./Reveal";
@@ -10,7 +11,17 @@ import { connections, connectorConsole, type Tool } from "@/content/site";
 function Tile({ tool }: { tool: Tool }) {
   return (
     <span className="mx-1.5 flex shrink-0 items-center gap-2.5 rounded-default border border-ash/45 px-5 py-3.5 text-ash transition-colors duration-200 hover:border-bone hover:text-bone">
-      {hasBrandMark(tool.icon) ? (
+      {tool.file ? (
+        /* An official asset for a brand with no mark in simple-icons. Sized
+           explicitly so it reserves its space and cannot shift the row. */
+        <Image
+          src={tool.file}
+          alt=""
+          width={16}
+          height={16}
+          className="size-4 shrink-0"
+        />
+      ) : hasBrandMark(tool.icon) ? (
         <span style={{ color: tool.brandColor }} className="flex">
           <BrandMark slug={tool.icon as string} className="size-4" />
         </span>
@@ -120,6 +131,17 @@ export function Connections() {
       <Reveal index={7}>
         <p className="mt-8 text-step-2 text-ash">{connections.honesty}</p>
       </Reveal>
+
+      {/* The model layer, labelled separately. These are not systems a customer
+          runs, so putting them in the rows above would make the heading claim
+          something untrue. */}
+      <Reveal index={8}>
+        <p className="type-mono mt-16 text-ash">{connections.builtOnLabel}</p>
+      </Reveal>
+
+      <div className="mt-5">
+        <Row tools={connections.rowC} direction="left" duration="46s" />
+      </div>
     </RailSection>
   );
 }

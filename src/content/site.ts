@@ -350,6 +350,9 @@ export type Tool = {
   name: string;
   /** simple-icons slug, where the brand has a mark in the set. */
   icon?: string;
+  /** An official asset in /public, for brands with no mark in simple-icons.
+   *  Takes precedence over `icon`. */
+  file?: string;
   /** The brand's own colour. Omitted where no verified value was available,
    *  in which case the tile stays in the page palette. */
   brandColor?: string;
@@ -386,6 +389,19 @@ export const connections = {
   ] satisfies Tool[],
   /* Required pre-launch honesty line. Do not remove or soften. */
   honesty: "Connections are in build. Nothing above is live yet.",
+
+  /* The model and tooling layer, kept in its own labelled row. These are not
+     things a customer runs, so folding them into "the stack you already run"
+     would make that sentence untrue. */
+  builtOnLabel: "Built on",
+  rowC: [
+    { name: "OpenAI", file: "/chatgpt.png" },
+    { name: "Claude", icon: "claude", brandColor: "#D97757" },
+    { name: "Gemini", icon: "gemini", brandColor: "#8E75B2" },
+    { name: "Cursor", icon: "cursor", brandColor: "#EDEDEA" },
+    { name: "n8n", icon: "n8n", brandColor: "#EA4B71" },
+    { name: "Model Context Protocol", icon: "mcp", brandColor: "#EDEDEA" },
+  ] satisfies Tool[],
 } as const;
 
 /** Portrait and profile link are optional. While they are null the founder
