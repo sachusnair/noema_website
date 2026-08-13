@@ -13,7 +13,11 @@ import { adapts, problem } from "@/content/site";
    No rail mark and no eyebrow: the heading leads on its own. */
 export function Problem() {
   return (
-    <RailSection id="problem" className="py-24 lg:py-32">
+    /* Claims the screen and centres its content. It carried 256px of padding
+       around 341px of content and still came 230px short of a full viewport,
+       so the next section showed underneath it: too much empty space to read
+       as compact, too little to read as deliberate. */
+    <RailSection id="problem" fill className="py-20 lg:py-16">
       <div className="grid-12 gap-y-16">
         <div className="col-span-12 lg:col-span-6">
           {/* The notification sits directly above the heading it belongs to,
