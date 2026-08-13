@@ -170,8 +170,43 @@ export const briefRows: BriefRow[] = [
    ------------------------------------------------------------------------- */
 
 export const problem = {
-  h2: "Noema runs your business while you focus on growing it.",
+  /* The heading is split so the product name can be its own control: a signal
+     arrives at it, it goes live, and pressing it opens the alert below. */
+  h2Lead: "Noema",
+  h2Rest: " runs your business while you focus on growing it.",
   body: "From emails and content to finances and business intelligence, Noema handles the work, connects the dots, and keeps everything moving 24/7. Not automation. Your business\u2019s AI brain.",
+} as const;
+
+/* The live alert behind the product name in the heading. Illustrative, like
+   the brief card: there are no customers and therefore no real orders. The
+   dialog says so at the foot, in the same terms as every other honesty line
+   on the site. */
+export const alert = {
+  trigger: "Open the alert Noema raised",
+  live: "1 alert",
+  badge: "Fulfilment Risk Detected",
+  headline:
+    "312 orders are now at risk of missing tomorrow\u2019s dispatch cutoff.",
+  detail:
+    "The picking queue in Zone A is 38% above capacity, and the current staffing level won\u2019t clear the backlog before the carrier cutoff.",
+  waitLabel: "If we wait",
+  impact: [
+    "312 orders at risk",
+    "\u00a318,400 revenue exposure",
+    "Likely increase in customer contacts",
+  ],
+  actionLabel: "Already done",
+  action:
+    "I\u2019ve already reallocated 2 warehouse staff from Zone B and adjusted the picking queue. The backlog should clear before cutoff.",
+  ready: "Ready to apply.",
+  primary: "Approve & Execute",
+  secondary: "Review Changes",
+  footnote:
+    "Waiting could push these orders beyond today\u2019s recovery window.",
+  close: "Close",
+  /* Required pre-launch honesty line. Do not remove or soften. */
+  honesty:
+    "Illustrative. Noema is pre-launch, so this is an example of the alert you would receive, not a real one.",
 } as const;
 
 /* Answers the objection a sceptical operator arrives with, before the page

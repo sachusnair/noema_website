@@ -571,3 +571,139 @@ body {
     animation: none !important;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Signal alert
+   The product name in the heading is a control. A signal arrives along a line
+   from off-screen, lands on the word, and the word goes live.
+   ------------------------------------------------------------------------- */
+.signal-word {
+  position: relative;
+  color: inherit;
+  font: inherit;
+  /* The trailing space of the rest of the heading supplies the gap, so the
+     button must not add its own box. */
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+/* The incoming line. Sits to the left of the word and runs off the edge of
+   the section, so the signal reads as coming from outside the page. */
+.signal-word::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.18em);
+  width: 60vw;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--color-ember) 70%, transparent)
+  );
+  transform: scaleX(0);
+  transform-origin: right center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The marker that stays once the signal has landed. */
+.signal-word::after {
+  content: "";
+  position: absolute;
+  top: 0.05em;
+  left: calc(100% + 0.1em);
+  width: 0.16em;
+  height: 0.16em;
+  border-radius: 9999px;
+  background-color: var(--color-ember);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.signal-word[data-phase="arriving"]::before {
+  animation: signal-travel 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.signal-word[data-phase="arriving"] {
+  animation: signal-land 1.4s ease-out forwards;
+}
+
+.signal-word[data-phase="live"] {
+  color: var(--color-ember);
+}
+
+.signal-word[data-phase="live"]::after {
+  opacity: 1;
+  animation: signal-blink 2.4s ease-in-out infinite;
+}
+
+.signal-word:hover[data-phase="live"] {
+  color: var(--color-ember-hover);
+}
+
+@keyframes signal-travel {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  70% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* The word takes the colour only as the signal lands, not before. */
+@keyframes signal-land {
+  0%,
+  60% {
+    color: inherit;
+  }
+  75% {
+    color: var(--color-ember-hover);
+  }
+  100% {
+    color: var(--color-ember);
+  }
+}
+
+@keyframes signal-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* The marker in the dialog header, drawn rather than an emoji. */
+.alert-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background-color: var(--color-ember);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ember) 25%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-word::before {
+    display: none;
+  }
+  .signal-word,
+  .signal-word::after {
+    animation: none !important;
+  }
+  .signal-word[data-phase="live"]::after {
+    opacity: 1;
+  }
+}

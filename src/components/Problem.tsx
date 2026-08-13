@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "./Reveal";
+import { SignalAlert } from "./SignalAlert";
 import { RailSection } from "./TimeRail";
 import { adapts, problem } from "@/content/site";
 
@@ -15,7 +16,10 @@ export function Problem() {
       <div className="grid-12 gap-y-16">
         <div className="col-span-12 lg:col-span-6">
           <Reveal>
-            <h2 className="type-display-m max-w-[16ch]">{problem.h2}</h2>
+            <h2 className="type-display-m max-w-[16ch]">
+              <SignalAlert label={problem.h2Lead} />
+              {problem.h2Rest}
+            </h2>
           </Reveal>
 
           <Reveal index={1}>
