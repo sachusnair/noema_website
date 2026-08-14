@@ -4,14 +4,6 @@
  * whole page can be re-written without opening a component file.
  */
 
-/** Timestamps on the left time rail. They mark where in the overnight cycle
- *  each section sits, so they are content, not decoration.
- *  The hero has no mark: the rail runs past it unlabelled. */
-export const railTimes = {
-  theBrief: "06:30",
-  howItWorks: "08:00",
-} as const;
-
 export const site = {
   name: "Noema",
   tagline: "The superbrain of the company.",
@@ -85,84 +77,6 @@ export const overnightGraphic = {
   caption: "Every system, every signal, into one brief.",
   alt: "Xero, QuickBooks, Google Workspace, Stripe, Asana and HubSpot orbiting a single core that produces one brief at 08:00",
 } as const;
-
-/* -------------------------------------------------------------------------
-   The Morning Brief card
-   ------------------------------------------------------------------------- */
-
-export type BriefRow = {
-  decision: string;
-  why: string;
-  sources: string[];
-  /** Evidence trail revealed on hover in the large card. Mono source lines. */
-  evidence: string[];
-};
-
-export const brief = {
-  timeLabel: "08:00",
-  /* Shown before hydration and with JavaScript off. The live weekday and date
-     are read client-side in Europe/London, as specified. */
-  weekdayFallback: "MONDAY",
-  title: "Today's decisions",
-  footer: "Read 1,847 items overnight · 3 need you",
-  footerLarge: "Read 1,847 items overnight · 5 need you",
-  whyLabel: "Why",
-  evidenceLabel: "Evidence",
-} as const;
-
-/** Rows 1 to 3 render in the hero card. All five render in section 4. */
-export const briefRows: BriefRow[] = [
-  {
-    decision: "Chase Halden Ltd — £14,200, 46 days overdue, third missed promise",
-    why: "Payment terms are 30 days. Two chase emails unanswered since Tuesday.",
-    sources: ["XERO", "OUTLOOK", "SLACK"],
-    evidence: [
-      "XERO · INV-2291 raised 24 JUN · terms 30 days · unpaid",
-      "OUTLOOK · 2 chase emails sent 04 AUG, 06 AUG · no reply",
-      "SLACK · #accounts · \"they said Friday again\" · 06 AUG",
-    ],
-  },
-  {
-    decision: "Job 4471 has slipped twice and the client has not been told",
-    why: "Promised Thursday on the job sheet. Site notes say parts arrive Monday.",
-    sources: ["ASANA", "OUTLOOK"],
-    evidence: [
-      "ASANA · job 4471 due date moved 29 JUL, 05 AUG",
-      "OUTLOOK · last client update sent 22 JUL",
-      "ASANA · site note \"parts ETA Monday\" · 07 AUG",
-    ],
-  },
-  {
-    decision: "Two engineers are booked against the same slot on Wednesday",
-    why: "Both jobs need the same van. Neither has been re-planned since Friday.",
-    sources: ["MONDAY", "GOOGLE"],
-    evidence: [
-      "MONDAY · jobs 4488 and 4502 both 08:00 WED",
-      "GOOGLE · vehicle calendar shows one van available",
-      "MONDAY · no owner change since 01 AUG",
-    ],
-  },
-  {
-    decision: "Supplier price on the Kelso order is 11 percent above the quote",
-    why: "Quote was fixed in writing on 14 July. The invoice arrived last night.",
-    sources: ["DEXT", "OUTLOOK"],
-    evidence: [
-      "DEXT · invoice K-8842 received 08 AUG · £9,310",
-      "OUTLOOK · quote confirmed 14 JUL · £8,385",
-      "DEXT · no credit note against this supplier this quarter",
-    ],
-  },
-  {
-    decision: "Your best paying client has not placed an order in five weeks",
-    why: "They ordered every fortnight for eleven months. Nothing since 4 July.",
-    sources: ["XERO", "HUBSPOT"],
-    evidence: [
-      "XERO · 22 orders across 11 months · last 04 JUL",
-      "HUBSPOT · no logged contact since 27 JUN",
-      "XERO · account represents 9 percent of revenue",
-    ],
-  },
-];
 
 /* -------------------------------------------------------------------------
    Sections
@@ -271,41 +185,6 @@ export const difference = {
   ],
   ctaQuestion: "Want your everyday to look like this?",
   ctaLabel: "Get Noema",
-} as const;
-
-export const theBrief = {
-  eyebrow: "WHAT ARRIVES",
-  h2: "One page. Ranked. Reasoned.",
-  support:
-    "Ranked by what it costs you to ignore it, not by what arrived most recently.",
-  hint: "Open a row to see the trail",
-} as const;
-
-export const howItWorks = {
-  eyebrow: "THE OVERNIGHT RUN",
-  h2: "Four steps, none of them yours.",
-  steps: [
-    {
-      time: "22:00",
-      title: "Connect once",
-      body: "Noema reads the systems you already run. Read access, nothing written back without your say-so.",
-    },
-    {
-      time: "01:00",
-      title: "Read everything",
-      body: "Invoices, inboxes, job sheets, messages, calendars. Every night, the whole picture, not a sample.",
-    },
-    {
-      time: "04:00",
-      title: "Work out what changed",
-      body: "Not a summary of the day. A comparison against what you were promised and what you expected.",
-    },
-    {
-      time: "08:00",
-      title: "Hand it over",
-      body: "A ranked brief in your inbox before you open your laptop. Five things, in order, with the reason attached.",
-    },
-  ],
 } as const;
 
 /* -------------------------------------------------------------------------

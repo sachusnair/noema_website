@@ -59,14 +59,13 @@ export default function RootLayout({
       className={`${poppins.variable} ${archivo.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        {/* Framer Motion writes its initial state into the server HTML, so with
-            JavaScript off the reveals would stay at opacity 0 and the brief
-            card would keep its scattered chip offsets. This restores every
-            animated element to its resolved state when no script can run. */}
+        {/* Framer Motion writes its initial state into the server HTML, so
+            with JavaScript off the reveals would stay at opacity 0. This
+            restores every animated element to its resolved state when no
+            script can run. */}
         <noscript>
           <style>{`
-            [data-reveal],
-            [data-brief] * {
+            [data-reveal] {
               opacity: 1 !important;
               transform: none !important;
             }

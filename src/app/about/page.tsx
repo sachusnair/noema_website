@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FounderNote } from "@/components/FounderNote";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { about, site } from "@/content/site";
@@ -40,6 +41,15 @@ export default function AboutPage() {
           {about.honesty}
         </p>
       </Reveal>
+
+      {/* The founder note closes this page rather than interrupting the home
+          page. It is the only place the founder's background is used, and it
+          belongs with the story of the company rather than beside the product
+          pitch. Pulled full bleed out of the shell's padding so it keeps the
+          edge to edge block it was designed as. */}
+      <div className="mt-24 -mx-[var(--spacing-page)] lg:-mx-[var(--spacing-gutter)]">
+        <FounderNote />
+      </div>
     </PageShell>
   );
 }
