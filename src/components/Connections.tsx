@@ -1,9 +1,17 @@
 import Image from "next/image";
 import { BrandMark, hasBrandMark } from "./BrandMark";
 import { ConnectorConsole } from "./ConnectorConsole";
+import { DraftPanel } from "./DraftPanel";
+import { ReconcilePanel } from "./ReconcilePanel";
 import { Reveal } from "./Reveal";
 import { RailSection } from "./TimeRail";
-import { connections, connectorConsole, type Tool } from "@/content/site";
+import {
+  connections,
+  connectorConsole,
+  stepThree,
+  stepTwo,
+  type Tool,
+} from "@/content/site";
 
 /* Mark in the brand's colour, wordmark in the page palette. Keeping the text
    neutral stops fourteen coloured wordmarks from turning the row into a
@@ -73,6 +81,46 @@ function Row({
   );
 }
 
+function StepHeading({
+  step,
+  eyebrow,
+  h2,
+  sub,
+  index,
+}: {
+  step: string;
+  eyebrow: string;
+  h2: string;
+  sub: string;
+  index: number;
+}) {
+  return (
+    <>
+      <Reveal index={index}>
+        <div className="flex items-baseline gap-5">
+          <span
+            className="type-display-m text-ember/35 tabular-nums"
+            aria-hidden="true"
+          >
+            {step}
+          </span>
+          <p className="type-mono text-ash">{eyebrow}</p>
+        </div>
+      </Reveal>
+
+      <Reveal index={index + 1}>
+        <h2 className="type-display-s mt-6 max-w-[26ch]">{h2}</h2>
+      </Reveal>
+
+      <Reveal index={index + 2}>
+        <p className="mt-6 max-w-[62ch] text-step-3 leading-[1.6] text-bone/80">
+          {sub}
+        </p>
+      </Reveal>
+    </>
+  );
+}
+
 export function Connections() {
   return (
     <RailSection id="connections" className="py-24 lg:py-32">
@@ -110,8 +158,40 @@ export function Connections() {
         <p className="mt-6 text-step-2 text-ash">{connectorConsole.honesty}</p>
       </Reveal>
 
+      {/* Steps two and three, same shape as the first. */}
+      <div className="mt-24 border-t border-ash/30 pt-16">
+        <StepHeading
+          step={stepTwo.step}
+          eyebrow={stepTwo.eyebrow}
+          h2={stepTwo.h2}
+          sub={stepTwo.sub}
+          index={0}
+        />
+        <Reveal index={3} className="mt-12 max-w-[820px]">
+          <ReconcilePanel />
+        </Reveal>
+        <Reveal index={4}>
+          <p className="mt-6 text-step-2 text-ash">{stepTwo.honesty}</p>
+        </Reveal>
+      </div>
+
+      <div className="mt-24 border-t border-ash/30 pt-16">
+        <StepHeading
+          step={stepThree.step}
+          eyebrow={stepThree.eyebrow}
+          h2={stepThree.h2}
+          sub={stepThree.sub}
+          index={0}
+        />
+        <Reveal index={3} className="mt-12 max-w-[820px]">
+          <DraftPanel />
+        </Reveal>
+      </div>
+
       <Reveal index={5}>
-        <h3 className="type-display-s mt-20 max-w-[18ch]">{connections.h2}</h3>
+        <h3 className="type-display-s mt-24 border-t border-ash/30 pt-16 max-w-[18ch]">
+          {connections.h2}
+        </h3>
       </Reveal>
 
       <Reveal index={6}>

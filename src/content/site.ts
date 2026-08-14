@@ -300,6 +300,60 @@ export type Tool = {
   brandColor?: string;
 };
 
+/* Steps two and three, following the connector console.
+
+   Modelled on a reference the client supplied, which was a competitor's page.
+   The structure is theirs: a numbered step, a headline, a panel demonstrating
+   it. The words are not. Theirs talked about a "company brain" and "your
+   agents", which are a step from second brain and agentic, both on this
+   site's banned list, and both aimed at engineers building with an API rather
+   than at an operations manager. */
+export const stepTwo = {
+  step: "02",
+  eyebrow: "STEP TWO",
+  h2: "It keeps one version of the truth, even when your systems disagree.",
+  sub: "The invoice says one thing, the quote says another, and nobody notices until someone reconciles it by hand. Noema does that overnight and tells you which one is right.",
+  panelLabel: "RECONCILING",
+  conflictLabel: "Disagreement found",
+  claims: [
+    { source: "DEXT", line: "Invoice K-8842 received 08 AUG", value: "\u00a39,310" },
+    { source: "OUTLOOK", line: "Quote confirmed in writing 14 JUL", value: "\u00a38,385" },
+  ],
+  resolvedLabel: "One version",
+  resolution: "The Kelso order is \u00a3925 above the quote you agreed. The quote was fixed in writing, so the invoice is wrong.",
+  honesty: "Illustrative. Connections are in build and nothing here is live yet.",
+} as const;
+
+export const stepThree = {
+  step: "03",
+  eyebrow: "STEP THREE",
+  h2: "It writes the reply in your voice, ready before you are.",
+  sub: "Noema drafts the routine answers the way you write them, shows you exactly what it changed, and waits for your approval before anything is sent.",
+  channel: "OUTLOOK",
+  status: "Reply drafted",
+  fromLabel: "From",
+  from: "Marie Dobson \u00b7 Halden Ltd",
+  incoming:
+    "Sorry for the delay on this. Could you resend the invoice and confirm what is outstanding?",
+  draftLabel: "Drafted for you",
+  /* kept: written as you would. cut: the padding it removed. added: the
+     specifics it pulled from your own systems. */
+  draft: [
+    { text: "Hi Marie, ", kind: "kept" },
+    { text: "I hope this email finds you well. ", kind: "cut" },
+    { text: "no problem. ", kind: "kept" },
+    { text: "Invoice INV-2291 is attached again, ", kind: "added" },
+    { text: "\u00a314,200, raised 24 June on 30 day terms. ", kind: "added" },
+    { text: "Please let me know if you have any further questions. ", kind: "cut" },
+    { text: "That is the full balance outstanding. ", kind: "added" },
+    { text: "Can you confirm a payment date?", kind: "kept" },
+  ],
+  ready: "Ready to send",
+  primary: "Approve & send",
+  secondary: "Edit first",
+  footnote: "Nothing is sent until you approve it.",
+} as const;
+
 export const connections = {
   eyebrow: "CONNECTIONS",
   h2: "It reads the stack you already run.",
