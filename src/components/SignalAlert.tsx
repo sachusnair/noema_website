@@ -13,8 +13,8 @@ import { alert as alertCopy } from "@/content/site";
    it: something happened, Noema caught it, and it is already handled.
 
    The figures in the dialog are illustrative. It carried a line saying so;
-   that was removed on request. Pre-launch status is still stated in the FAQ,
-   the trust section and the about page.
+   that was removed on request. Pre-launch status is still stated on the about
+   page and in the connections section.
 
    Under prefers-reduced-motion the arrival is skipped and the word is simply
    live from the start, so the control is never hidden behind an animation. */

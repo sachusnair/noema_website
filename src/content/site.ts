@@ -391,57 +391,6 @@ export const founder = {
   signature: "SACHU S NAIR · OPERATIONS · LONDON",
 } as const;
 
-export const trust = {
-  eyebrow: "YOUR DATA",
-  h2: "Read-only by default.",
-  /* Written as commitments. None of these is claimed as an audited or
-     certified achievement, because none of them has been audited yet. */
-  commitments: [
-    "UK and EU data residency",
-    "Read access unless you grant more",
-    "Your data is never used to train models",
-    "Delete everything on request, permanently",
-  ],
-  /* Required pre-launch honesty line. Do not remove or soften. */
-  honesty:
-    "We are pre-launch, so we are not going to show you a compliance badge we have not earned yet. Ask us anything on the call.",
-} as const;
-
-export type FaqItem = { q: string; a: string };
-
-export const faq = {
-  eyebrow: "FAQ",
-  /* The brief gives no heading for this section. Kept deliberately plain so
-     it adds no claim the pre-launch product cannot support. */
-  h2: "Before you book.",
-  items: [
-    {
-      q: "Is this live yet?",
-      a: "No. Noema is pre-launch and we are taking a small number of design partners. A demo is a working walkthrough plus a conversation about your operation, not a sales pitch.",
-    },
-    {
-      q: "Do I have to change how my team works?",
-      a: "No. Noema reads the systems you already use. Nobody has to learn a new tool or log anything extra.",
-    },
-    {
-      q: "How is this different from asking ChatGPT?",
-      a: "A chat tool answers the question you thought to ask. Noema tells you the thing you did not know to ask about.",
-    },
-    {
-      q: "Who is it for?",
-      a: "UK businesses between roughly 20 and 250 staff, where one or two people are holding the whole operation in their head.",
-    },
-    {
-      q: "What does it cost?",
-      a: "Design partner pricing is agreed case by case while we are pre-launch. Bring your numbers to the call.",
-    },
-    {
-      q: "What happens on the demo?",
-      a: "Thirty minutes. We map your morning as it runs now, then show you what the 08:00 brief would look like for your business.",
-    },
-  ] satisfies FaqItem[],
-} as const;
-
 export const closing = {
   h2: "Get your mornings back.",
   sub: "Thirty minutes. We will map your current morning and show you the version where it is already done.",
