@@ -109,11 +109,11 @@ function StepHeading({
       </Reveal>
 
       <Reveal index={index + 1}>
-        <h2 className="type-display-s mt-6 max-w-[26ch]">{h2}</h2>
+        <h2 className="type-display-m mt-6">{h2}</h2>
       </Reveal>
 
       <Reveal index={index + 2}>
-        <p className="mt-6 max-w-[62ch] text-step-3 leading-[1.6] text-bone/80">
+        <p className="mt-6 max-w-[72ch] text-step-3 leading-[1.6] text-bone/80">
           {sub}
         </p>
       </Reveal>
@@ -139,18 +139,16 @@ export function Connections() {
       </Reveal>
 
       <Reveal index={1}>
-        <h2 className="type-display-m mt-6 max-w-[20ch]">
-          {connectorConsole.h2}
-        </h2>
+        <h2 className="type-display-m mt-6">{connectorConsole.h2}</h2>
       </Reveal>
 
       <Reveal index={2}>
-        <p className="mt-7 max-w-[56ch] text-step-3 text-bone/80">
+        <p className="mt-7 max-w-[72ch] text-step-3 text-bone/80">
           {connectorConsole.sub}
         </p>
       </Reveal>
 
-      <Reveal index={3} className="mt-12 max-w-[820px]">
+      <Reveal index={3} className="mt-12">
         <ConnectorConsole />
       </Reveal>
 
@@ -167,7 +165,7 @@ export function Connections() {
           sub={stepTwo.sub}
           index={0}
         />
-        <Reveal index={3} className="mt-12 max-w-[820px]">
+        <Reveal index={3} className="mt-12">
           <ReconcilePanel />
         </Reveal>
         <Reveal index={4}>
@@ -183,34 +181,30 @@ export function Connections() {
           sub={stepThree.sub}
           index={0}
         />
-        <Reveal index={3} className="mt-12 max-w-[820px]">
+        <Reveal index={3} className="mt-12">
           <DraftPanel />
         </Reveal>
       </div>
 
       <Reveal index={5}>
-        <h3 className="type-display-s mt-24 border-t border-ash/30 pt-16 max-w-[18ch]">
+        <h3 className="type-display-s mt-24 border-t border-ash/30 pt-16">
           {connections.h2}
         </h3>
       </Reveal>
 
       <Reveal index={6}>
-        <p className="mt-5 max-w-[56ch] text-step-2 text-bone/80">
+        <p className="mt-5 max-w-[72ch] text-step-2 text-bone/80">
           {connections.sub}
         </p>
       </Reveal>
 
-      {/* Names are set in the utility font inside bordered tiles rather than
-          using official brand logo files. That sidesteps trademark use and
-          holds the palette, which a wall of brand colours would break. */}
+      {/* Each tile pairs the brand's own mark with its name set in the utility
+          font. Colouring the mark but not the name holds the palette, which a
+          row of fourteen coloured wordmarks would break. */}
       <div className="mt-10 flex flex-col gap-3">
         <Row tools={connections.rowA} direction="left" duration="52s" />
         <Row tools={connections.rowB} direction="right" duration="64s" />
       </div>
-
-      <Reveal index={7}>
-        <p className="mt-8 text-step-2 text-ash">{connections.honesty}</p>
-      </Reveal>
 
       {/* The model layer, labelled separately. These are not systems a customer
           runs, so putting them in the rows above would make the heading claim

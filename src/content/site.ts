@@ -356,8 +356,8 @@ export const stepThree = {
 
 export const connections = {
   eyebrow: "CONNECTIONS",
-  h2: "It reads the stack you already run.",
-  sub: "Noema is built to connect to the tools UK businesses actually use. If yours is not here and it has an API, tell us and we will build it.",
+  h2: "It connects with the tools your business already uses.",
+  sub: "Noema is built to work with the tools you rely on every day. If your tool isn't supported yet but has an API, tell us — we'll build the connection.",
   /* Each tile pairs the official brand mark with the wordmark. Marks come from
      simple-icons, except Outlook and Slack, whose official icons are held in
      /public/logos because both brands had theirs removed from that set at
@@ -384,9 +384,6 @@ export const connections = {
     { name: "Monday" },
     { name: "Shopify", icon: "shopify", brandColor: "#7AB55C" },
   ] satisfies Tool[],
-  /* Required pre-launch honesty line. Do not remove or soften. */
-  honesty: "Connections are in build. Nothing above is live yet.",
-
   /* The model and tooling layer, kept in its own labelled row. These are not
      things a customer runs, so folding them into "the stack you already run"
      would make that sentence untrue. */

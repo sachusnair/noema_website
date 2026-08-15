@@ -100,7 +100,6 @@ about traction are not.
 Lines marked in `site.ts` as required honesty lines must not be removed or
 softened:
 
-- Connections: "Connections are in build. Nothing above is live yet."
 - Step one and step two: "Illustrative. Connections are in build…"
 - About: "We are pre-launch. No customers, no case studies, no certifications yet."
 
@@ -111,6 +110,9 @@ Removed on the client's instruction, worth knowing:
   Nothing on the site answers the security question now.
 - The FAQ, which held "Is this live yet? No."
 - The illustrative caveat inside the alert dialog.
+- "Connections are in build. Nothing above is live yet.", which sat under the
+  tool marquee. The two step captions still say connections are in build, so
+  the claim survives above the marquee but no longer beside the logo rows.
 
 ## Banned vocabulary
 
