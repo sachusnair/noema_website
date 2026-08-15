@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { Footer } from "./Footer";
+import { Nav } from "./Nav";
 import { company, legal, type LegalSection } from "@/content/site";
 
 /* Privacy, Terms and Security are the same page with different words, so they
@@ -42,41 +43,47 @@ export function LegalPage({
   intro: string;
   sections: readonly LegalSection[];
 }) {
+  /* Carries the nav and footer like every other page. These used to be a bare
+     main with one link out, which left a visitor on the privacy notice with no
+     way to reach Contact or either of the other two notices without going home
+     first. */
   return (
-    <main className="shell py-20 lg:py-28">
-      <Link href="/" className="type-mono text-ash">
-        {legal.back}
-      </Link>
+    <>
+      <Nav />
 
-      <h1 className="type-display-m mt-10">{title}</h1>
+      <main id="top" className="shell py-20 lg:py-28">
+        <h1 className="type-display-m">{title}</h1>
 
-      <p className="type-mono mt-4 text-ash">
-        {legal.updatedLabel} {legal.updated}
-      </p>
+        <p className="type-mono mt-4 text-ash">
+          {legal.updatedLabel} {legal.updated}
+        </p>
 
-      {/* No measure cap: the client wants these pages to run the full content
-          width, the same as the connections section. */}
-      <div className="mt-8">
-        <p className="text-step-3 leading-[1.6] text-bone/80">{intro}</p>
+        {/* No measure cap: the client wants these pages to run the full content
+            width, the same as the connections section. */}
+        <div className="mt-8">
+          <p className="text-step-3 leading-[1.6] text-bone/80">{intro}</p>
 
-        {sections.map((section) => (
-          <section key={section.heading} className="mt-10">
-            <h2 className="type-display-s">{section.heading}</h2>
-            <div className="mt-4 space-y-4">
-              {section.body.map((paragraph) => (
-                <p
-                  key={paragraph.slice(0, 24)}
-                  className="text-step-2 leading-[1.6] text-bone/80"
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </section>
-        ))}
+          {sections.map((section) => (
+            <section key={section.heading} className="mt-10">
+              <h2 className="type-display-s">{section.heading}</h2>
+              <div className="mt-4 space-y-4">
+                {section.body.map((paragraph) => (
+                  <p
+                    key={paragraph.slice(0, 24)}
+                    className="text-step-2 leading-[1.6] text-bone/80"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </section>
+          ))}
 
-        <RegisteredDetails />
-      </div>
-    </main>
+          <RegisteredDetails />
+        </div>
+      </main>
+
+      <Footer />
+    </>
   );
 }

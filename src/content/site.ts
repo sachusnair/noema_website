@@ -839,5 +839,6 @@ export const legal = {
       },
     ] satisfies LegalSection[],
   },
-  back: "Back to Noema",
+  /* These pages carried a link back to the home page above the title. It went
+     when the nav arrived, which does the same job on every page. */
 } as const;
