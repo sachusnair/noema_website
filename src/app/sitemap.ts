@@ -22,5 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...posts,
     { url: `${site.url}/privacy`, priority: 0.2, changeFrequency: "yearly" },
     { url: `${site.url}/terms`, priority: 0.2, changeFrequency: "yearly" },
+    { url: `${site.url}/security`, priority: 0.2, changeFrequency: "yearly" },
   ];
 }

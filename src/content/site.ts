@@ -32,6 +32,11 @@ export const integrations = {
     "https://calendly.com/sachusnair-ai/30min",
   formEndpoint:
     process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "https://formspree.io/f/mgawagep",
+  /* The chat widget's endpoint: the Cloudflare Worker in /worker, which holds
+     the Anthropic key server-side. Empty until that Worker is deployed, and
+     the widget renders nothing while it is empty, so a half-finished chat
+     never ships. Paste the workers.dev URL (or a custom domain) here. */
+  chatEndpoint: process.env.NEXT_PUBLIC_CHAT_ENDPOINT ?? "",
 } as const;
 
 /* The nav points at pages rather than at anchors on a single page. The
@@ -585,6 +590,35 @@ export type Social = {
   href: string | null;
 };
 
+/* The chat widget. Every string it can show lives here, including the two it
+   shows when something breaks, so the failure states read like the rest of the
+   site rather than like a stack trace.
+
+   `note` is a required honesty line. The assistant is a language model
+   answering from a system prompt, it has no account data and no access to
+   anything a visitor has, and it is answering for a product that is not live.
+   Saying so under the transcript is what keeps the widget from implying
+   otherwise. Do not remove or soften it. */
+export const chat = {
+  launch: "Ask Noema",
+  title: "Ask Noema",
+  close: "Close",
+  /* Shown once, before the visitor has typed anything. It sets the boundary
+     of what the thing can do rather than inviting open-ended chat. */
+  greeting:
+    "Ask what Noema does, what it connects to, or how the pre-launch waiting list works. For anything about your own business, book a demo.",
+  placeholder: "Ask a question",
+  send: "Send",
+  sending: "Sending",
+  youLabel: "YOU",
+  agentLabel: "NOEMA",
+  note: "An AI assistant, answering from a brief. It can be wrong, it knows nothing about you, and nothing it says is a commitment. Noema is pre-launch.",
+  /* Two failure modes worth telling apart: the endpoint answered with an
+     error, or it could not be reached at all. */
+  error: "That did not go through. Try again, or use the contact form.",
+  offline: "The assistant is not reachable right now. The contact form still works.",
+} as const;
+
 export const socials = {
   title: "Follow",
   items: [
@@ -604,7 +638,9 @@ export const footer = {
   email: "sachu@noemabrain.com",
   location: "London, United Kingdom",
   copyright: "© 2026 Noema",
-  ctaLabel: "Book a demo",
+  /* The footer carried a third "Book a demo" button, directly under the one in
+     the closing section. Removed on the client's instruction; the closing
+     section and the nav still carry one each. */
   /* Grouped columns. Legal keeps its own heading rather than sitting loose in
      the bottom bar, which is where Privacy and Terms used to live. */
   columns: [
@@ -622,29 +658,181 @@ export const footer = {
       links: [
         { label: "Privacy", href: "/privacy" },
         { label: "Terms", href: "/terms" },
+        { label: "Security", href: "/security" },
       ],
     },
   ],
 } as const;
 
+/** The registered facts a data controller has to publish. Every one of these
+ *  is a real-world fact nobody can invent: the pages render each line only
+ *  when it is filled in, so an unfilled value is an absent line rather than a
+ *  wrong one.
+ *
+ *  Filling these in matters more than the prose around them. A privacy notice
+ *  that does not name its controller does not meet UK GDPR Article 13(1)(a),
+ *  and it is the first thing an assessor or a cautious buyer looks for. */
+export const company = {
+  /** Registered name, e.g. "Noema Technologies Ltd". Empty until incorporated. */
+  legalName: "",
+  /** Companies House number. */
+  companyNumber: "",
+  /** Registered office address, one line. */
+  registeredAddress: "",
+  /** ICO data protection register entry, e.g. "ZB123456". A controller
+   *  processing personal data by automated means generally has to pay the
+   *  ICO's data protection fee and appear on the register. */
+  icoRegistration: "",
+} as const;
+
+export type LegalSection = { heading: string; body: readonly string[] };
+
 export const legal = {
+  /* Both notices carry a date. An undated policy reads as unmaintained, and
+     it is the field a reviewer checks to see whether the page kept up with
+     the product. Update it whenever the text below changes. */
+  updated: "16 August 2026",
+  updatedLabel: "Last updated",
   privacy: {
     title: "Privacy",
-    body: [
-      "Noema is pre-launch. This page is a placeholder and will be replaced with a full privacy notice before the product is available.",
-      "Today the only personal data we hold is what you send us directly: your name, your email address and anything you tell us on a demo call. We use it to reply to you and to arrange that call. We do not sell it and we do not share it with anyone else.",
-      "We do not run analytics, advertising or tracking cookies on this site.",
-      "To ask what we hold or to have it deleted, email sachu@noemabrain.com and we will action it.",
-    ],
+    intro:
+      "This notice covers this website. Noema is pre-launch, so no customer business data is processed yet; when the product is available, processing for customers will be governed by a separate agreement rather than by this page.",
+    sections: [
+      {
+        heading: "Who is responsible",
+        body: [
+          "Noema is the data controller for the personal data described here. Questions, requests and complaints all go to sachu@noemabrain.com and are answered by Sachu S Nair.",
+        ],
+      },
+      {
+        heading: "What we collect, and why",
+        body: [
+          "The contact form collects your name, email address, company name and your message, so that we can reply. The waiting list collects your email address alone, so that we can tell you when Noema is available. Booking a demo collects your name, email address and the time you choose.",
+          "The assistant in the corner of the site sends what you type in it, and the reply, to the model provider named below in order to answer you. Do not put confidential information or personal data about other people into it.",
+          "Our host records standard server logs, including IP addresses, as part of serving the site. We do not run analytics, advertising, or tracking of any kind, and we do not build a profile of you.",
+        ],
+      },
+      {
+        heading: "Our lawful basis",
+        body: [
+          "For replying to an enquiry and arranging a demo, our basis is legitimate interests: you contacted us and expect an answer. For the waiting list, it is your consent, which you can withdraw at any time by replying to any message or emailing us. For server logs, it is our legitimate interest in operating and securing the site.",
+        ],
+      },
+      {
+        heading: "Who else handles it",
+        body: [
+          "We use a small number of suppliers to run the site. They act on our instructions and each one sees only what its job requires: Formspree, which delivers contact form and waiting list submissions to us; Calendly, which handles demo bookings and only loads if you press the booking button; Anthropic, which answers the assistant; and Hostinger, which hosts the site.",
+          "We do not sell personal data, we do not share it for advertising, and no one outside that list receives it unless the law requires it.",
+        ],
+      },
+      {
+        heading: "Where it goes",
+        body: [
+          "Formspree, Calendly and Anthropic are based in the United States, so using them transfers personal data outside the United Kingdom. Those transfers rely on the transfer terms in each supplier's data processing agreement, which use the UK's International Data Transfer Addendum or the equivalent standard contractual clauses.",
+        ],
+      },
+      {
+        heading: "How long we keep it",
+        body: [
+          "Enquiries are kept for two years from our last exchange, so that we have the context if you come back to us. Waiting list addresses are kept until you ask to come off the list or until we tell you Noema is available and you do not take it up. Assistant conversations are not stored by us: they exist only in your browser for the length of the conversation and are gone when you close the page.",
+        ],
+      },
+      {
+        heading: "Cookies",
+        body: [
+          "This site sets no cookies of its own, and there are no analytics, advertising or tracking cookies. If you open the demo booking, Calendly sets its own cookies inside its booking window; that only happens if you press the button.",
+        ],
+      },
+      {
+        heading: "Your rights",
+        body: [
+          "You can ask us for a copy of the personal data we hold about you, ask us to correct it, ask us to delete it, ask us to restrict what we do with it, object to our using it, or ask for it in a portable form. Where we rely on consent you can withdraw it at any time. Email sachu@noemabrain.com and we will action it within one month.",
+          "If you think we have handled your data badly, please tell us first so we can put it right. You also have the right to complain to the Information Commissioner's Office at ico.org.uk, or on 0303 123 1113.",
+        ],
+      },
+    ] satisfies LegalSection[],
   },
   terms: {
     title: "Terms",
-    body: [
-      "Noema is pre-launch. This page is a placeholder and will be replaced with full terms before the product is available.",
-      "This website is provided for information. Nothing on it is a contract, an offer or a guarantee of availability, pricing or features. The product described here is in build and the description may change.",
-      "Booking a demo places you under no obligation. Any commercial arrangement with a design partner will be set out in a separate written agreement.",
-      "Questions about any of this go to sachu@noemabrain.com.",
-    ],
+    intro:
+      "These terms cover your use of this website. They are not the terms of the product: any commercial arrangement will be set out in a separate written agreement.",
+    sections: [
+      {
+        heading: "What this site is",
+        body: [
+          "This website is published for information. Noema is in build and nothing here is an offer, a contract, or a promise that a feature, an integration, a price or a date will arrive. The panels shown on the home page contain illustrative example data, not real results. Booking a demo or joining the waiting list places you under no obligation and costs you nothing.",
+        ],
+      },
+      {
+        heading: "The assistant",
+        body: [
+          "The assistant in the corner of the site is an AI model answering from a written brief. It can be wrong, it has no access to your business or your account, and it cannot commit us to anything. Nothing it says is professional, legal, financial or technical advice, and nothing it says overrides these terms or the privacy notice. Do not enter confidential information or personal data about other people into it.",
+        ],
+      },
+      {
+        heading: "Using it fairly",
+        body: [
+          "Please do not attempt to break, overload, scrape or gain unauthorised access to this site or the assistant, use it to send unlawful or abusive content, or use automated means to make requests at volume. We may withdraw access to the assistant, or to the site, if it is being misused.",
+        ],
+      },
+      {
+        heading: "Who owns what",
+        body: [
+          "The text, design and code of this site belong to us. The product and company names and logos shown on the site belong to their respective owners and appear only to identify the tools Noema is built to work with; their appearance implies no partnership, endorsement or affiliation.",
+        ],
+      },
+      {
+        heading: "Liability",
+        body: [
+          "The site is provided as it is. We do not promise it will be available without interruption or free of errors, and to the extent the law allows we are not liable for loss arising from relying on anything published here. Nothing in these terms limits liability for death or personal injury caused by negligence, for fraud, or for anything else that cannot lawfully be limited.",
+        ],
+      },
+      {
+        heading: "Changes, and the law that applies",
+        body: [
+          "We may update this site and these terms; the date above shows when they last changed. These terms and any dispute arising from them are governed by the law of England and Wales, and the courts of England and Wales have exclusive jurisdiction.",
+          "Questions about any of this go to sachu@noemabrain.com.",
+        ],
+      },
+    ] satisfies LegalSection[],
+  },
+  /* Restores the ground the removed Trust section used to cover. Everything in
+     the first two sections is a statement about how the site works today and
+     is verifiable from the code. The third section is deliberately written as
+     commitments in the future tense, because there are no customers and so no
+     practice to describe yet — do not rewrite them into the present tense. */
+  security: {
+    title: "Security and data",
+    intro:
+      "Noema is pre-launch. No customer business data is processed, no system is connected to anything, and there is no product to secure yet. This page says what is true today and what we are committing to before any customer data is touched.",
+    sections: [
+      {
+        heading: "This website today",
+        body: [
+          "The site is a set of static files served over HTTPS. It runs no database, stores nothing about you, and sets no cookies of its own. There is no analytics, no advertising and no tracking on any page.",
+          "Form submissions go to Formspree and demo bookings to Calendly, and both reach us as email. The assistant is answered by a small endpoint we run; the API key it uses is held server-side and never reaches your browser, conversations are not stored, and message length, conversation length and request rate are all capped.",
+        ],
+      },
+      {
+        heading: "What Noema will connect to",
+        body: [
+          "The integrations described on the home page are in build. Nothing is connected to any live business system today, and the figures shown in the product panels are illustrative examples rather than real data from anyone.",
+        ],
+      },
+      {
+        heading: "What we will commit to before any customer data",
+        body: [
+          "Read-only access wherever the work allows it, and a person approving anything that leaves the business. Customer data held in the United Kingdom or the European Economic Area. Customer data never used to train models. Deletion on request, and export of what we hold. A written data processing agreement, and a published list of the suppliers involved, before any customer is onboarded.",
+          "These are commitments about how Noema will be built, not a description of controls already in place or of any certification held. We hold no security certification today and do not claim one.",
+        ],
+      },
+      {
+        heading: "Reporting something",
+        body: [
+          "If you find a security problem with this site or the assistant, email sachu@noemabrain.com with enough detail to reproduce it. We will confirm we have received it and tell you what we have done.",
+        ],
+      },
+    ] satisfies LegalSection[],
   },
   back: "Back to Noema",
 } as const;

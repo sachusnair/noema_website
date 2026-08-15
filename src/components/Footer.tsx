@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { BookDemoButton } from "./BookDemoButton";
 import { Socials } from "./Socials";
 import { footer, site } from "@/content/site";
 
@@ -24,11 +23,6 @@ export function Footer() {
               </a>
               <span className="text-step-2 text-bone/75">{footer.location}</span>
             </div>
-
-            <BookDemoButton
-              label={footer.ctaLabel}
-              className="mt-8 py-2.5 text-step-1"
-            />
           </div>
 
           {/* Columns rather than a single row: the link list is long enough now
