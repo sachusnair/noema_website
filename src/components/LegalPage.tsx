@@ -54,7 +54,9 @@ export function LegalPage({
         {legal.updatedLabel} {legal.updated}
       </p>
 
-      <div className="mt-8 max-w-[68ch]">
+      {/* No measure cap: the client wants these pages to run the full content
+          width, the same as the connections section. */}
+      <div className="mt-8">
         <p className="text-step-3 leading-[1.6] text-bone/80">{intro}</p>
 
         {sections.map((section) => (
