@@ -130,9 +130,13 @@ function StepHeading({
   );
 }
 
+/* Padded heavily at the top, lightly at the bottom. The section used to end
+   with a labelled row group; now it ends on a marquee row, and a matching
+   128px below it left a void the width of the page. 64px is what every other
+   section on the page carries. */
 export function Connections() {
   return (
-    <RailSection id="connections" className="py-24 lg:py-32">
+    <RailSection id="connections" className="pt-24 pb-16 lg:pt-32">
       {/* The step number is set large and hollow beside the heading so the
           section reads as the first thing that happens, not as a feature. */}
       <Reveal>
