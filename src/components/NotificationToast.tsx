@@ -15,7 +15,10 @@ import { alert as alertCopy } from "@/content/site";
    - Pointer: entering opens it, leaving closes it after a short grace period
      so crossing a gap does not snap it shut mid-read
    - Keyboard: focus opens it, blur outside closes it, Escape closes it
-   - Touch: there is no hover, so a tap opens it and pins it until dismissed */
+   - Touch: the hover handlers are not attached at all. Phones synthesise
+     mouseenter and mouseleave from taps and from scrolls that begin on an
+     element, which opened the card and shut it again on its own, so the pill
+     appeared to vanish a second after arriving. A tap opens and pins it. */
 
 const APPEAR_AFTER = 1800;
 const CLOSE_GRACE = 260;
@@ -30,6 +33,18 @@ export function NotificationToast() {
   const rootRef = useRef<HTMLDivElement>(null);
   const headingId = useId();
   const [maxHeight, setMaxHeight] = useState<number>();
+  const [canHover, setCanHover] = useState(false);
+
+  /* Only a device with a real pointer gets the hover behaviour. Checked at
+     runtime rather than by breakpoint, because a small window on a laptop
+     still has a mouse and a large tablet still does not. */
+  useEffect(() => {
+    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const sync = () => setCanHover(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   // Held until the section is actually on screen, so the arrival is not spent
   // above the fold before anyone has scrolled down to it.
@@ -109,8 +124,8 @@ export function NotificationToast() {
       data-visible={visible}
       data-reduced={reduced ? "true" : undefined}
       className="notification-root relative z-30 mb-5 inline-block"
-      onMouseEnter={openNow}
-      onMouseLeave={closeSoon}
+      onMouseEnter={canHover ? openNow : undefined}
+      onMouseLeave={canHover ? closeSoon : undefined}
       onFocus={openNow}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node)) {
@@ -132,7 +147,7 @@ export function NotificationToast() {
       ) : (
         <button
           type="button"
-          // Tap has no hover, so it opens and pins until dismissed.
+          // Without hover this is the only way in, so it pins until dismissed.
           onClick={() => {
             setPinned(true);
             openNow();
