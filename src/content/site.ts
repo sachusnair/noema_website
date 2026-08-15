@@ -359,20 +359,19 @@ export const connections = {
   h2: "It connects with the tools your business already uses.",
   sub: "Noema is built to work with the tools you rely on every day. If your tool isn't supported yet but has an API, tell us — we'll build the connection.",
   /* Each tile pairs the official brand mark with the wordmark. Marks come from
-     simple-icons, except Outlook and Slack, whose official icons are held in
-     /public/logos because both brands had theirs removed from that set at
-     their own request. See public/logos/SOURCES.md for provenance.
+     simple-icons, except Outlook, Slack, GoCardless and Monday, whose icons
+     are held in /public/logos because none of the four are in that set. See
+     public/logos/SOURCES.md for provenance and the trademark position.
 
-     Dext, GoCardless and Monday still show the wordmark alone: Dext has no
-     public asset, and the other two exist only as wide wordmarks that cannot
-     read at 16px beside a text label. */
+     Every tile here carries a mark. Dext was dropped from the row rather than
+     shown bare: its logo is the word itself, with no square mark that reads at
+     16px. Adding a tool back without one puts that odd tile out again. */
   rowA: [
     { name: "Xero", icon: "xero", brandColor: "#13B5EA" },
     { name: "Sage", icon: "sage", brandColor: "#00D639" },
     { name: "QuickBooks", icon: "quickbooks", brandColor: "#2CA01C" },
-    { name: "Dext" },
     { name: "Stripe", icon: "stripe", brandColor: "#635BFF" },
-    { name: "GoCardless" },
+    { name: "GoCardless", file: "/logos/gocardless.svg" },
   ] satisfies Tool[],
   rowB: [
     { name: "Outlook", file: "/logos/outlook.svg" },
@@ -381,7 +380,7 @@ export const connections = {
     { name: "WhatsApp Business", icon: "whatsapp", brandColor: "#25D366" },
     { name: "HubSpot", icon: "hubspot", brandColor: "#FF7A59" },
     { name: "Asana", icon: "asana", brandColor: "#F06A6A" },
-    { name: "Monday" },
+    { name: "Monday", file: "/logos/monday.png" },
     { name: "Shopify", icon: "shopify", brandColor: "#7AB55C" },
   ] satisfies Tool[],
   /* The model and tooling layer, kept in its own labelled row. These are not
