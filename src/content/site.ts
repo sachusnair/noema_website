@@ -669,9 +669,13 @@ export const footer = {
  *  when it is filled in, so an unfilled value is an absent line rather than a
  *  wrong one.
  *
- *  Filling these in matters more than the prose around them. A privacy notice
- *  that does not name its controller does not meet UK GDPR Article 13(1)(a),
- *  and it is the first thing an assessor or a cautious buyer looks for. */
+ *  All four are empty on purpose. Noema is not incorporated yet — that happens
+ *  after endorsement — so until then the privacy notice names Sachu as the
+ *  controller in his own right, which is what UK GDPR Article 13(1)(a) asks of
+ *  a sole trader. Fill these in when the company exists and the lines appear
+ *  on all three legal pages; the "who is responsible" paragraph in the privacy
+ *  notice and the intro to the terms both need their wording updated at the
+ *  same time, because both currently say there is no company. */
 export const company = {
   /** Registered name, e.g. "Noema Technologies Ltd". Empty until incorporated. */
   legalName: "",
@@ -701,7 +705,8 @@ export const legal = {
       {
         heading: "Who is responsible",
         body: [
-          "Noema is the data controller for the personal data described here. Questions, requests and complaints all go to sachu@noemabrain.com and are answered by Sachu S Nair.",
+          "Noema is not yet incorporated. It is the working name of a project by Sachu S Nair, based in London, and until a company exists Sachu is the data controller for the personal data described here. This notice will be updated with the registered company details, and with an entry on the Information Commissioner's register, once there is a company to register.",
+          "Questions, requests and complaints all go to sachu@noemabrain.com and are answered by Sachu directly.",
         ],
       },
       {
@@ -755,7 +760,7 @@ export const legal = {
   terms: {
     title: "Terms",
     intro:
-      "These terms cover your use of this website. They are not the terms of the product: any commercial arrangement will be set out in a separate written agreement.",
+      "These terms cover your use of this website. “We” means Sachu S Nair, trading as Noema, based in London; Noema is not yet incorporated, and these terms will be updated with the registered company details once it is. They are not the terms of the product: any commercial arrangement will be set out in a separate written agreement.",
     sections: [
       {
         heading: "What this site is",
