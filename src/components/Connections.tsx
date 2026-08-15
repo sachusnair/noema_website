@@ -208,21 +208,15 @@ export function Connections() {
           the longest and visibly outran the other two. Each duration below is
           that row's cycle divided by a shared 27px per second, so all three
           move at one pace. Re-measure the cycle if a row's tools change. */}
+      {/* Three rows on one stack. The third used to sit apart under a "Built
+          on" label because it is the model layer rather than systems a
+          customer runs; that label was dropped on the client's instruction, so
+          the row now reads as part of the same claim as the two above it. */}
       <div className="mt-10 flex flex-col gap-3">
         {/* 1378px cycle */}
         <Row tools={connections.rowA} direction="left" duration="51s" />
         {/* 2470px cycle */}
         <Row tools={connections.rowB} direction="right" duration="91s" />
-      </div>
-
-      {/* The model layer, labelled separately. These are not systems a customer
-          runs, so putting them in the rows above would make the heading claim
-          something untrue. */}
-      <Reveal index={8}>
-        <p className="type-mono mt-16 text-ash">{connections.builtOnLabel}</p>
-      </Reveal>
-
-      <div className="mt-5">
         {/* 1792px cycle */}
         <Row tools={connections.rowC} direction="left" duration="66s" />
       </div>

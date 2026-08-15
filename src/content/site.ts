@@ -383,10 +383,11 @@ export const connections = {
     { name: "Monday", file: "/logos/monday.png" },
     { name: "Shopify", icon: "shopify", brandColor: "#7AB55C" },
   ] satisfies Tool[],
-  /* The model and tooling layer, kept in its own labelled row. These are not
-     things a customer runs, so folding them into "the stack you already run"
-     would make that sentence untrue. */
-  builtOnLabel: "Built on",
+  /* The model and tooling layer. It carried a "Built on" label that set it
+     apart from the two rows above, because these are what Noema is built on
+     rather than tools a customer already runs. The label was dropped on the
+     client's instruction and the row now sits with the others, under a heading
+     that says these are the tools your business already uses. */
   rowC: [
     { name: "OpenAI", file: "/chatgpt.png" },
     { name: "Claude", icon: "claude", brandColor: "#D97757" },
