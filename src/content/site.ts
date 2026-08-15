@@ -594,8 +594,7 @@ export const socials = {
     {
       name: "LinkedIn",
       badge: "in",
-      /* Sachu's personal profile, standing in until the company page exists. */
-      href: "https://www.linkedin.com/in/sachu-s-nair",
+      href: "https://www.linkedin.com/company/noemabrain",
     },
     { name: "X", icon: "x", href: null },
     { name: "YouTube", icon: "youtube", href: null },
