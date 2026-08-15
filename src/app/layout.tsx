@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, JetBrains_Mono, Poppins } from "next/font/google";
+import { ChatWidget } from "@/components/ChatWidget";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -72,6 +73,9 @@ export default function RootLayout({
           `}</style>
         </noscript>
         {children}
+        {/* Sits on every route. Renders nothing until the chat endpoint is
+            filled in, and nothing at all with JavaScript off. */}
+        <ChatWidget />
       </body>
     </html>
   );
