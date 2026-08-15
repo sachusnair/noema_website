@@ -39,6 +39,11 @@ function Tile({ tool }: { tool: Tool }) {
   );
 }
 
+/* min() so the ramp is 240px on a wide row but only a quarter of a narrow
+   one, where a fixed 240px would swallow the middle. */
+const MASK =
+  "linear-gradient(to right, transparent, black min(240px, 25%), black calc(100% - min(240px, 25%)), transparent)";
+
 function Row({
   tools,
   direction,
@@ -52,11 +57,14 @@ function Row({
     <div
       className="marquee overflow-hidden"
       style={{
-        // Tiles fade out at both ends so the loop has no visible seam.
-        maskImage:
-          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-        WebkitMaskImage:
-          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+        /* Tiles fade out at both ends so the loop has no visible seam. The
+           ramp has to be wider than a tile, or a tile straddling the edge is
+           still solid where the container cuts it and reads as a broken box
+           rather than one on its way out. The widest tile is about 230px, so
+           the ramp is 240px, easing off on a narrow screen where that would
+           be most of the row. */
+        maskImage: MASK,
+        WebkitMaskImage: MASK,
       }}
     >
       <div
