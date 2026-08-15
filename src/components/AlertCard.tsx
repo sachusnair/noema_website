@@ -73,7 +73,10 @@ export function AlertCard({
               <p className="type-mono mt-2 text-ash">{alertCopy.ready}</p>
             </div>
 
-            <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
+            {/* Wraps rather than running side by side at any cost. The two
+                labels together are wider than this column, and holding them on
+                one row pushed the dialog into a horizontal scrollbar. */}
+            <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
               <button
                 type="button"
                 onClick={onDismiss}
