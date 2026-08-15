@@ -64,18 +64,19 @@ function Row({
         data-direction={direction}
         style={{ ["--marquee-duration" as string]: duration }}
       >
-        {/* The list is rendered twice so the translation can loop at -50%.
-            The duplicate is hidden from assistive technology. */}
-        <div className="flex">
-          {tools.map((tool) => (
-            <Tile key={tool.name} tool={tool} />
-          ))}
-        </div>
-        <div className="flex" aria-hidden="true">
-          {tools.map((tool) => (
-            <Tile key={tool.name} tool={tool} />
-          ))}
-        </div>
+        {/* Four copies, and the translation loops at -50%, so one cycle is two
+            copies. Two is what it takes: a single copy of the shorter rows is
+            narrower than the content column, and the loop then carried a band
+            of empty page across the row. Anything above half the column width
+            per copy is safe. Only the first copy is exposed to assistive
+            technology. */}
+        {[0, 1, 2, 3].map((copy) => (
+          <div className="flex" key={copy} aria-hidden={copy === 0 ? undefined : true}>
+            {tools.map((tool) => (
+              <Tile key={tool.name} tool={tool} />
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -201,9 +202,17 @@ export function Connections() {
       {/* Each tile pairs the brand's own mark with its name set in the utility
           font. Colouring the mark but not the name holds the palette, which a
           row of fourteen coloured wordmarks would break. */}
+      {/* Durations differ because the rows do. The loop runs to -50% of the
+          track, so a row travels its own two-copy cycle in whatever time it is
+          given, and equal durations read as unequal speed: the middle row is
+          the longest and visibly outran the other two. Each duration below is
+          that row's cycle divided by a shared 27px per second, so all three
+          move at one pace. Re-measure the cycle if a row's tools change. */}
       <div className="mt-10 flex flex-col gap-3">
-        <Row tools={connections.rowA} direction="left" duration="52s" />
-        <Row tools={connections.rowB} direction="right" duration="64s" />
+        {/* 1378px cycle */}
+        <Row tools={connections.rowA} direction="left" duration="51s" />
+        {/* 2470px cycle */}
+        <Row tools={connections.rowB} direction="right" duration="91s" />
       </div>
 
       {/* The model layer, labelled separately. These are not systems a customer
@@ -214,7 +223,8 @@ export function Connections() {
       </Reveal>
 
       <div className="mt-5">
-        <Row tools={connections.rowC} direction="left" duration="46s" />
+        {/* 1792px cycle */}
+        <Row tools={connections.rowC} direction="left" duration="66s" />
       </div>
     </RailSection>
   );
