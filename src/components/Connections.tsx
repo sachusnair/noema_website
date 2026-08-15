@@ -18,7 +18,12 @@ import {
    ransom note, while the marks still read as the real logos. */
 function Tile({ tool }: { tool: Tool }) {
   return (
-    <span className="mx-1.5 flex shrink-0 items-center gap-2.5 rounded-default border border-ash/45 px-5 py-3.5 text-ash transition-colors duration-200 hover:border-bone hover:text-bone">
+    /* Fixed height rather than vertical padding. The mono face gave the tile a
+       46.53px height, so each row sat on a different subpixel phase and a 1px
+       border at 45% opacity washed out on whichever row landed worst — one
+       row would lose its bottom line while its neighbours kept theirs. At 48px
+       the pitch is a whole 60px and every row renders the same. */
+    <span className="mx-1.5 flex h-12 shrink-0 items-center gap-2.5 rounded-default border border-ash/45 px-5 text-ash transition-colors duration-200 hover:border-bone hover:text-bone">
       {tool.file ? (
         /* An official asset for a brand with no mark in simple-icons. Sized
            explicitly so it reserves its space and cannot shift the row. */
