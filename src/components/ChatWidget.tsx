@@ -138,8 +138,9 @@ export function ChatWidget() {
           ref={launcherRef}
           type="button"
           onClick={() => setOpen(true)}
-          className="type-mono fixed right-5 bottom-5 z-50 flex h-12 cursor-pointer items-center rounded-default border border-ash/50 bg-carbon px-5 text-ash transition-colors duration-200 hover:border-ember hover:text-ember"
+          className="chat-launcher type-mono fixed right-5 bottom-5 z-50 flex h-12 cursor-pointer items-center gap-3 rounded-default border border-ash/45 bg-carbon px-5 text-bone transition-colors duration-200 hover:border-ember"
         >
+          <span className="chat-dot" aria-hidden="true" />
           {chatCopy.launch}
         </button>
       )}
