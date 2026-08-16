@@ -605,10 +605,17 @@ export const aboutPage = {
     h2: "We are not building another automation tool.",
     statement: "We are building the intelligence between the work.",
     body: "Traditional automation follows rules written in advance. Noema is built to understand context, join information across systems, and work out what needs to happen next.",
-    left: { title: "Traditional automation", steps: ["Trigger", "Rule", "Action"] },
+    /* The note under each column is the sentence the diagram is making. The
+       left one is why the left column does not move. */
+    left: {
+      title: "Traditional automation",
+      steps: ["Trigger", "Rule", "Action"],
+      note: "The same three steps, whatever the situation turns out to be.",
+    },
     right: {
       title: "Noema",
       steps: ["Information", "Context", "Understanding", "Decision", "Action"],
+      note: "Two more steps before it acts, and both of them are about your business.",
     },
   },
 

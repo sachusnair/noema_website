@@ -193,13 +193,20 @@ export function AboutModel() {
 
 /* ------------------------------------------------------------ 5. Contrast */
 
+/* `strong` is the Noema column. It is the only one that moves: a signal walks
+   down its chain and starts again, while the left column sits still. That
+   contrast is the section's argument made in motion rather than in prose —
+   one path is fixed, the other reasons its way through — so do not "fix" the
+   left column by animating it too. */
 function Steps({
   title,
   steps,
+  note,
   strong,
 }: {
   title: string;
   steps: readonly string[];
+  note: string;
   strong: boolean;
 }) {
   return (
@@ -212,30 +219,48 @@ function Steps({
         strong ? "border-ember/60 bg-carbon" : "border-ash/35"
       }`}
     >
-      <p className={`type-mono ${strong ? "text-ember" : "text-ash"}`}>{title}</p>
-      <ol className="mt-6 flex flex-col gap-3">
+      <div className="flex items-baseline justify-between gap-4">
+        <p className={`type-mono ${strong ? "text-ember" : "text-ash"}`}>
+          {title}
+        </p>
+        <p className="type-mono text-ash">{`${steps.length} steps`}</p>
+      </div>
+
+      <ol className="mt-6 flex flex-col">
         {steps.map((step, index) => (
-          <li key={step}>
+          <li key={step} style={{ ["--i" as string]: index }}>
             <span
-              className={`block rounded-default border px-4 py-3 text-step-2 ${
+              className={`flex items-center gap-4 rounded-default border px-4 py-3 text-step-2 ${
                 strong
-                  ? "border-ash/45 text-bone"
+                  ? "chain-step border-ash/45 text-bone"
                   : "border-ash/25 text-bone/60"
               }`}
             >
+              <span
+                aria-hidden="true"
+                className={`type-mono ${strong ? "text-ember" : "text-ash/70"}`}
+              >
+                {`0${index + 1}`}
+              </span>
               {step}
             </span>
+
             {index < steps.length - 1 ? (
               <span
                 aria-hidden="true"
-                className={`mx-auto mt-3 block h-3 w-px ${
-                  strong ? "bg-ember/70" : "bg-ash/35"
+                className={`mx-auto block h-5 w-px ${
+                  strong ? "chain-link bg-ash/35" : "bg-ash/25"
                 }`}
+                style={{ ["--i" as string]: index }}
               />
             ) : null}
           </li>
         ))}
       </ol>
+
+      <p className="mt-6 border-t border-ash/25 pt-5 text-step-2 leading-[1.5] text-bone/70">
+        {note}
+      </p>
     </div>
   );
 }
@@ -260,10 +285,20 @@ export function AboutContrast() {
 
       <div className="mt-14 grid items-start gap-4 lg:grid-cols-2">
         <Reveal index={3}>
-          <Steps title={left.title} steps={left.steps} strong={false} />
+          <Steps
+            title={left.title}
+            steps={left.steps}
+            note={left.note}
+            strong={false}
+          />
         </Reveal>
         <Reveal index={4}>
-          <Steps title={right.title} steps={right.steps} strong />
+          <Steps
+            title={right.title}
+            steps={right.steps}
+            note={right.note}
+            strong
+          />
         </Reveal>
       </div>
     </Section>

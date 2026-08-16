@@ -940,3 +940,80 @@ body {
     transform: none;
   }
 }
+
+/* -------------------------------------------------------------------------
+   The automation / Noema comparison
+   The point of the section is that one path is fixed and the other reasons on
+   the way through, so only the Noema column moves. The left column is static
+   on purpose: its stillness is the argument, not an oversight.
+   ------------------------------------------------------------------------- */
+
+/* A signal walks down the chain, one step at a time, and starts again. Each
+   step is lit for a fifth of the cycle, offset by its own index. */
+.chain-step {
+  --chain-cycle: 6s;
+  --chain-step-delay: calc(var(--i) * 1s);
+  animation: chain-activate var(--chain-cycle) linear infinite;
+  animation-delay: var(--chain-step-delay);
+}
+
+@keyframes chain-activate {
+  0%,
+  16% {
+    border-color: color-mix(in srgb, var(--color-ember) 70%, transparent);
+    color: var(--color-bone);
+  }
+  24%,
+  100% {
+    border-color: color-mix(in srgb, var(--color-ash) 45%, transparent);
+    color: var(--color-bone);
+  }
+}
+
+/* The connector between two lit steps: a dot travelling the gap, timed to
+   arrive as the next step lights. */
+.chain-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.chain-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 9999px;
+  background-color: var(--color-ember);
+  opacity: 0;
+  animation: chain-travel 6s linear infinite;
+  animation-delay: calc(var(--i) * 1s);
+}
+
+@keyframes chain-travel {
+  0% {
+    top: -3px;
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  14% {
+    top: 100%;
+    opacity: 1;
+  }
+  18%,
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chain-step,
+  .chain-link::after {
+    animation: none;
+  }
+}
