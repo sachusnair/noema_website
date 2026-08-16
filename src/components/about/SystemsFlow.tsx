@@ -2,27 +2,28 @@ import Image from "next/image";
 import { BrandMark, hasBrandMark } from "../BrandMark";
 import { aboutPage, connections, type Tool } from "@/content/site";
 
-/* The hero diagram: eight systems feeding one layer, which produces insights,
-   decisions and actions.
+/* The hero diagram: the systems a business runs, feeding one layer, which
+   gives back insights, decisions and actions.
 
-   The sources are the real brand marks rather than category words, looked up
-   in the connections rows so the artwork lives in one place. "Email, Finance,
-   CRM" told a visitor nothing they could not guess; Outlook and Xero tell them
-   the thing they actually want to know, which is whether their stack is on the
-   list.
+   The geometry is the thing to understand before changing anything here. The
+   connector lines are drawn in an SVG that spaces its endpoints evenly across
+   the full width — line i ends at (i + 0.5) / n. So the tiles have to sit on
+   that same grid or the lines point at nothing. An earlier version centred the
+   tiles in a flex row at their natural widths, and the outer output tiles
+   ended up 24% of the figure away from their own connectors: only the middle
+   one ever joined up. Both rows are equal-column grids now, which is what
+   makes the endpoints land on the tiles by construction rather than by luck.
 
-   Nothing here is still. A signal fires from each system in turn, its
-   connector warms as the signal travels, the middle answers, and the three
-   outputs light in sequence once the round is through. One pass takes eight
-   seconds, which is slow enough to read as deliberate rather than busy.
+   Keep it that way. If a row stops being an n-column grid, its lines stop
+   connecting, and it is the kind of wrong that looks fine in a screenshot.
 
-   Built from bordered tiles, hairlines and one accent — not the glowing
-   connectors the brief asked for, since glow is on the banned list. Movement
-   carries the flow instead of light.
+   Below lg the whole thing stacks: eight columns cannot hold a logo each on a
+   phone, so the fan becomes a vertical flow with one line down the middle.
 
-   The connector bands are SVG stretched with preserveAspectRatio="none". The
-   lines are straight, so distorting them horizontally costs nothing and the
-   whole thing stays fluid at any width without measuring anything. */
+   Nothing is still. A signal fires from each system in turn, its connector
+   warms as it travels, the middle beats on arrival, and the outputs light once
+   the round is through. Movement carries the flow rather than glow, which the
+   brief bans. */
 
 const ALL_TOOLS: readonly Tool[] = [...connections.rowA, ...connections.rowB];
 
@@ -30,31 +31,54 @@ function findTool(name: string): Tool | undefined {
   return ALL_TOOLS.find((tool) => tool.name === name);
 }
 
-function SourceTile({ tool, index }: { tool: Tool; index: number }) {
+/** The brand's own mark, or nothing if the set has no mark for it. */
+function Mark({ tool }: { tool: Tool }) {
+  if (tool.file) {
+    return (
+      <Image
+        src={tool.file}
+        alt=""
+        width={20}
+        height={20}
+        className="size-5 shrink-0"
+      />
+    );
+  }
+  if (hasBrandMark(tool.icon)) {
+    return (
+      <span style={{ color: tool.brandColor }} className="flex">
+        <BrandMark slug={tool.icon as string} className="size-5" />
+      </span>
+    );
+  }
+  return null;
+}
+
+/* On the wide diagram the tile is the mark alone: eight names will not fit
+   across one row, and a row of logos is what a visitor scans for anyway. The
+   name is still there for a screen reader, and appears under the tile on
+   hover. */
+function LogoTile({ tool, index }: { tool: Tool; index: number }) {
   return (
     <span
       style={{ ["--i" as string]: index }}
-      className="flow-tile type-mono flex h-10 shrink-0 items-center gap-2.5 rounded-default border border-ash/45 px-4 text-ash"
+      className="group relative flex justify-self-center"
     >
-      {tool.file ? (
-        <Image
-          src={tool.file}
-          alt=""
-          width={16}
-          height={16}
-          className="size-4 shrink-0"
-        />
-      ) : hasBrandMark(tool.icon) ? (
-        <span style={{ color: tool.brandColor }} className="flex">
-          <BrandMark slug={tool.icon as string} className="size-4" />
-        </span>
-      ) : null}
-      {tool.name}
+      <span className="flow-tile flex size-14 items-center justify-center rounded-default border border-ash/45">
+        <Mark tool={tool} />
+      </span>
+      <span className="sr-only">{tool.name}</span>
+      <span
+        aria-hidden="true"
+        className="type-mono pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap text-ash opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+      >
+        {tool.name}
+      </span>
     </span>
   );
 }
 
-/** One band of converging hairlines. `from` is how many lines enter the top. */
+/** One band of converging hairlines, endpoints on the n-column grid. */
 function Converge({
   from,
   reverse = false,
@@ -64,14 +88,13 @@ function Converge({
   reverse?: boolean;
   delayOffset?: number;
 }) {
-  // Evenly spaced along the top, all meeting the middle at the bottom.
   const xs = Array.from({ length: from }, (_, i) => ((i + 0.5) / from) * 100);
   return (
     <svg
       viewBox="0 0 100 40"
       preserveAspectRatio="none"
       aria-hidden="true"
-      className="h-12 w-full"
+      className="h-14 w-full"
     >
       {xs.map((x, index) => (
         <line
@@ -89,43 +112,115 @@ function Converge({
   );
 }
 
+/** The N mark, the same path as src/app/icon.svg, taking ember from the
+ *  palette rather than carrying a hex of its own. */
+function CoreMark({ label }: { label: string }) {
+  return (
+    <span className="flow-core flex size-16 items-center justify-center rounded-default border border-ember bg-void">
+      <svg viewBox="0 0 32 32" role="img" aria-label={label} className="size-8 text-ember">
+        <path
+          d="M9 24V8l14 16V8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function OutputTile({ label, index }: { label: string; index: number }) {
+  return (
+    <span
+      style={{ ["--i" as string]: index + 9 }}
+      className="flow-tile type-mono flex h-10 items-center justify-center justify-self-center rounded-default border border-ember/50 px-4 text-bone"
+    >
+      {label}
+    </span>
+  );
+}
+
 export function SystemsFlow() {
-  const { sources, centre, outputs, diagramLabel } = aboutPage.hero;
+  const { sources, centre, outputs, diagramLabel, diagramCaption } =
+    aboutPage.hero;
   const tools = sources
     .map(findTool)
     .filter((tool): tool is Tool => tool !== undefined);
 
   return (
     <figure>
-      <div className="flex flex-wrap justify-center gap-2">
-        {tools.map((tool, index) => (
-          <SourceTile key={tool.name} tool={tool} index={index} />
-        ))}
+      {/* Wide: the fan. Both rows are equal-column grids so the connector
+          endpoints land on the tiles. */}
+      <div className="hidden lg:block">
+        <div
+          className="grid gap-2"
+          style={{
+            gridTemplateColumns: `repeat(${tools.length}, minmax(0, 1fr))`,
+          }}
+        >
+          {tools.map((tool, index) => (
+            <LogoTile key={tool.name} tool={tool} index={index} />
+          ))}
+        </div>
+
+        <Converge from={tools.length} />
+
+        <div className="flex justify-center">
+          <CoreMark label={centre} />
+        </div>
+
+        <Converge from={outputs.length} reverse delayOffset={9} />
+
+        <div
+          className="grid gap-2"
+          style={{
+            gridTemplateColumns: `repeat(${outputs.length}, minmax(0, 1fr))`,
+          }}
+        >
+          {outputs.map((output, index) => (
+            <OutputTile key={output} label={output} index={index} />
+          ))}
+        </div>
       </div>
 
-      <Converge from={tools.length} />
+      {/* Narrow: the same story as a vertical flow. Names are shown here,
+          since there is room down the page even when there is none across
+          it. */}
+      <div className="lg:hidden">
+        <div className="flex flex-wrap justify-center gap-2">
+          {tools.map((tool, index) => (
+            <span
+              key={tool.name}
+              style={{ ["--i" as string]: index }}
+              className="flow-tile type-mono flex h-10 shrink-0 items-center gap-2.5 rounded-default border border-ash/45 px-3 text-ash"
+            >
+              <Mark tool={tool} />
+              {tool.name}
+            </span>
+          ))}
+        </div>
 
-      <div className="flex justify-center">
-        <span className="flow-core type-mono flex h-12 items-center rounded-default border border-ember px-6 text-bone">
-          {centre}
-        </span>
+        <span aria-hidden="true" className="mx-auto my-5 block h-10 w-px bg-ash/45" />
+
+        <div className="flex justify-center">
+          <CoreMark label={centre} />
+        </div>
+
+        <span aria-hidden="true" className="mx-auto my-5 block h-10 w-px bg-ash/45" />
+
+        <div className="flex flex-wrap justify-center gap-2">
+          {outputs.map((output, index) => (
+            <OutputTile key={output} label={output} index={index} />
+          ))}
+        </div>
       </div>
 
-      <Converge from={outputs.length} reverse delayOffset={9} />
-
-      <div className="flex flex-wrap justify-center gap-2">
-        {outputs.map((output, index) => (
-          <span
-            key={output}
-            style={{ ["--i" as string]: index + 9 }}
-            className="flow-tile type-mono flex h-10 shrink-0 items-center rounded-default border border-ember/50 px-4 text-bone"
-          >
-            {output}
-          </span>
-        ))}
-      </div>
-
-      <figcaption className="sr-only">{diagramLabel}</figcaption>
+      <figcaption className="type-mono mt-12 text-center text-ash">
+        {diagramCaption}
+        <span className="sr-only">{` ${diagramLabel}`}</span>
+      </figcaption>
     </figure>
   );
 }

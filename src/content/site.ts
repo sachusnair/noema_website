@@ -536,6 +536,9 @@ export const aboutPage = {
     outputs: ["Insights", "Decisions", "Actions"],
     diagramLabel:
       "Eight business systems feeding one layer, which produces insights, decisions and actions.",
+    /* Said out loud under the diagram, because a diagram only works for the
+       people who stop to read it. */
+    diagramCaption: "Every system in. One place to decide from.",
   },
 
   problem: {
