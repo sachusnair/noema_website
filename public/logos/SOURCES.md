@@ -8,6 +8,7 @@ connects to their products. They are not ours.
 | `slack.svg` | [Commons: Slack icon 2019](https://commons.wikimedia.org/wiki/File:Slack_icon_2019.svg) | Public domain |
 | `outlook.svg` | [Commons: Microsoft Outlook Icon (2025–present)](https://commons.wikimedia.org/wiki/File:Microsoft_Outlook_Icon_(2025%E2%80%93present).svg) | Public domain |
 | `gocardless.svg` | The icon `gocardless.com` declares as its own favicon, retrieved 15 Aug 2026 | © GoCardless, no licence granted |
+| *(no file)* LinkedIn glyph, inline in `src/components/Socials.tsx` | [Commons: LinkedIn icon](https://commons.wikimedia.org/wiki/File:LinkedIn_icon.svg), retrieved 16 Aug 2026 | Public domain (simple geometry) |
 | `monday.png` | The 256px app icon `monday.com` declares as its own `apple-touch-icon`, retrieved 15 Aug 2026 | © monday.com, no licence granted |
 
 The public-domain licence covers copyright on the first two files only. Every
@@ -25,6 +26,13 @@ these are the first to pull.
 They are used here nominatively, to name a product Noema integrates with. If
 either company objects, remove the file and the `file` field on that entry in
 `src/content/site.ts`; the tile falls back to a wordmark automatically.
+
+The LinkedIn entry is the "in" glyph taken unchanged from the official
+two-colour mark, with the blue plate dropped so it takes the tile's colour like
+the other three marks in that row. It is not a file: an `<img>` cannot inherit
+`currentColor`, so it is drawn as a path in the component. The **LinkedIn name
+and logo are trademarks of Microsoft**, used here nominatively to label a link
+to Noema's own page.
 
 Not held here, and why:
 

@@ -869,9 +869,8 @@ export const contact = {
 export type Social = {
   name: string;
   /** simple-icons slug. LinkedIn has no mark in the set, having been removed
-   *  at the brand's request, so it falls back to a typographic badge. */
+   *  at the brand's request, so Socials draws that one itself. */
   icon?: string;
-  badge?: string;
   href: string | null;
 };
 
@@ -922,8 +921,9 @@ export const socials = {
   title: "Follow",
   items: [
     {
+      /* No icon slug: simple-icons dropped LinkedIn at LinkedIn's request, so
+         Socials draws the real glyph itself. See public/logos/SOURCES.md. */
       name: "LinkedIn",
-      badge: "in",
       href: "https://www.linkedin.com/company/noemabrain",
     },
     { name: "X", icon: "x", href: null },

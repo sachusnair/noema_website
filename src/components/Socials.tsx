@@ -1,6 +1,25 @@
 import { BrandMark, hasBrandMark } from "./BrandMark";
 import { socials } from "@/content/site";
 
+/* LinkedIn's own mark, drawn as a path so it takes its colour from the tile
+   like the other three rather than arriving as a blue square in a monochrome
+   row. It is here rather than in BrandMark because simple-icons dropped
+   LinkedIn at LinkedIn's request, so there is no slug to look up.
+
+   Source and licence are recorded in public/logos/SOURCES.md. It is the "in"
+   glyph from the official two-colour mark, lifted unchanged — not an
+   approximation, which the brief rightly forbids. */
+const LINKEDIN_PATH =
+  "M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z";
+
+function LinkedInMark() {
+  return (
+    <svg viewBox="0 0 72 72" aria-hidden="true" focusable="false" className="size-4 fill-current">
+      <path d={LINKEDIN_PATH} />
+    </svg>
+  );
+}
+
 /* Marks are drawn in the page palette rather than brand colours. Four saturated
    logos in the footer would pull attention to the least important thing on the
    page, and several of them are near-black, which would disappear on carbon
@@ -20,12 +39,10 @@ export function Socials() {
           const mark = hasBrandMark(item.icon) ? (
             <BrandMark slug={item.icon as string} className="size-4" />
           ) : (
-            /* LinkedIn has no licensed mark available, so this is a
-               typographic badge in the site's own face rather than an
-               approximation of their logo. */
-            <span className="type-mono text-step-1" aria-hidden="true">
-              {item.badge}
-            </span>
+            /* The one mark simple-icons does not carry. It used to be a
+               typographic "in" badge in the site's own face; it is the real
+               glyph now. */
+            <LinkedInMark />
           );
 
           return (
