@@ -20,13 +20,12 @@ function LinkedInMark() {
   );
 }
 
-/* Marks are drawn in the page palette rather than brand colours. Four saturated
-   logos in the footer would pull attention to the least important thing on the
-   page, and several of them are near-black, which would disappear on carbon
-   anyway. They warm to ember on hover.
+/* Marks are drawn in their own brand colours, on the client's instruction.
+   The reasoning for the palette version they replaced is recorded beside the
+   colours in site.ts.
 
-   Accounts without a URL are skipped, so the row never shows a link that goes
-   nowhere. */
+   Hover moves the border rather than the mark: a logo that changes colour on
+   hover is no longer that company's logo. */
 const TILE =
   "flex size-10 items-center justify-center rounded-default border border-ash/50";
 
@@ -52,7 +51,8 @@ export function Socials() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${TILE} text-ash transition-colors duration-200 hover:border-ember hover:text-ember`}
+                  className={`${TILE} transition-colors duration-200 hover:border-ember`}
+                  style={{ color: item.brandColor }}
                 >
                   {mark}
                   <span className="sr-only">{item.name}</span>
@@ -64,7 +64,8 @@ export function Socials() {
                    has no hover state, so it does not invite one either.
                    Adding the href in site.ts turns it into a link. */
                 <span
-                  className={`${TILE} text-ash/45`}
+                  className={`${TILE} opacity-60`}
+                  style={{ color: item.brandColor }}
                   title={`${item.name} — link coming soon`}
                 >
                   {mark}

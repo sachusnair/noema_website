@@ -732,7 +732,7 @@ export const aboutPage = {
     cards: [
       {
         step: "01",
-        title: "AI should work inside the business.",
+        title: "Noema should work inside the business.",
         body: "Not sit beside it in another tab.",
       },
       {
@@ -747,7 +747,7 @@ export const aboutPage = {
       },
       {
         step: "04",
-        title: "Software should adapt to the business.",
+        title: "Noema should adapt to the business.",
         body: "The technology should fit how people already work, not force them into another workflow.",
       },
     ],
@@ -871,6 +871,8 @@ export type Social = {
   /** simple-icons slug. LinkedIn has no mark in the set, having been removed
    *  at the brand's request, so Socials draws that one itself. */
   icon?: string;
+  /** The brand's own colour, used for the mark. */
+  brandColor: string;
   href: string | null;
 };
 
@@ -919,16 +921,27 @@ export const chat = {
 
 export const socials = {
   title: "Follow",
+  /* Each mark is drawn in its own brand colour on the client's instruction.
+     They were the page palette before, for two reasons worth knowing if this
+     is ever reconsidered: four saturated logos pull the eye to the least
+     important thing on the page, and YouTube red sits close enough to ember
+     that the accent stops meaning "needs you" in that corner.
+
+     X is the exception that has to be handled rather than argued with. Its
+     mark is pure black, which is invisible on carbon, so it takes bone — which
+     is what X's own guidance says to use on a dark ground, not a substitute
+     colour we invented. */
   items: [
     {
       /* No icon slug: simple-icons dropped LinkedIn at LinkedIn's request, so
          Socials draws the real glyph itself. See public/logos/SOURCES.md. */
       name: "LinkedIn",
+      brandColor: "#0A66C2",
       href: "https://www.linkedin.com/company/noemabrain",
     },
-    { name: "X", icon: "x", href: null },
-    { name: "YouTube", icon: "youtube", href: null },
-    { name: "Instagram", icon: "instagram", href: null },
+    { name: "X", icon: "x", brandColor: "#EDEDEA", href: null },
+    { name: "YouTube", icon: "youtube", brandColor: "#FF0000", href: null },
+    { name: "Instagram", icon: "instagram", brandColor: "#E4405F", href: null },
   ] satisfies Social[],
 } as const;
 
