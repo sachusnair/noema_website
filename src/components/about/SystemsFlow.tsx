@@ -112,29 +112,29 @@ function Converge({
   );
 }
 
-/** The N mark, the same path as src/app/icon.svg, taking ember from the
- *  palette rather than carrying a hex of its own. */
+/* The full wordmark in bone, on the client's instruction — it replaced the N
+   glyph, which was too small and too dim to hold the middle of the diagram.
+   Set as type rather than as brand/noema-wordmark-light.png, since that PNG is
+   generated from this same Poppins file: drawing it keeps it sharp at any size
+   and takes ember from the palette.
+
+   Being wider does not disturb the connectors: they converge on the middle of
+   the row, and this sits centred in it. */
 function CoreMark({ label }: { label: string }) {
   return (
-    <span className="flow-core flex size-16 items-center justify-center rounded-default border border-ember bg-void">
-      <svg viewBox="0 0 32 32" role="img" aria-label={label} className="size-8 text-ember">
-        <path
-          d="M9 24V8l14 16V8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="square"
-          strokeLinejoin="miter"
-        />
-      </svg>
+    <span className="flow-core flex items-center rounded-default border border-ember bg-void px-7 py-4">
+      <span className="type-display-s text-bone">
+        {label}
+        <span className="text-ember">.</span>
+      </span>
     </span>
   );
 }
 
-/* Each output says what it actually produces. "Insights" on its own is a word
-   every product on earth claims; the example is the part a visitor can judge.
-   Marked as an example on the page, because illustrative data that reads as a
-   result someone got is a different thing entirely. */
+/* `--arrive` is when this card's connector pulse lands, in seconds into the
+   diagram's 8s round. The output connectors carry --i of 9, 10 and 11 and fire
+   at --i * 0.4s, and the pulse takes about 1.1s to cross, so the three land at
+   roughly 4.7s, 5.1s and 5.5s. The rotator swaps its line on that beat. */
 function OutputCard({
   label,
   lines,
@@ -144,6 +144,7 @@ function OutputCard({
   lines: readonly string[];
   index: number;
 }) {
+  const arrive = 4.7 + index * 0.4;
   return (
     <span
       style={{ ["--i" as string]: index + 9 }}
@@ -153,7 +154,7 @@ function OutputCard({
 
       {/* The three share one grid cell, so the card is as tall as the longest
           line and holds still while they swap. */}
-      <span className="rotator mt-4">
+      <span className="rotator mt-4" style={{ ["--arrive" as string]: arrive }}>
         {lines.map((line, n) => (
           <span
             key={line}
@@ -169,7 +170,7 @@ function OutputCard({
 }
 
 export function SystemsFlow() {
-  const { sources, centre, outputs, outputsNote, diagramLabel, diagramCaption } =
+  const { sources, centre, outputs, diagramLabel, diagramCaption } =
     aboutPage.hero;
   const tools = sources
     .map(findTool)
@@ -253,11 +254,7 @@ export function SystemsFlow() {
         </div>
       </div>
 
-      {/* Said once for all nine lines above, rather than stamped on each
-          card. Required while those lines are in the present tense. */}
-      <p className="mt-8 text-center text-step-1 text-ash">{outputsNote}</p>
-
-      <figcaption className="type-mono mt-3 text-center text-ash">
+      <figcaption className="type-mono mt-10 text-center text-ash">
         {diagramCaption}
         <span className="sr-only">{` ${diagramLabel}`}</span>
       </figcaption>

@@ -541,13 +541,16 @@ export const aboutPage = {
 
        They are labelled as examples on the page. Illustrative product data is
        allowed; letting it read as a result someone actually got is not. */
-    /* Three lines each, cycling one every three seconds. The per-card
-       "Example" label came off on the client's instruction, so this line
-       carries the caveat for all nine at once. It is a required honesty line:
-       without it, "38% above capacity today" reads as a figure from a real
-       customer, and there are none. Do not remove it while these examples are
-       written in the present tense. */
-    outputsNote: "Illustrative. Noema is pre-launch and the connections are in build.",
+    /* Three lines each. A card changes only when the impulse from the middle
+       reaches it, so the text is tied to the animation rather than to a clock
+       of its own.
+
+       These carried an "Illustrative. Noema is pre-launch" line under the row,
+       and before that an EXAMPLE label on each card. Both were removed on the
+       client's instruction. The page's required pre-launch line still closes
+       it, which is the only thing now telling a reader that "38% above
+       capacity today" is not a figure from a real customer. Do not remove that
+       one as well. */
     outputs: [
       {
         label: "Insights",
@@ -722,6 +725,10 @@ export const aboutPage = {
   principles: {
     eyebrow: "WHAT WE BELIEVE",
     h2: "Four things we are building to.",
+    /* Shown one at a time, advancing on its own. It carried prev and next
+       arrows; both were removed on the client's instruction, leaving the dots
+       as the manual control. */
+    goTo: "Go to principle",
     cards: [
       {
         step: "01",

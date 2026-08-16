@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Reveal } from "../Reveal";
+import { PrinciplesCarousel } from "./PrinciplesCarousel";
 import { SystemsFlow } from "./SystemsFlow";
-import { about, aboutPage, founder } from "@/content/site";
+import { about, aboutPage, founder, site } from "@/content/site";
 
 /* The About page's sections, in the order the brief lays them out. They live
    in one file because they are one narrative and are never used anywhere else;
@@ -84,14 +85,24 @@ export function AboutProblem() {
         ))}
       </div>
 
-      <div className="mt-14 grid gap-4 md:grid-cols-3">
+      {/* The three step up to the right and drift, rather than sitting in a
+          flat row. `--step` drives both: the diagonal offset above 768px and
+          the float's phase, so no two cards move together. The extra bottom
+          margin is the room the first card's offset pushes the row into. */}
+      <div className="mt-14 mb-16 grid items-start gap-4 md:grid-cols-3">
         {cards.map((card, index) => (
           <Reveal key={card.title} index={index + 3}>
-            <div className="about-card h-full rounded-default border border-ash/40 p-7">
-              <p className="type-mono text-ash">{card.title}</p>
-              <p className="mt-4 text-step-3 leading-[1.5] text-bone">
-                {card.body}
-              </p>
+            {/* Two elements, not one: the float and the hover lift both write
+                transform, and a running animation wins, so on one element the
+                hover would do nothing. The wrapper drifts; the card inside
+                still answers a pointer. */}
+            <div style={{ ["--step" as string]: index }} className="float-card">
+              <div className="about-card rounded-default border border-ash/40 p-7">
+                <p className="type-mono text-ash">{card.title}</p>
+                <p className="mt-4 text-step-3 leading-[1.5] text-bone">
+                  {card.body}
+                </p>
+              </div>
             </div>
           </Reveal>
         ))}
@@ -220,9 +231,17 @@ function Steps({
       }`}
     >
       <div className="flex items-baseline justify-between gap-4">
-        <p className={`type-mono ${strong ? "text-ember" : "text-ash"}`}>
-          {title}
-        </p>
+        {/* The Noema column is headed by the wordmark rather than the word set
+            in the utility face: this is the side making the claim, and the
+            logo against a generic label is part of the comparison. */}
+        {strong ? (
+          <p className="type-wordmark text-bone">
+            {title}
+            <span className="text-ember">.</span>
+          </p>
+        ) : (
+          <p className="type-mono text-ash">{title}</p>
+        )}
         <p className="type-mono text-ash">{`${steps.length} steps`}</p>
       </div>
 
@@ -439,7 +458,7 @@ export function AboutQuote() {
 /* ---------------------------------------------------------- 9. Principles */
 
 export function AboutPrinciples() {
-  const { eyebrow, h2, cards } = aboutPage.principles;
+  const { eyebrow, h2 } = aboutPage.principles;
   return (
     <Section>
       <Reveal>
@@ -450,17 +469,12 @@ export function AboutPrinciples() {
         <h2 className="type-display-m mt-6">{h2}</h2>
       </Reveal>
 
-      <div className="mt-12 grid gap-px overflow-hidden rounded-default border border-ash/35 bg-ash/35 md:grid-cols-2">
-        {cards.map((card) => (
-          <div key={card.step} className="bg-void p-8 lg:p-10">
-            <p className="type-mono text-ember">{card.step}</p>
-            <h3 className="type-display-s mt-5 max-w-[20ch]">{card.title}</h3>
-            <p className="mt-3 max-w-[36ch] text-step-2 leading-[1.6] text-bone/75">
-              {card.body}
-            </p>
-          </div>
-        ))}
-      </div>
+      {/* One at a time now, on the client's instruction, rather than a 2x2
+          grid. The carousel is its own client component: it is the only thing
+          on this page that needs state and a timer. */}
+      <Reveal index={2} className="mt-12">
+        <PrinciplesCarousel />
+      </Reveal>
     </Section>
   );
 }
@@ -501,43 +515,34 @@ export function AboutVision() {
 
 /* ------------------------------------------------------------ 11. One line */
 
-/* The N mark rather than the word, and the whole thing centred, on the
-   client's instruction.
+/* The full wordmark, centred, on the client's instruction. It replaced the N
+   mark, which had replaced the word set in the utility face.
 
-   The path is the same one in src/app/icon.svg, drawn inline rather than
-   loaded as a file: it is nine characters of path data, so a network request
-   for it would cost more than it saves, and inline it can take its colour
-   from the palette instead of carrying a hardcoded hex.
-
-   It keeps the eyebrow's text as its accessible name, so a screen reader
-   still hears "Noema" where a sighted reader sees the mark. */
+   Set as type rather than dropped in as brand/noema-wordmark-light.png: the
+   brand README says that PNG is generated from this same Poppins file with the
+   stop in ember, so the type is the logo. Drawing it means it stays sharp at
+   any size, takes ember from the palette, and cannot drift from the nav and
+   footer, which set it the same way. The PNG is for places that cannot render
+   type. */
 export function AboutOneLine() {
-  const { eyebrow, statement } = aboutPage.oneLine;
+  const { statement } = aboutPage.oneLine;
   return (
     <Section className="py-28 lg:py-40">
       <div className="text-center">
         <Reveal>
-          <svg
-            viewBox="0 0 32 32"
-            role="img"
-            aria-label={eyebrow}
-            className="mx-auto size-14 text-ember"
-          >
-            <path
-              d="M9 24V8l14 16V8"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="square"
-              strokeLinejoin="miter"
-            />
-          </svg>
+          {/* The largest type on the site. This section is one logo and one
+              sentence, so the logo is the picture. */}
+          <p className="type-display-xl">
+            {site.name}
+            <span className="text-ember">.</span>
+          </p>
         </Reveal>
 
         <Reveal index={1}>
-          <p className="type-display-m mx-auto mt-10 max-w-[26ch]">
-            {statement}
-          </p>
+          {/* No measure cap: at display-m the sentence sets to two lines
+              across the full column, which is what was asked for. Changing
+              either the size or the wording will change the line count. */}
+          <p className="type-display-m mt-10">{statement}</p>
         </Reveal>
       </div>
     </Section>

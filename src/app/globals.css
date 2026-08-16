@@ -1098,9 +1098,17 @@ body {
 
 /* -------------------------------------------------------------------------
    Rotating lines
-   Three lines in one place, one visible at a time, three seconds each. The
-   children share a single grid cell, so the box is as tall as the longest
-   line and never resizes as they swap.
+   Three lines in one place, one at a time. The swap is tied to the diagram,
+   not to a clock of its own: a card changes at the moment the impulse from the
+   middle reaches it, and holds still the rest of the time.
+
+   The diagram's round is 8s, so a line holds for 8s and the loop is 24s.
+   `--arrive` is when this card's connector lands, in seconds into the round;
+   the negative delay starts the cycle already running so nothing is blank on
+   load.
+
+   The children share one grid cell, so the box is as tall as the longest line
+   and never resizes as they swap.
    ------------------------------------------------------------------------- */
 .rotator {
   display: grid;
@@ -1109,17 +1117,16 @@ body {
 .rotator > * {
   grid-area: 1 / 1;
   opacity: 0;
-  animation: rotate-line 9s linear infinite;
-  animation-delay: calc(var(--n) * 3s);
+  animation: rotate-line 24s linear infinite;
+  animation-delay: calc(var(--arrive) * 1s + var(--n) * 8s - 24s);
 }
 
 @keyframes rotate-line {
-  0%,
-  1% {
+  0% {
     opacity: 0;
   }
-  4%,
-  30% {
+  2%,
+  31% {
     opacity: 1;
   }
   33%,
@@ -1140,4 +1147,64 @@ body {
     display: block;
     opacity: 1;
   }
+}
+
+/* -------------------------------------------------------------------------
+   Floating cards
+   Used by the three problem cards. They step up to the right on a diagonal
+   and drift slowly, each on its own phase so the row never moves as a block.
+   `--step` is the card's place in the row.
+   ------------------------------------------------------------------------- */
+.float-card {
+  animation: float-drift 6s ease-in-out infinite;
+  animation-delay: calc(var(--step) * -2s);
+}
+
+@keyframes float-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* The diagonal itself, above the breakpoint where the cards sit in a row.
+   Below it they stack, so a vertical offset would only add ragged gaps. */
+@media (min-width: 768px) {
+  .float-card {
+    margin-top: calc((2 - var(--step)) * 44px);
+  }
+}
+
+/* A drop of 8px repeated forever is exactly the kind of movement that makes
+   some people ill, and it is decorative. The diagonal stays. */
+@media (prefers-reduced-motion: reduce) {
+  .float-card {
+    animation: none;
+  }
+}
+
+/* The wordmark at label size. The nav and footer set it with .type-display-s,
+   which is 30px and shouts when the logo is standing in for a small heading —
+   as it does in the comparison's column header. Defined here rather than as a
+   Tailwind utility because the display classes are unlayered and would win
+   over one. */
+.type-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-step-4);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* The carousel track scrolls, but its scrollbar is noise: the dots below it
+   already say where you are, and the arrows say how to move. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
