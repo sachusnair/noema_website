@@ -876,19 +876,97 @@ body {
    About page
    ========================================================================== */
 
-/* The hero diagram's connectors. A dash travels down each line to show the
-   direction of flow — the brief asked for glowing connections, and glow is
-   banned, so movement carries the idea instead. */
+/* The hero diagram.
+   One pass takes 8s: each system fires in turn 0.4s apart, its connector warms
+   as the signal travels, and the three outputs light once the round is through.
+   `--i` on each element is its place in that queue.
+
+   The brief asked for glowing connections; glow is banned, so the flow is
+   carried by a travelling dash and a warming line instead. */
 .flow-line {
   stroke: color-mix(in srgb, var(--color-ash) 55%, transparent);
   stroke-width: 1;
   stroke-dasharray: 3 7;
-  animation: flow-travel 2400ms linear infinite;
+  animation:
+    flow-travel 2400ms linear infinite,
+    flow-line-fire 8s linear infinite;
+  animation-delay: 0s, calc(var(--i) * 0.4s);
 }
 
 @keyframes flow-travel {
   to {
     stroke-dashoffset: -20;
+  }
+}
+
+@keyframes flow-line-fire {
+  0%,
+  2% {
+    stroke: color-mix(in srgb, var(--color-ash) 55%, transparent);
+  }
+  5% {
+    stroke: var(--color-ember);
+  }
+  14%,
+  100% {
+    stroke: color-mix(in srgb, var(--color-ash) 55%, transparent);
+  }
+}
+
+/* Each tile lights as its own signal leaves. Hover pulls any of them forward
+   at any time, so the diagram answers a pointer as well as running on its
+   own. */
+.flow-tile {
+  animation: flow-tile-fire 8s linear infinite;
+  animation-delay: calc(var(--i) * 0.4s);
+  transition:
+    transform 400ms var(--ease-noema),
+    border-color 200ms ease;
+}
+
+.flow-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-ember);
+}
+
+@keyframes flow-tile-fire {
+  0%,
+  2% {
+    border-color: color-mix(in srgb, var(--color-ash) 45%, transparent);
+  }
+  5% {
+    border-color: var(--color-ember);
+  }
+  14%,
+  100% {
+    border-color: color-mix(in srgb, var(--color-ash) 45%, transparent);
+  }
+}
+
+/* The middle answers on every arrival: eight quick beats while the systems
+   fire, then quiet while the outputs light. */
+.flow-core {
+  animation: flow-core-beat 1s ease-out infinite;
+}
+
+@keyframes flow-core-beat {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-ember) 30%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-line,
+  .flow-tile,
+  .flow-core {
+    animation: none;
+  }
+  .flow-tile:hover {
+    transform: none;
   }
 }
 

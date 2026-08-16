@@ -516,16 +516,21 @@ export const aboutPage = {
     /* The hero carried an "Explore Noema" and a "Meet the founder" button.
        Both removed on the client's instruction. The page's calls to action are
        at the end now, and the nav's "Book a demo" is on screen throughout. */
-    /* Labels for the hero diagram. Eight in, one middle, three out. */
+    /* The hero diagram: eight in, one middle, three out.
+       These are names, not logo data. The component looks each one up in the
+       connections rows below, so the marks, the brand colours and the
+       official asset paths live in exactly one place and the diagram cannot
+       show a logo the rest of the site has dropped. Every name here must
+       match a tool in connections.rowA or rowB. */
     sources: [
-      "Email",
-      "Finance",
-      "CRM",
-      "Support",
-      "Documents",
-      "Communication",
-      "Social",
-      "Operations",
+      "Outlook",
+      "Xero",
+      "HubSpot",
+      "Slack",
+      "Google Workspace",
+      "Stripe",
+      "Shopify",
+      "WhatsApp Business",
     ],
     centre: "Noema",
     outputs: ["Insights", "Decisions", "Actions"],

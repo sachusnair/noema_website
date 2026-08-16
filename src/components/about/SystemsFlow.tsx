@@ -1,34 +1,69 @@
-import { aboutPage } from "@/content/site";
+import Image from "next/image";
+import { BrandMark, hasBrandMark } from "../BrandMark";
+import { aboutPage, connections, type Tool } from "@/content/site";
 
 /* The hero diagram: eight systems feeding one layer, which produces insights,
    decisions and actions.
 
-   Built from the page's own parts — bordered tiles, hairlines, one accent —
-   rather than the glowing connectors the brief asked for, because glow is on
-   the banned list. The flow is shown by a dash travelling along each line
-   instead, which reads as movement without lighting anything up.
+   The sources are the real brand marks rather than category words, looked up
+   in the connections rows so the artwork lives in one place. "Email, Finance,
+   CRM" told a visitor nothing they could not guess; Outlook and Xero tell them
+   the thing they actually want to know, which is whether their stack is on the
+   list.
+
+   Nothing here is still. A signal fires from each system in turn, its
+   connector warms as the signal travels, the middle answers, and the three
+   outputs light in sequence once the round is through. One pass takes eight
+   seconds, which is slow enough to read as deliberate rather than busy.
+
+   Built from bordered tiles, hairlines and one accent — not the glowing
+   connectors the brief asked for, since glow is on the banned list. Movement
+   carries the flow instead of light.
 
    The connector bands are SVG stretched with preserveAspectRatio="none". The
    lines are straight, so distorting them horizontally costs nothing and the
-   whole thing stays fluid at any width without measuring anything.
+   whole thing stays fluid at any width without measuring anything. */
 
-   The tiles wrap on a narrow screen, which turns the fan into a vertical flow
-   on their own. Nothing is hidden at any size. */
+const ALL_TOOLS: readonly Tool[] = [...connections.rowA, ...connections.rowB];
 
-function Tile({ label, accent = false }: { label: string; accent?: boolean }) {
+function findTool(name: string): Tool | undefined {
+  return ALL_TOOLS.find((tool) => tool.name === name);
+}
+
+function SourceTile({ tool, index }: { tool: Tool; index: number }) {
   return (
     <span
-      className={`type-mono flex h-10 shrink-0 items-center rounded-default border px-4 ${
-        accent ? "border-ember/50 text-bone" : "border-ash/45 text-ash"
-      }`}
+      style={{ ["--i" as string]: index }}
+      className="flow-tile type-mono flex h-10 shrink-0 items-center gap-2.5 rounded-default border border-ash/45 px-4 text-ash"
     >
-      {label}
+      {tool.file ? (
+        <Image
+          src={tool.file}
+          alt=""
+          width={16}
+          height={16}
+          className="size-4 shrink-0"
+        />
+      ) : hasBrandMark(tool.icon) ? (
+        <span style={{ color: tool.brandColor }} className="flex">
+          <BrandMark slug={tool.icon as string} className="size-4" />
+        </span>
+      ) : null}
+      {tool.name}
     </span>
   );
 }
 
 /** One band of converging hairlines. `from` is how many lines enter the top. */
-function Converge({ from, reverse = false }: { from: number; reverse?: boolean }) {
+function Converge({
+  from,
+  reverse = false,
+  delayOffset = 0,
+}: {
+  from: number;
+  reverse?: boolean;
+  delayOffset?: number;
+}) {
   // Evenly spaced along the top, all meeting the middle at the bottom.
   const xs = Array.from({ length: from }, (_, i) => ((i + 0.5) / from) * 100);
   return (
@@ -36,9 +71,9 @@ function Converge({ from, reverse = false }: { from: number; reverse?: boolean }
       viewBox="0 0 100 40"
       preserveAspectRatio="none"
       aria-hidden="true"
-      className="h-10 w-full"
+      className="h-12 w-full"
     >
-      {xs.map((x) => (
+      {xs.map((x, index) => (
         <line
           key={x}
           x1={reverse ? 50 : x}
@@ -46,6 +81,7 @@ function Converge({ from, reverse = false }: { from: number; reverse?: boolean }
           x2={reverse ? x : 50}
           y2="40"
           className="flow-line"
+          style={{ ["--i" as string]: index + delayOffset }}
           vectorEffect="non-scaling-stroke"
         />
       ))}
@@ -55,28 +91,37 @@ function Converge({ from, reverse = false }: { from: number; reverse?: boolean }
 
 export function SystemsFlow() {
   const { sources, centre, outputs, diagramLabel } = aboutPage.hero;
+  const tools = sources
+    .map(findTool)
+    .filter((tool): tool is Tool => tool !== undefined);
 
   return (
-    <figure className="mt-0">
+    <figure>
       <div className="flex flex-wrap justify-center gap-2">
-        {sources.map((source) => (
-          <Tile key={source} label={source} />
+        {tools.map((tool, index) => (
+          <SourceTile key={tool.name} tool={tool} index={index} />
         ))}
       </div>
 
-      <Converge from={sources.length} />
+      <Converge from={tools.length} />
 
       <div className="flex justify-center">
-        <span className="type-mono flex h-12 items-center rounded-default border border-ember px-6 text-bone">
+        <span className="flow-core type-mono flex h-12 items-center rounded-default border border-ember px-6 text-bone">
           {centre}
         </span>
       </div>
 
-      <Converge from={outputs.length} reverse />
+      <Converge from={outputs.length} reverse delayOffset={9} />
 
       <div className="flex flex-wrap justify-center gap-2">
-        {outputs.map((output) => (
-          <Tile key={output} label={output} accent />
+        {outputs.map((output, index) => (
+          <span
+            key={output}
+            style={{ ["--i" as string]: index + 9 }}
+            className="flow-tile type-mono flex h-10 shrink-0 items-center rounded-default border border-ember/50 px-4 text-bone"
+          >
+            {output}
+          </span>
         ))}
       </div>
 
