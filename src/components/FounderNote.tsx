@@ -72,14 +72,8 @@ export function FounderNote() {
               </Reveal>
             ))}
 
-            <Reveal index={9}>
-              <p className="type-mono mt-12 max-w-[62ch] border-t border-ash/30 pt-6 text-ash">
-                {founder.signature}
-              </p>
-            </Reveal>
-
             {linkedIn ? (
-              <Reveal index={10}>
+              <Reveal index={9}>
                 <a
                   href={linkedIn}
                   target="_blank"

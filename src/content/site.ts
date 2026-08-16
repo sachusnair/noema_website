@@ -433,18 +433,18 @@ export const founder = {
   linkedIn: "https://www.linkedin.com/in/sachu-s-nair",
   linkedInLabel: "More about Sachu",
   /** Opening line, set larger. Everything below it runs at reading size. */
-  lead: "I'm Sachu, founder of Noema.",
+  lead: "I built Noema because I lived the problem.",
   body: [
-    "I spent ten years running operations, from airport ground handling to leading ops for a growing consultancy. Same problem everywhere: good people doing work that software should be doing.",
+    "I'm Sachu, founder of Noema.",
+    "For 10 years, I've worked in operations—from airport ground handling to leading operations in a growing consultancy. Everywhere I went, I saw the same thing: good people spending their time doing work software should be doing.",
     "So I started building the software.",
-    "I build AI automations that take the repetitive work off your team. Voice agents that book appointments. Support tickets that route and escalate themselves. Meeting notes that turn into tasks and client documents without anyone touching them.",
-    "I build these inside a live business every day. Not demos. Systems that run.",
-    /* Kept from the original note. Without it the section reads as a profile
-       of someone who builds automations, with no line tying it back to what
-       this page is actually selling. */
-    "Noema is that thinking applied to the whole operation. It does the gathering overnight so the morning starts with a decision instead of a search.",
+    "Today, I build AI systems that run inside real businesses—not demos. Automations that handle support, book appointments, turn meetings into actions, and take repetitive work off teams.",
+    "Noema is that thinking applied to the whole operation.",
+    "It gathers what matters, connects the dots, and gives your team a clear starting point—so the day begins with a decision, not a search.",
   ],
-  signature: "SACHU S NAIR · OPERATIONS · LONDON",
+  /* The note used to close on a "SACHU S NAIR · OPERATIONS · LONDON" line
+     above a rule. Removed on the client's instruction; the name and role are
+     already set beside the portrait at the top of the note. */
 } as const;
 
 export const closing = {
