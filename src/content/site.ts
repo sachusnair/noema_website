@@ -656,8 +656,11 @@ export const aboutPage = {
        place and the footer, the note and this card cannot drift apart. */
     connect: {
       eyebrow: "CONNECT",
-      lead: "Sachu is on LinkedIn and answers directly.",
-      label: "Connect on LinkedIn",
+      body: [
+        "Interested in what Noema could unlock for your team?",
+        "Let's talk about the work your people should not have to do manually.",
+      ],
+      label: "Connect with Sachu",
     },
   },
 

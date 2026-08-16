@@ -373,9 +373,16 @@ export function AboutQuote() {
         <Reveal index={1}>
           <div className="rounded-default border border-ash/40 p-8 lg:mt-16">
             <p className="type-mono text-ash">{connect.eyebrow}</p>
-            <p className="mt-4 text-step-3 leading-[1.55] text-bone">
-              {connect.lead}
-            </p>
+            <div className="mt-4 space-y-3">
+              {connect.body.map((line) => (
+                <p
+                  key={line.slice(0, 20)}
+                  className="text-step-3 leading-[1.55] text-bone"
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
             <a
               href={founder.linkedIn}
               target="_blank"
