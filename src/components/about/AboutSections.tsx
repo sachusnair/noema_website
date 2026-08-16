@@ -38,8 +38,11 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 /* ---------------------------------------------------------------- 1. Hero */
 
+/* No buttons here, on the client's instruction. The page carries its calls to
+   action at the end, where someone has read the argument, and the nav's "Book
+   a demo" is on screen the whole way down regardless. */
 export function AboutHero() {
-  const { eyebrow, h1, sub, primary, secondary } = aboutPage.hero;
+  const { eyebrow, h1, sub } = aboutPage.hero;
   return (
     <Section className="pt-28 lg:pt-36">
       <Reveal>
@@ -56,18 +59,7 @@ export function AboutHero() {
         </p>
       </Reveal>
 
-      <Reveal index={3}>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link href={primary.href} className={PRIMARY}>
-            {primary.label}
-          </Link>
-          <Link href={secondary.href} className={SECONDARY}>
-            {secondary.label}
-          </Link>
-        </div>
-      </Reveal>
-
-      <Reveal index={4} className="mt-20">
+      <Reveal index={3} className="mt-20">
         <SystemsFlow />
       </Reveal>
     </Section>

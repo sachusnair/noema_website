@@ -513,8 +513,9 @@ export const aboutPage = {
     eyebrow: "ABOUT NOEMA",
     h1: "The business already has the information. Noema turns it into action.",
     sub: "Modern businesses run across dozens of tools. Noema connects them, understands how the business works and helps move the operation forward.",
-    primary: { label: "Explore Noema", href: "/" },
-    secondary: { label: "Meet the founder", href: "#founder" },
+    /* The hero carried an "Explore Noema" and a "Meet the founder" button.
+       Both removed on the client's instruction. The page's calls to action are
+       at the end now, and the nav's "Book a demo" is on screen throughout. */
     /* Labels for the hero diagram. Eight in, one middle, three out. */
     sources: [
       "Email",
