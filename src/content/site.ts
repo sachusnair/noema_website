@@ -608,6 +608,20 @@ export const chat = {
   greeting:
     "Ask what Noema does, what it connects to, or how the pre-launch waiting list works. For anything about your own business, book a demo.",
   placeholder: "Ask a question",
+  /* Offered as one press each, before the visitor has typed anything. They are
+     deliberately not the example questions from the knowledge base — those
+     ("what changed financially this week?") assume a business with its systems
+     already connected, and a visitor has none, so the assistant could only
+     answer them with an apology. These are the four things a sceptical
+     operations manager actually wants to know first, and every one has a real
+     answer in the knowledge base. */
+  prompts: [
+    "What does Noema actually do?",
+    "What does it connect to?",
+    "How do I stay in control of what it does?",
+    "Is it live yet?",
+  ],
+  promptsLabel: "Or start with",
   send: "Send",
   sending: "Sending",
   youLabel: "YOU",

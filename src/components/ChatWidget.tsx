@@ -68,9 +68,9 @@ export function ChatWidget() {
   // A panel left open across a route change would keep a stream running.
   useEffect(() => () => abortRef.current?.abort(), []);
 
-  async function send(event: React.FormEvent) {
+  async function send(event: React.FormEvent, preset?: string) {
     event.preventDefault();
-    const question = draft.trim();
+    const question = (preset ?? draft).trim();
     if (!question || busy || turns.length >= MAX_TURNS) return;
 
     const next: Turn[] = [...turns, { role: "user", content: question }];
@@ -151,7 +151,7 @@ export function ChatWidget() {
         <div
           role="dialog"
           aria-label={chatCopy.title}
-          className="fixed right-5 bottom-5 z-50 flex h-[min(34rem,calc(100dvh-2.5rem))] w-[min(24rem,calc(100vw-2.5rem))] flex-col rounded-default border border-ash/40 bg-carbon"
+          className="fixed right-5 bottom-5 z-50 flex h-[min(38rem,calc(100dvh-2.5rem))] w-[min(24rem,calc(100vw-2.5rem))] flex-col rounded-default border border-ash/40 bg-carbon"
         >
           <div className="flex items-center justify-between border-b border-ash/30 px-5 py-3">
             <span className="type-mono text-ash">{chatCopy.title}</span>
@@ -172,6 +172,27 @@ export function ChatWidget() {
             <p className="text-step-2 leading-[1.6] text-bone/80">
               {chatCopy.greeting}
             </p>
+
+            {/* Only while the transcript is empty. Once there is a conversation
+                they would be clutter, and the visitor has clearly worked out
+                how to type. */}
+            {turns.length === 0 ? (
+              <div className="mt-5">
+                <p className="type-mono text-ash">{chatCopy.promptsLabel}</p>
+                <div className="mt-3 flex flex-col items-start gap-2">
+                  {chatCopy.prompts.map((prompt) => (
+                    <button
+                      key={prompt}
+                      type="button"
+                      onClick={(event) => send(event, prompt)}
+                      className="cursor-pointer rounded-default border border-ash/45 px-3 py-2 text-left text-step-2 leading-[1.4] text-bone/80 transition-colors duration-200 hover:border-ember hover:text-bone"
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             {turns.map((turn, index) => (
               <div key={index} className="mt-5">
