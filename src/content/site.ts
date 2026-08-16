@@ -494,6 +494,215 @@ export const about = {
     "We are pre-launch. No customers, no case studies, no certifications yet.",
 } as const;
 
+/* The About page, rebuilt to a brief from the client: hero, problem, why it
+   exists, the model, the contrast with automation, the work, the founder, a
+   quote, principles, the vision, one sentence, and a close.
+
+   Three things in that brief were substituted rather than built, because the
+   project's own rules ban them: glass and blur effects, glowing connectors,
+   and a brain visual. Depth here comes from solid surfaces, hairlines and one
+   accent instead.
+
+   There are no figures on this page. The brief asked for "a few carefully
+   chosen data points" and there are none that would be true — no customers, no
+   metrics, no traction. The numbering on the model and the principles is the
+   rhythm that stands in for them. Do not add a statistic here later without a
+   source. */
+export const aboutPage = {
+  hero: {
+    eyebrow: "ABOUT NOEMA",
+    h1: "The business already has the information. Noema turns it into action.",
+    sub: "Modern businesses run across dozens of tools. Noema connects them, understands how the business works and helps move the operation forward.",
+    primary: { label: "Explore Noema", href: "/" },
+    secondary: { label: "Meet the founder", href: "#founder" },
+    /* Labels for the hero diagram. Eight in, one middle, three out. */
+    sources: [
+      "Email",
+      "Finance",
+      "CRM",
+      "Support",
+      "Documents",
+      "Communication",
+      "Social",
+      "Operations",
+    ],
+    centre: "Noema",
+    outputs: ["Insights", "Decisions", "Actions"],
+    diagramLabel:
+      "Eight business systems feeding one layer, which produces insights, decisions and actions.",
+  },
+
+  problem: {
+    h2: "The information is not the problem. The fragmentation is.",
+    body: [
+      "Modern businesses have more software than ever. But information is still scattered across inboxes, spreadsheets, CRMs, finance systems, support platforms and communication tools.",
+      "People end up becoming the connection between all of them.",
+    ],
+    cards: [
+      {
+        title: "Search",
+        body: "People spend their time finding information.",
+      },
+      {
+        title: "Connect",
+        body: "People move information between systems.",
+      },
+      {
+        title: "Follow up",
+        body: "People chase tasks, updates and decisions.",
+      },
+    ],
+    statement:
+      "Good people should not spend their day moving information between software.",
+  },
+
+  why: {
+    eyebrow: "WHY NOEMA EXISTS",
+    question: "We started with a simple question. What if software could actually understand how a business works?",
+    body: [
+      "Noema came out of years working in operations and seeing the same thing repeatedly: capable people spending their time on repetitive work that software should be handling.",
+      "Rather than adding another tool, we started building a system that connects the tools a business already uses and helps operate the work between them.",
+    ],
+    timeline: ["Problem", "Build", "Test", "Learn", "Improve"],
+    timelineLabel: "How it is being built: problem, build, test, learn, improve.",
+  },
+
+  model: {
+    eyebrow: "THE MODEL",
+    h2: "Connect. Understand. Act. Improve.",
+    centre: "Noema",
+    cards: [
+      {
+        step: "01",
+        title: "Connect",
+        lead: "Bring the business together.",
+        body: "Connect the systems, information and tools your team already uses.",
+      },
+      {
+        step: "02",
+        title: "Understand",
+        lead: "Build context.",
+        body: "Noema learns the processes, the priorities and the way of working behind the data.",
+      },
+      {
+        step: "03",
+        title: "Act",
+        lead: "Turn information into action.",
+        body: "Move from alerts and information to tasks, workflows, decisions and execution.",
+      },
+      {
+        step: "04",
+        title: "Improve",
+        lead: "Get better with the business.",
+        body: "As the business changes, Noema adapts to how the team actually works.",
+      },
+    ],
+  },
+
+  contrast: {
+    h2: "We are not building another automation tool.",
+    statement: "We are building the intelligence between the work.",
+    body: "Traditional automation follows rules written in advance. Noema is built to understand context, join information across systems, and work out what needs to happen next.",
+    left: { title: "Traditional automation", steps: ["Trigger", "Rule", "Action"] },
+    right: {
+      title: "Noema",
+      steps: ["Information", "Context", "Understanding", "Decision", "Action"],
+    },
+  },
+
+  work: {
+    eyebrow: "THE WORK",
+    h2: "Built for the work that happens between the tools.",
+    cards: [
+      {
+        title: "Operations",
+        body: "Spots the issue, gathers what is relevant to it, and prepares the next action.",
+      },
+      {
+        title: "Customer support",
+        body: "Reads what has come in, routes it, and escalates when something needs a person.",
+      },
+      {
+        title: "Administration",
+        body: "Turns repetitive information handling into work that runs on its own.",
+      },
+      {
+        title: "Management",
+        body: "Brings the numbers, updates and signals together so a decision can be made faster.",
+      },
+    ],
+  },
+
+  founder: {
+    eyebrow: "BUILT IN THE REAL WORLD",
+    h2: "Noema was not built from a theory of how businesses work.",
+    lead: "It was built from experience.",
+    body: [
+      "After 10 years in operations—from airport ground handling to leading operations in a growing consultancy—Sachu kept seeing the same thing: good people doing work software should be doing.",
+      "So he started building the software.",
+      "Noema is developed and tested against real operational problems, with a bias towards systems that run rather than demos that look good.",
+    ],
+    cta: { label: "Read Sachu's story", href: "#founder-note" },
+  },
+
+  quote: {
+    text: "I did not start Noema because I wanted to build another AI tool. I started it because I kept seeing capable people spending their time on work software should have been doing.",
+    attribution: "Sachu S Nair, Founder",
+  },
+
+  principles: {
+    eyebrow: "WHAT WE BELIEVE",
+    h2: "Four things we are building to.",
+    cards: [
+      {
+        step: "01",
+        title: "AI should work inside the business.",
+        body: "Not sit beside it in another tab.",
+      },
+      {
+        step: "02",
+        title: "Context matters.",
+        body: "Automation without understanding is just faster repetition.",
+      },
+      {
+        step: "03",
+        title: "People should make the decisions.",
+        body: "Not spend their time moving information between systems.",
+      },
+      {
+        step: "04",
+        title: "Software should adapt to the business.",
+        body: "The technology should fit how people already work, not force them into another workflow.",
+      },
+    ],
+  },
+
+  vision: {
+    eyebrow: "THE BIGGER PICTURE",
+    h2: "We are building towards the AI-native business.",
+    body: [
+      "A business where systems do not just store information. They understand it.",
+      "Where software does not wait to be asked. It knows what needs attention.",
+      "Where teams do not spend their day searching, updating and chasing. They spend it on decisions, customers and growth.",
+    ],
+    statement: "Less coordination. More execution.",
+  },
+
+  oneLine: {
+    eyebrow: "NOEMA",
+    statement:
+      "The operating layer that connects your business, understands how it works, and helps move it forward.",
+  },
+
+  close: {
+    h2: "Your business is already generating the information.",
+    second: "Now give it the intelligence to act on it.",
+    sub: "See how Noema is being built to work across the systems you already run.",
+    primary: { label: "See how it works", href: "/" },
+    secondary: { label: "Talk to us", href: "/contact" },
+  },
+} as const;
+
 export const pricing = {
   eyebrow: "PRICING",
   h1: "Design partner pricing.",
