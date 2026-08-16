@@ -19,7 +19,10 @@ export default function BlogIndex() {
       {posts.length === 0 ? (
         <Reveal>
           {/* Says the true thing rather than implying the list is loading. */}
-          <p className="mt-16 max-w-[62ch] border-t border-ash/30 pt-6 text-step-2 text-ash">
+          {/* Full width like the header above it. The rule is the visible part:
+              capped, it stopped a third of the way across and read as a broken
+              divider rather than a deliberate one. */}
+          <p className="mt-16 border-t border-ash/30 pt-6 text-step-2 text-ash">
             {blog.empty}
           </p>
         </Reveal>

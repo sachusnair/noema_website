@@ -21,7 +21,11 @@ export function PageShell({
       <Nav />
       <main id="top">
         <div className="shell pt-20 pb-24 lg:pt-28 lg:pb-32">
-          <header className="max-w-[62ch]">
+          {/* No measure cap. The client wants the page headers to run the full
+              content width, the same as the connections section and the legal
+              pages. This header is shared by About, Blog and Contact, so all
+              three change together. */}
+          <header>
             <Reveal>
               <p className="type-mono text-ember">{eyebrow}</p>
             </Reveal>
