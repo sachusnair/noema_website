@@ -466,16 +466,45 @@ export function AboutVision() {
 
 /* ------------------------------------------------------------ 11. One line */
 
+/* The N mark rather than the word, and the whole thing centred, on the
+   client's instruction.
+
+   The path is the same one in src/app/icon.svg, drawn inline rather than
+   loaded as a file: it is nine characters of path data, so a network request
+   for it would cost more than it saves, and inline it can take its colour
+   from the palette instead of carrying a hardcoded hex.
+
+   It keeps the eyebrow's text as its accessible name, so a screen reader
+   still hears "Noema" where a sighted reader sees the mark. */
 export function AboutOneLine() {
   const { eyebrow, statement } = aboutPage.oneLine;
   return (
     <Section className="py-28 lg:py-40">
-      <Reveal>
-        <Eyebrow>{eyebrow}</Eyebrow>
-      </Reveal>
-      <Reveal index={1}>
-        <p className="type-display-m mt-8 max-w-[26ch]">{statement}</p>
-      </Reveal>
+      <div className="text-center">
+        <Reveal>
+          <svg
+            viewBox="0 0 32 32"
+            role="img"
+            aria-label={eyebrow}
+            className="mx-auto size-14 text-ember"
+          >
+            <path
+              d="M9 24V8l14 16V8"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            />
+          </svg>
+        </Reveal>
+
+        <Reveal index={1}>
+          <p className="type-display-m mx-auto mt-10 max-w-[26ch]">
+            {statement}
+          </p>
+        </Reveal>
+      </div>
     </Section>
   );
 }
