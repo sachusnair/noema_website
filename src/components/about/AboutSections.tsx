@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "../Reveal";
 import { SystemsFlow } from "./SystemsFlow";
-import { about, aboutPage } from "@/content/site";
+import { about, aboutPage, founder } from "@/content/site";
 
 /* The About page's sections, in the order the brief lays them out. They live
    in one file because they are one narrative and are never used anywhere else;
@@ -157,8 +157,12 @@ export function AboutWhy() {
 
 /* --------------------------------------------------------------- 4. Model */
 
+/* The four cards sat under a floating "Noema" badge, which the brief asked for
+   as the centre of a diagram. Removed on the client's instruction: with the
+   cards in a grid rather than arranged around it, the badge was a label
+   hovering over nothing. */
 export function AboutModel() {
-  const { eyebrow, h2, centre, cards } = aboutPage.model;
+  const { eyebrow, h2, cards } = aboutPage.model;
   return (
     <Section className="bg-carbon">
       <Reveal>
@@ -169,15 +173,7 @@ export function AboutModel() {
         <h2 className="type-display-m mt-6">{h2}</h2>
       </Reveal>
 
-      <Reveal index={2}>
-        <div className="mt-12 flex justify-center">
-          <span className="type-mono flex h-12 items-center rounded-default border border-ember px-6 text-bone">
-            {centre}
-          </span>
-        </div>
-      </Reveal>
-
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
+      <div className="mt-12 grid gap-4 md:grid-cols-2">
         {cards.map((card, index) => (
           <Reveal key={card.step} index={index + 3}>
             <div className="about-card h-full rounded-default border border-ash/40 bg-void p-8">
@@ -306,8 +302,11 @@ export function AboutWork() {
 
 /* ------------------------------------------------------------- 7. Founder */
 
+/* The "Read Sachu's story" button went with the founder note it pointed at.
+   The story is told in this section now, and the LinkedIn card in the quote
+   section below is the way to reach him. */
 export function AboutFounderStory() {
-  const { eyebrow, h2, lead, body, cta } = aboutPage.founder;
+  const { eyebrow, h2, lead, body } = aboutPage.founder;
   return (
     <Section id="founder">
       <Reveal>
@@ -335,14 +334,6 @@ export function AboutFounderStory() {
             ))}
           </div>
 
-          <Reveal index={6}>
-            <Link href={cta.href} className={`${SECONDARY} mt-8`}>
-              {cta.label}
-              <span aria-hidden="true" className="ml-2">
-                &rarr;
-              </span>
-            </Link>
-          </Reveal>
         </div>
       </div>
     </Section>
@@ -352,27 +343,53 @@ export function AboutFounderStory() {
 /* --------------------------------------------------------------- 8. Quote */
 
 export function AboutQuote() {
-  const { text, attribution } = aboutPage.quote;
+  const { text, attribution, connect } = aboutPage.quote;
   return (
     <Section className="bg-carbon">
-      <Reveal>
-        <figure>
-          {/* The mark is drawn large and set in ember rather than dropped in
-              as a glyph beside the text, so it reads as part of the layout. */}
-          <span
-            aria-hidden="true"
-            className="type-display-l block leading-none text-ember"
-          >
-            &ldquo;
-          </span>
-          <blockquote className="type-display-s mt-2 max-w-[34ch] leading-[1.3]">
-            {text}
-          </blockquote>
-          <figcaption className="type-mono mt-8 text-ash">
-            {attribution}
-          </figcaption>
-        </figure>
-      </Reveal>
+      <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+        <Reveal>
+          <figure>
+            {/* The mark is drawn large and set in ember rather than dropped in
+                as a glyph beside the text, so it reads as part of the layout. */}
+            <span
+              aria-hidden="true"
+              className="type-display-l block leading-none text-ember"
+            >
+              &ldquo;
+            </span>
+            <blockquote className="type-display-s mt-2 max-w-[34ch] leading-[1.3]">
+              {text}
+            </blockquote>
+            <figcaption className="type-mono mt-8 text-ash">
+              {attribution}
+            </figcaption>
+          </figure>
+        </Reveal>
+
+        {/* The right half of this section was empty. The founder's profile is
+            the natural thing to put beside his own words, and it is the one
+            place on the page where a reader can reach a person rather than a
+            form. */}
+        <Reveal index={1}>
+          <div className="rounded-default border border-ash/40 p-8 lg:mt-16">
+            <p className="type-mono text-ash">{connect.eyebrow}</p>
+            <p className="mt-4 text-step-3 leading-[1.55] text-bone">
+              {connect.lead}
+            </p>
+            <a
+              href={founder.linkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${SECONDARY} mt-6`}
+            >
+              {connect.label}
+              <span aria-hidden="true" className="ml-2">
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </Reveal>
+      </div>
     </Section>
   );
 }

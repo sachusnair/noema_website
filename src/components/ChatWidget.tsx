@@ -134,14 +134,20 @@ export function ChatWidget() {
   return (
     <>
       {open ? null : (
+        /* The brand's own letter in a circle, rather than a labelled pill.
+           The label moves to aria-label so the control still announces itself
+           as "Ask Noema" to a screen reader — an unlabelled N would be a
+           mystery button to anyone not looking at it. */
         <button
           ref={launcherRef}
           type="button"
           onClick={() => setOpen(true)}
-          className="chat-launcher type-mono fixed right-5 bottom-5 z-50 flex h-12 cursor-pointer items-center gap-3 rounded-default border border-ash/45 bg-carbon px-5 text-bone transition-colors duration-200 hover:border-ember"
+          aria-label={chatCopy.launch}
+          className="chat-launcher fixed right-5 bottom-5 z-50 flex size-12 cursor-pointer items-center justify-center rounded-full border border-ash/45 bg-carbon text-bone transition-colors duration-200 hover:border-ember hover:text-ember"
         >
-          <span className="chat-dot" aria-hidden="true" />
-          {chatCopy.launch}
+          <span aria-hidden="true" className="type-display-s leading-none">
+            N
+          </span>
         </button>
       )}
 

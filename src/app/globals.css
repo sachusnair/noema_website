@@ -861,72 +861,16 @@ body {
 
 /* ==========================================================================
    Chat launcher
-   The floating control that opens the assistant. It sits on the page rather
-   than over it: a hairline tile at the same 4px radius as everything else,
-   with two borrowed motifs so it reads as part of the system rather than a
-   button someone bolted on.
+   The floating control that opens the assistant: the brand's letter in a
+   circle, hairline border, ember on hover. It carried an ember rule down its
+   left edge and a slowly pulsing dot; both went when the client asked for a
+   small round button, and a circle has no left edge to run a rule down.
+
+   No `position` rule lives here on purpose. This file is unlayered, so a
+   `position` declaration would beat the `fixed` utility on the element and
+   drop the launcher out of the corner into the page flow — silently, as the
+   gotcha always does.
    ========================================================================== */
-
-/* No `position` here on purpose. This file is unlayered, so a `position`
-   declaration would beat the `fixed` utility on the element and drop the
-   launcher out of the corner and into the page flow — silently, as the gotcha
-   always does. The utility already establishes the containing block the rule
-   below positions against. */
-
-/* The first motif: the ember rule that runs down the left of every section on
-   the page. Here it is short at rest and grows to the full height on hover,
-   which is the only movement the control makes. */
-.chat-launcher::before {
-  content: "";
-  position: absolute;
-  left: -1px;
-  top: 10px;
-  bottom: 10px;
-  width: 1px;
-  background-color: var(--color-ember);
-  transition:
-    top 400ms cubic-bezier(0.16, 1, 0.3, 1),
-    bottom 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.chat-launcher:hover::before,
-.chat-launcher:focus-visible::before {
-  top: 0;
-  bottom: 0;
-}
-
-/* The second: the drawn marker used for the alert, breathing slowly rather
-   than flashing. Ember here means the same thing it means everywhere else on
-   the site — something is waiting on you — and a slow pulse is what separates
-   "there is a thing here" from "this thing is alive". */
-.chat-dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 9999px;
-  background-color: var(--color-ember);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ember) 25%, transparent);
-  animation: chat-listening 2800ms ease-in-out infinite;
-}
-
-@keyframes chat-listening {
-  0%,
-  100% {
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ember) 25%, transparent);
-  }
-  50% {
-    box-shadow: 0 0 0 7px color-mix(in srgb, var(--color-ember) 6%, transparent);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .chat-dot {
-    animation: none;
-  }
-  .chat-launcher::before {
-    transition: none;
-  }
-}
 
 /* ==========================================================================
    About page

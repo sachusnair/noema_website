@@ -571,7 +571,8 @@ export const aboutPage = {
   model: {
     eyebrow: "THE MODEL",
     h2: "Connect. Understand. Act. Improve.",
-    centre: "Noema",
+    /* Carried a "Noema" badge above the cards. Removed on the client's
+       instruction — see the note on the component. */
     cards: [
       {
         step: "01",
@@ -643,12 +644,21 @@ export const aboutPage = {
       "So he started building the software.",
       "Noema is developed and tested against real operational problems, with a bias towards systems that run rather than demos that look good.",
     ],
-    cta: { label: "Read Sachu's story", href: "#founder-note" },
+    /* Carried a "Read Sachu's story" button pointing at the founder note
+       further down the page. Both went on the client's instruction. */
   },
 
   quote: {
     text: "I did not start Noema because I wanted to build another AI tool. I started it because I kept seeing capable people spending their time on work software should have been doing.",
     attribution: "Sachu S Nair, Founder",
+    /* Fills the empty half of the quote section. The URL is not repeated
+       here: the component reads founder.linkedIn, so the profile lives in one
+       place and the footer, the note and this card cannot drift apart. */
+    connect: {
+      eyebrow: "CONNECT",
+      lead: "Sachu is on LinkedIn and answers directly.",
+      label: "Connect on LinkedIn",
+    },
   },
 
   principles: {

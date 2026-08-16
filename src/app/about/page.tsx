@@ -14,7 +14,6 @@ import {
   AboutWork,
 } from "@/components/about/AboutSections";
 import { Footer } from "@/components/Footer";
-import { FounderNote } from "@/components/FounderNote";
 import { Nav } from "@/components/Nav";
 import { aboutPage, site } from "@/content/site";
 
@@ -46,14 +45,6 @@ export default function AboutPage() {
         <AboutWork />
         <AboutFounderStory />
         <AboutQuote />
-
-        {/* The note in the founder's own words, with the portrait. The
-            section above introduces him in the third person; this is him
-            speaking, and the "Read Sachu's story" link lands here. */}
-        <div id="founder-note" className="scroll-mt-24">
-          <FounderNote />
-        </div>
-
         <AboutPrinciples />
         <AboutVision />
         <AboutOneLine />

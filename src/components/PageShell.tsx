@@ -32,9 +32,13 @@ export function PageShell({
             <Reveal index={1}>
               <h1 className="type-display-l mt-6">{title}</h1>
             </Reveal>
+            {/* The heading runs the full width; this line does not. Uncapped
+                it set as one 124-character run across the whole column, which
+                is a long way for an eye to travel back. Capped here it breaks
+                to two, which is what both pages using it need. */}
             {sub ? (
               <Reveal index={2}>
-                <p className="mt-7 text-step-4 leading-[1.5] text-bone/80">
+                <p className="mt-7 max-w-[68ch] text-step-4 leading-[1.5] text-bone/80">
                   {sub}
                 </p>
               </Reveal>
