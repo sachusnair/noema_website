@@ -541,21 +541,37 @@ export const aboutPage = {
 
        They are labelled as examples on the page. Illustrative product data is
        allowed; letting it read as a result someone actually got is not. */
-    exampleLabel: "Example",
+    /* Three lines each, cycling one every three seconds. The per-card
+       "Example" label came off on the client's instruction, so this line
+       carries the caveat for all nine at once. It is a required honesty line:
+       without it, "38% above capacity today" reads as a figure from a real
+       customer, and there are none. Do not remove it while these examples are
+       written in the present tense. */
+    outputsNote: "Illustrative. Noema is pre-launch and the connections are in build.",
     outputs: [
       {
         label: "Insights",
-        example:
+        lines: [
           "The picking queue in Zone A is running 38% above capacity today.",
+          "Two invoices this week came in above the quote that was agreed.",
+          "Three customers have waited longer than you normally take to reply.",
+        ],
       },
       {
         label: "Decisions",
-        example:
+        lines: [
           "The Kelso invoice is £925 above the quote you agreed in writing.",
+          "Moving two pickers off Zone B clears the backlog before the cutoff.",
+          "Halden ships today. The rest of the queue can hold until Monday.",
+        ],
       },
       {
         label: "Actions",
-        example: "A reply to Marie at Halden is drafted, waiting on you.",
+        lines: [
+          "A reply to Marie at Halden is drafted, waiting on you.",
+          "Two pickers reallocated from Zone B, ready for you to approve.",
+          "The month reconciled, with the three mismatches flagged for you.",
+        ],
       },
     ],
     diagramLabel:

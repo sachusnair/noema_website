@@ -137,13 +137,11 @@ function CoreMark({ label }: { label: string }) {
    result someone got is a different thing entirely. */
 function OutputCard({
   label,
-  example,
-  exampleLabel,
+  lines,
   index,
 }: {
   label: string;
-  example: string;
-  exampleLabel: string;
+  lines: readonly string[];
   index: number;
 }) {
   return (
@@ -152,16 +150,26 @@ function OutputCard({
       className="flow-tile flex h-full flex-col rounded-default border border-ember/50 bg-carbon p-5"
     >
       <span className="type-mono text-ember">{label}</span>
-      <span className="type-mono mt-4 text-ash">{exampleLabel}</span>
-      <span className="mt-1.5 text-step-2 leading-[1.5] text-bone">
-        {example}
+
+      {/* The three share one grid cell, so the card is as tall as the longest
+          line and holds still while they swap. */}
+      <span className="rotator mt-4">
+        {lines.map((line, n) => (
+          <span
+            key={line}
+            style={{ ["--n" as string]: n }}
+            className="text-step-2 leading-[1.5] text-bone"
+          >
+            {line}
+          </span>
+        ))}
       </span>
     </span>
   );
 }
 
 export function SystemsFlow() {
-  const { sources, centre, outputs, exampleLabel, diagramLabel, diagramCaption } =
+  const { sources, centre, outputs, outputsNote, diagramLabel, diagramCaption } =
     aboutPage.hero;
   const tools = sources
     .map(findTool)
@@ -201,8 +209,7 @@ export function SystemsFlow() {
             <OutputCard
               key={output.label}
               label={output.label}
-              example={output.example}
-              exampleLabel={exampleLabel}
+              lines={output.lines}
               index={index}
             />
           ))}
@@ -239,15 +246,18 @@ export function SystemsFlow() {
             <OutputCard
               key={output.label}
               label={output.label}
-              example={output.example}
-              exampleLabel={exampleLabel}
+              lines={output.lines}
               index={index}
             />
           ))}
         </div>
       </div>
 
-      <figcaption className="type-mono mt-12 text-center text-ash">
+      {/* Said once for all nine lines above, rather than stamped on each
+          card. Required while those lines are in the present tense. */}
+      <p className="mt-8 text-center text-step-1 text-ash">{outputsNote}</p>
+
+      <figcaption className="type-mono mt-3 text-center text-ash">
         {diagramCaption}
         <span className="sr-only">{` ${diagramLabel}`}</span>
       </figcaption>
