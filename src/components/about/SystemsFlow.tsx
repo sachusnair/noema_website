@@ -131,19 +131,37 @@ function CoreMark({ label }: { label: string }) {
   );
 }
 
-function OutputTile({ label, index }: { label: string; index: number }) {
+/* Each output says what it actually produces. "Insights" on its own is a word
+   every product on earth claims; the example is the part a visitor can judge.
+   Marked as an example on the page, because illustrative data that reads as a
+   result someone got is a different thing entirely. */
+function OutputCard({
+  label,
+  example,
+  exampleLabel,
+  index,
+}: {
+  label: string;
+  example: string;
+  exampleLabel: string;
+  index: number;
+}) {
   return (
     <span
       style={{ ["--i" as string]: index + 9 }}
-      className="flow-tile type-mono flex h-10 items-center justify-center justify-self-center rounded-default border border-ember/50 px-4 text-bone"
+      className="flow-tile flex h-full flex-col rounded-default border border-ember/50 bg-carbon p-5"
     >
-      {label}
+      <span className="type-mono text-ember">{label}</span>
+      <span className="type-mono mt-4 text-ash">{exampleLabel}</span>
+      <span className="mt-1.5 text-step-2 leading-[1.5] text-bone">
+        {example}
+      </span>
     </span>
   );
 }
 
 export function SystemsFlow() {
-  const { sources, centre, outputs, diagramLabel, diagramCaption } =
+  const { sources, centre, outputs, exampleLabel, diagramLabel, diagramCaption } =
     aboutPage.hero;
   const tools = sources
     .map(findTool)
@@ -174,13 +192,19 @@ export function SystemsFlow() {
         <Converge from={outputs.length} reverse delayOffset={9} />
 
         <div
-          className="grid gap-2"
+          className="grid items-stretch gap-3"
           style={{
             gridTemplateColumns: `repeat(${outputs.length}, minmax(0, 1fr))`,
           }}
         >
           {outputs.map((output, index) => (
-            <OutputTile key={output} label={output} index={index} />
+            <OutputCard
+              key={output.label}
+              label={output.label}
+              example={output.example}
+              exampleLabel={exampleLabel}
+              index={index}
+            />
           ))}
         </div>
       </div>
@@ -210,9 +234,15 @@ export function SystemsFlow() {
 
         <span aria-hidden="true" className="mx-auto my-5 block h-10 w-px bg-ash/45" />
 
-        <div className="flex flex-wrap justify-center gap-2">
+        <div className="grid gap-3">
           {outputs.map((output, index) => (
-            <OutputTile key={output} label={output} index={index} />
+            <OutputCard
+              key={output.label}
+              label={output.label}
+              example={output.example}
+              exampleLabel={exampleLabel}
+              index={index}
+            />
           ))}
         </div>
       </div>

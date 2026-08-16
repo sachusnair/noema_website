@@ -533,7 +533,31 @@ export const aboutPage = {
       "WhatsApp Business",
     ],
     centre: "Noema",
-    outputs: ["Insights", "Decisions", "Actions"],
+    /* Each output carries an example, because the three words on their own
+       told a visitor nothing: everyone claims insights. The examples are the
+       same illustrative situations the home page panels use — the Zone A
+       backlog, the Kelso invoice, the reply to Marie — so the two pages tell
+       one story rather than inventing a second set of pretend facts.
+
+       They are labelled as examples on the page. Illustrative product data is
+       allowed; letting it read as a result someone actually got is not. */
+    exampleLabel: "Example",
+    outputs: [
+      {
+        label: "Insights",
+        example:
+          "The picking queue in Zone A is running 38% above capacity today.",
+      },
+      {
+        label: "Decisions",
+        example:
+          "The Kelso invoice is £925 above the quote you agreed in writing.",
+      },
+      {
+        label: "Actions",
+        example: "A reply to Marie at Halden is drafted, waiting on you.",
+      },
+    ],
     diagramLabel:
       "Eight business systems feeding one layer, which produces insights, decisions and actions.",
     /* Said out loud under the diagram, because a diagram only works for the
