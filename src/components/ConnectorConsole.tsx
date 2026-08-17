@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { BrandMark, hasBrandMark } from "./BrandMark";
 import { SensorSurface } from "./Sensor";
@@ -11,9 +12,13 @@ import { connectorConsole } from "@/content/site";
    It is a tablist, not a set of buttons, so arrow keys move between systems and
    the panel is announced as their content.
 
-   Chips carry a two-letter mark set in the utility font. Official brand logo
-   files are deliberately not used: it avoids trademark use, and a row of brand
-   colours would break the one-accent rule the rest of the page holds to. */
+   Chips carry each brand's real mark: from simple-icons where that set has
+   one, and from the official files in /public/logos for Slack and Outlook,
+   which were removed from it at their owners' request. The two-letter marks
+   are the last resort and nothing reaches them today.
+
+   Selection is signalled by the ember ring and fill rather than by the mark,
+   so a row of brand colours does not compete with the one accent. */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -137,7 +142,15 @@ export function ConnectorConsole() {
                   : "border-ash/50 opacity-65 hover:border-bone hover:opacity-100"
               }`}
             >
-              {hasBrandMark(connector.icon) ? (
+              {connector.file ? (
+                <Image
+                  src={connector.file}
+                  alt=""
+                  width={18}
+                  height={18}
+                  className="size-[18px] shrink-0"
+                />
+              ) : hasBrandMark(connector.icon) ? (
                 <BrandMark slug={connector.icon as string} />
               ) : (
                 <span aria-hidden="true">{connector.mark}</span>

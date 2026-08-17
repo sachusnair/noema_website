@@ -198,17 +198,19 @@ export const difference = {
 
 export type Connector = {
   name: string;
-  /** simple-icons slug for the official brand mark, where one exists.
-   *  Slack, Outlook, Monday, GoCardless and Dext are deliberately absent from
-   *  simple-icons, in some cases at the brand owner's own request, so those
-   *  fall back to the letter mark below. */
+  /** simple-icons slug for the official brand mark, where one exists. */
   icon?: string;
+  /** Path under /public, for the brands simple-icons does not carry. Slack
+   *  and Outlook were removed from that set at their owners' request, so their
+   *  official files are held in /public/logos instead. See SOURCES.md. */
+  file?: string;
   /** The brand's own colour, used for the mark. Values come from each
    *  brand's published palette (the icon-backed ones via simple-icons). The
    *  two fallbacks use a lighter tone from the same palette so they stay
    *  legible on carbon. */
   brandColor: string;
-  /** Two-character fallback, set in the utility font. */
+  /** Two-character fallback, set in the utility font. Only reached by a
+   *  connector with neither an icon slug nor a file. */
   mark: string;
   /** What Noema would read from this source. Written as capability, never as
    *  a finding, because there is no live connection to have found it in. */
@@ -238,6 +240,7 @@ export const connectorConsole = {
     },
     {
       name: "Outlook",
+      file: "/logos/outlook.svg",
       brandColor: "#28A8EA",
       mark: "OL",
       reads: [
@@ -248,6 +251,7 @@ export const connectorConsole = {
     },
     {
       name: "Slack",
+      file: "/logos/slack.svg",
       brandColor: "#36C5F0",
       mark: "SL",
       reads: [
