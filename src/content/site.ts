@@ -1170,3 +1170,33 @@ export const legal = {
   /* These pages carried a link back to the home page above the title. It went
      when the nav arrived, which does the same job on every page. */
 } as const;
+
+/* The brand asset downloader at /brand. Not in the nav, not in the sitemap and
+   noindexed: it is a tool for whoever needs the mark as a file, not a page for
+   visitors. Every PNG is drawn in the browser from the same geometry the
+   favicon uses, so a download can never drift from what the site renders. */
+export const brand = {
+  eyebrow: "BRAND",
+  h1: "The mark, as a file.",
+  sub: "Pick a size, pick a background, download a PNG. Everything here is drawn from the same geometry as the favicon, so it cannot drift from the mark the site uses.",
+  variants: [
+    {
+      id: "void",
+      label: "On void",
+      note: "The site background baked in. Use anywhere transparency is not supported: favicons, app icons, avatars, social profiles.",
+      file: "noema-icon-on-void",
+    },
+    {
+      id: "transparent",
+      label: "Transparent",
+      note: "No background. The N is bone, so it needs a dark surface behind it. It disappears on white.",
+      file: "noema-icon",
+    },
+  ],
+  sizeLabel: "Size",
+  sizes: [16, 32, 64, 128, 256, 512, 1024],
+  download: "Download PNG",
+  downloadSvg: "Download SVG",
+  svgNote: "The favicon itself, as vector. Scales to any size without a second download.",
+  unavailable: "Downloads need JavaScript. With it off, the marks above still render and can be saved from the page.",
+} as const;

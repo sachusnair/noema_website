@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- The N mark: bone N, ember full stop, echoing the "Noema." wordmark.
+       Geometry is duplicated in src/components/NoemaMark.tsx, which the
+       /brand downloader renders. Next requires this one as a static file, so
+       the two are kept in step by hand. Change both. -->
   <rect width="32" height="32" fill="#0A0A0B"/>
-  <path d="M9 24V8l14 16V8" fill="none" stroke="#FF5A1F" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M4.3 7H9.06L17.8 20.5V7H21.2V25H16.44L7.7 11.5V25H4.3Z" fill="#EDEDEA"/>
+  <circle cx="25.35" cy="22.65" r="2.35" fill="#FF5A1F"/>
 </svg>
