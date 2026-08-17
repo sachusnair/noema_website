@@ -50,8 +50,18 @@ function parse(file: string) {
   const raw = fs.readFileSync(path.join(POSTS_DIR, file), "utf8");
   const { data, content } = matter(raw);
 
-  const date = typeof data.date === "string" ? data.date : "";
-  const parsedDate = date ? new Date(date) : null;
+  /* An unquoted YAML date — `date: 2026-08-17`, which is what the README tells
+     you to write — is parsed by gray-matter into a Date object, not a string.
+     Only accepting strings meant the first post published with no date at all,
+     silently: no <time> element, nothing in the sitemap's lastModified, and no
+     published date in the article metadata. Both shapes are read now, and a
+     quoted date still works. */
+  const parsedDate =
+    data.date instanceof Date
+      ? data.date
+      : typeof data.date === "string" && data.date
+        ? new Date(data.date)
+        : null;
   const iso =
     parsedDate && !Number.isNaN(parsedDate.valueOf())
       ? parsedDate.toISOString()

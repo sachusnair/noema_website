@@ -843,6 +843,18 @@ export const blog = {
   empty: "Nothing published yet. The first post is being written.",
   readMore: "Read",
   backLabel: "All posts",
+  /* Share controls under each post. Instagram and YouTube are absent because
+     neither takes a shared URL from the web — a tile that looked like the
+     others and did nothing would be worse than leaving them out. */
+  share: {
+    label: "Share",
+    linkedin: "Share on LinkedIn",
+    x: "Share on X",
+    whatsapp: "Share on WhatsApp",
+    copy: "Copy link",
+    copied: "Link copied",
+    copyFailed: "Copy it from the address bar",
+  },
 } as const;
 
 export const contact = {
