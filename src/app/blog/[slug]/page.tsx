@@ -60,9 +60,8 @@ export default async function BlogPost({ params }: Params) {
           </Link>
 
           <article className="mt-10">
-            {/* No measure cap on the header: the client wants the title to run
-                the full column. The body below keeps its measure — this is the
-                one page on the site that is read rather than scanned. */}
+            {/* No measure cap anywhere on this page: the client wants the
+                title and the body to run the full column width. */}
             <header>
               {post.date ? (
                 <time dateTime={post.iso} className="type-mono text-ember">
@@ -75,7 +74,7 @@ export default async function BlogPost({ params }: Params) {
             {/* Markdown is compiled at build time, from files in this repo.
                 Nothing here comes from a visitor or a third party. */}
             <div
-              className="prose-noema mt-12 max-w-[68ch]"
+              className="prose-noema mt-12"
               dangerouslySetInnerHTML={{ __html: post.contentHtml }}
             />
 
